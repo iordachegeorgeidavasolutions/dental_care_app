@@ -2,6 +2,7 @@
 
 import 'package:dental_care_app/data/programari_data.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import '../utils/api_call.dart';
@@ -145,6 +146,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
     Programari? pP = Programari(trecute: programariTrecute, viitoare: programariViitoare);
     viitoare.addAll(pP.viitoare);
     trecute.addAll(pP.trecute);
+    return pP;
   }
 
   @override
@@ -226,7 +228,8 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                                 ? Colors.yellow
                                 : Colors.grey),
                 title: Text(
-                  viitoare[index].nume,
+                  // viitoare[index].nume,
+                  "samly",
                   style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.black87),
                 ),
                 trailing: const Icon(
@@ -273,7 +276,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                 child: ListTile(
                   leading: Image.asset('./assets/images/programari.png', height: 25),
                   title: Text(
-                    "${trecute[index].nume}, ${trecute[index].inceput}",
+                    DateFormat('EEEE, d.M.yyyy').format(trecute[index].inceput),
                     style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.black87),
                   ),
                   trailing: const Icon(
