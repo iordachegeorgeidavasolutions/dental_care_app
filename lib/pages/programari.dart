@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:dental_care_app/data/programari_data.dart';
+import 'package:dental_care_app/utils/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -276,7 +277,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                 child: ListTile(
                   leading: Image.asset('./assets/images/programari.png', height: 25),
                   title: Text(
-                    DateFormat('EEEE, d.M.yyyy').format(trecute[index].inceput),
+                    DateFormat('EEEE, d.M.yyyy', 'ro').format(trecute[index].inceput).capitalizeFirst(),
                     style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.black87),
                   ),
                   trailing: const Icon(

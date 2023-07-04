@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import './pages/login.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import "./pages/meniu.dart";
+import 'package:flutter_localizations/flutter_localizations.dart';
 import "./utils/shared_pref_keys.dart" as pref_keys;
 
 void main() async {
@@ -15,8 +16,11 @@ void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var loggedIn = prefs.getBool('loggedIn');
   var firstTime = prefs.getBool('firstTime') ?? true;
+
   runApp(
     MaterialApp(
+        localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
+        supportedLocales: const [Locale('en'), Locale('ro')],
         home: firstTime == true
             ? const OnBoardingPage()
             : loggedIn == true
