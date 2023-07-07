@@ -36,6 +36,195 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
     getProgramari = getListaProgramari();
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // appBar: AppBar(leading: Icon(icon)),
+      backgroundColor: const Color.fromARGB(255, 236, 236, 236),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                child: SizedBox(
+                  height: 30,
+                  child: Row(
+                    children: [
+                      IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  switchWidget(),
+                ],
+              ),
+              const SizedBox(height: 15),
+              FutureBuilder(
+                  future: getProgramari,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      if (snapshot.hasData) {
+                        return isSelected ? viitoareList() : istoricList();
+                      } else if (snapshot.hasError) {
+                        return const Center(
+                          child: Text("Error"),
+                        );
+                      }
+                    }
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Padding viitoareList() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: ListView.builder(
+        itemCount: viitoare.length,
+        physics: const ScrollPhysics(),
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+              ),
+              child: ListTile(
+                leading: Icon(Icons.circle,
+                    color: viitoare[index].status == "Programat"
+                        ? Colors.red
+                        : viitoare[index].status == "Confirmat"
+                            ? Colors.green
+                            : viitoare[index].status == "Finalizat"
+                                ? Colors.yellow
+                                : Colors.grey),
+                title: Text(
+                  DateFormat('EEEE, d.M.yyyy', 'ro').format(viitoare[index].inceput).capitalizeFirst(),
+                  style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.black87),
+                ),
+                trailing: const Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Padding istoricList() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: ListView.builder(
+        itemCount: trecute.length,
+        physics: const ScrollPhysics(),
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+              ),
+              child: InkWell(
+                onTap: () {
+                  setState(() {
+                    _selectedIndex = index;
+                  });
+                  showModalBottomSheet(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
+                      isScrollControlled: true,
+                      context: context,
+                      builder: (context) {
+                        return ProgramariModal(
+                          selectedIndex: _selectedIndex,
+                          programare: trecute,
+                        );
+                      });
+                },
+                child: ListTile(
+                  leading: Image.asset('./assets/images/programari.png', height: 25),
+                  title: Text(
+                    DateFormat('EEEE, d.M.yyyy', 'ro').format(trecute[index].inceput).capitalizeFirst(),
+                    style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.black87),
+                  ),
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Row switchWidget() {
+    return Row(
+      children: [
+        ToggleSwitch(
+          initialLabelIndex: initialLabelIndex,
+          minWidth: 110,
+          activeBgColor: const [Colors.red],
+          inactiveBgColor: Colors.white,
+          totalSwitches: 2,
+          labels: const ['Istoric', 'Viitor'],
+          dividerColor: Colors.black,
+          onToggle: (index) {
+            setState(() {
+              initialLabelIndex = index!;
+              isSelected = !isSelected;
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  Row logotitle(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const SizedBox(
+            height: 20,
+          ),
+          InkWell(
+              onTap: () {
+                userModal(context);
+              },
+              child: Image.asset('./assets/images/person-icon.jpg', height: 40)),
+          const SizedBox(
+            height: 20,
+          ),
+          const Text('Programari', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
+        ]),
+      ],
+    );
+  }
+
   Future<Programari?> getListaProgramari() async {
     viitoare.clear();
     trecute.clear();
@@ -61,16 +250,20 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
     }
     if (res.startsWith('13\$#\$')) {
       print("success");
+      print(res);
     }
     if (res.startsWith('66\$#\$')) {
       print("dategresite");
+      print(res);
     }
 
     if (res.startsWith('132\$#\$')) {
       print("register error");
+      print(res);
     }
 
     if (res.contains('%\$%')) {
+      print(res);
       List<String> list = res.split('%\$%');
       List<String> viitoare = list[0].split('*\$*');
       List<String> trecute = list[1].split('*\$*');
@@ -148,192 +341,5 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
     viitoare.addAll(pP.viitoare);
     trecute.addAll(pP.trecute);
     return pP;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: AppBar(leading: Icon(icon)),
-      backgroundColor: const Color.fromARGB(255, 236, 236, 236),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                child: SizedBox(
-                  height: 30,
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () => Navigator.pop(context),
-                        icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  switchWidget(),
-                ],
-              ),
-              const SizedBox(height: 15),
-              FutureBuilder(
-                  future: getProgramari,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      if (snapshot.hasData) {
-                        return isSelected ? viitoareList() : istoricList();
-                      } else if (snapshot.hasError) {
-                        return const Center(
-                          child: Text("Error"),
-                        );
-                      }
-                    }
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Padding viitoareList() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: ListView.builder(
-        itemCount: viitoare.length,
-        physics: const ScrollPhysics(),
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-              ),
-              child: ListTile(
-                leading: Icon(Icons.circle,
-                    color: programariList[index].state == "undetermined"
-                        ? Colors.red
-                        : programariList[index].state == "cancelled"
-                            ? Colors.green
-                            : programariList[index].state == "confirmed"
-                                ? Colors.yellow
-                                : Colors.grey),
-                title: Text(
-                  // viitoare[index].nume,
-                  "samly",
-                  style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.black87),
-                ),
-                trailing: const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Padding istoricList() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: ListView.builder(
-        itemCount: trecute.length,
-        physics: const ScrollPhysics(),
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-              ),
-              child: InkWell(
-                onTap: () {
-                  setState(() {
-                    _selectedIndex = index;
-                  });
-                  showModalBottomSheet(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
-                      isScrollControlled: true,
-                      context: context,
-                      builder: (context) {
-                        return ProgramariModal(selectedIndex: _selectedIndex);
-                      });
-                },
-                child: ListTile(
-                  leading: Image.asset('./assets/images/programari.png', height: 25),
-                  title: Text(
-                    DateFormat('EEEE, d.M.yyyy', 'ro').format(trecute[index].inceput).capitalizeFirst(),
-                    style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.black87),
-                  ),
-                  trailing: const Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Row switchWidget() {
-    return Row(
-      children: [
-        ToggleSwitch(
-          initialLabelIndex: initialLabelIndex,
-          minWidth: 110,
-          activeBgColor: const [Colors.red],
-          inactiveBgColor: Colors.white,
-          totalSwitches: 2,
-          labels: const ['Istoric', 'Viitor'],
-          dividerColor: Colors.black,
-          onToggle: (index) {
-            setState(() {
-              initialLabelIndex = index!;
-              isSelected = !isSelected;
-            });
-          },
-        ),
-      ],
-    );
-  }
-
-  Row logotitle(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const SizedBox(
-            height: 20,
-          ),
-          InkWell(
-              onTap: () {
-                userModal(context);
-              },
-              child: Image.asset('./assets/images/person-icon.jpg', height: 40)),
-          const SizedBox(
-            height: 20,
-          ),
-          const Text('Programari', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
-        ]),
-      ],
-    );
   }
 }

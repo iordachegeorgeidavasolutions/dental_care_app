@@ -1,9 +1,12 @@
+import 'package:dental_care_app/utils/functions.dart';
 import 'package:flutter/material.dart';
-import '../../data/programari_data.dart';
+import 'package:intl/intl.dart';
+import '../../utils/classes.dart';
 
 class ProgramModalItem extends StatelessWidget {
   final int selectedIndex;
-  const ProgramModalItem({super.key, required this.selectedIndex});
+  final List<Programare> programare;
+  const ProgramModalItem({super.key, required this.selectedIndex, required this.programare});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,7 @@ class ProgramModalItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Tratament:",
+                          "Data:",
                           style: TextStyle(fontSize: 18),
                         ),
                       ],
@@ -30,13 +33,14 @@ class ProgramModalItem extends StatelessWidget {
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.5,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(programariList[selectedIndex].tratament,
-                              maxLines: 9,
-                              style: const TextStyle(fontSize: 18)),
-                        ]),
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      Text(
+                          DateFormat('EEEE, d.M.yyyy', 'ro')
+                              .format(programare[selectedIndex].inceput)
+                              .capitalizeFirst(),
+                          maxLines: 9,
+                          style: const TextStyle(fontSize: 18)),
+                    ]),
                   ),
                 ],
               ),
@@ -63,13 +67,10 @@ class ProgramModalItem extends StatelessWidget {
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.5,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(programariList[selectedIndex].ora,
-                              maxLines: 9,
-                              style: const TextStyle(fontSize: 18)),
-                        ]),
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      Text(DateFormat.jm().format(programare[selectedIndex].inceput),
+                          maxLines: 9, style: const TextStyle(fontSize: 18)),
+                    ]),
                   ),
                 ],
               ),
@@ -88,7 +89,7 @@ class ProgramModalItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Data:",
+                          "Locatie:",
                           style: TextStyle(fontSize: 18),
                         ),
                       ],
@@ -96,13 +97,9 @@ class ProgramModalItem extends StatelessWidget {
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.5,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(programariList[selectedIndex].data,
-                              maxLines: 9,
-                              style: const TextStyle(fontSize: 18)),
-                        ]),
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      Text(programare[selectedIndex].nume, maxLines: 9, style: const TextStyle(fontSize: 18)),
+                    ]),
                   ),
                 ],
               ),
@@ -121,7 +118,7 @@ class ProgramModalItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Locatie:",
+                          "Status:",
                           style: TextStyle(fontSize: 18),
                         ),
                       ],
@@ -129,13 +126,9 @@ class ProgramModalItem extends StatelessWidget {
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.5,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(programariList[selectedIndex].locatie,
-                              maxLines: 9,
-                              style: const TextStyle(fontSize: 18)),
-                        ]),
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      Text(programare[selectedIndex].status, maxLines: 9, style: const TextStyle(fontSize: 18)),
+                    ]),
                   ),
                 ],
               ),
@@ -162,13 +155,9 @@ class ProgramModalItem extends StatelessWidget {
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.5,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(programariList[selectedIndex].financiar,
-                              maxLines: 9,
-                              style: const TextStyle(fontSize: 18)),
-                        ]),
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      Text(programare[selectedIndex].idPacient, maxLines: 9, style: const TextStyle(fontSize: 18)),
+                    ]),
                   ),
                 ],
               ),
@@ -195,13 +184,9 @@ class ProgramModalItem extends StatelessWidget {
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.5,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(programariList[selectedIndex].doctor,
-                              maxLines: 9,
-                              style: const TextStyle(fontSize: 18)),
-                        ]),
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      Text(programare[selectedIndex].medic, maxLines: 9, style: const TextStyle(fontSize: 18)),
+                    ]),
                   ),
                 ],
               ),
@@ -229,8 +214,7 @@ class ProgramModalItem extends StatelessWidget {
               ),
               onPressed: () {
                 showModalBottomSheet(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                   isScrollControlled: true,
                   context: context,
                   builder: (context) {
@@ -248,32 +232,22 @@ class ProgramModalItem extends StatelessWidget {
                         child: Column(
                           children: [
                             SizedBox(height: 40),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("Confirmare",
-                                      style: TextStyle(
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.bold)),
-                                ]),
+                            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                              Text("Confirmare", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                            ]),
                             SizedBox(height: 20),
-                            Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                      "Prin apasarea butonului 'Confirm', confirmati ca ca veti ajunge la programarea stabilita.",
-                                      maxLines: 4,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 16))
-                                ]),
+                            Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                              Text(
+                                  "Prin apasarea butonului 'Confirm', confirmati ca ca veti ajunge la programarea stabilita.",
+                                  maxLines: 4,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 16))
+                            ]),
                             SizedBox(height: 20),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("Va multumim!",
-                                      style: TextStyle(fontSize: 18)),
-                                ]),
+                            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                              Text("Va multumim!", style: TextStyle(fontSize: 18)),
+                            ]),
                             SizedBox(height: 60),
                             IntrinsicWidth(
                               child: Column(
@@ -281,8 +255,7 @@ class ProgramModalItem extends StatelessWidget {
                                 children: [
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      padding:
-                                          EdgeInsets.fromLTRB(30, 10, 30, 10),
+                                      padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
                                       backgroundColor: Colors.red,
                                       // minimumSize: const Size.fromHeight(50), // NEW
                                     ),
@@ -295,18 +268,15 @@ class ProgramModalItem extends StatelessWidget {
                                   const SizedBox(height: 30),
                                   OutlinedButton(
                                     style: OutlinedButton.styleFrom(
-                                      side: BorderSide(
-                                          color: Colors.red, width: 1),
-                                      padding:
-                                          EdgeInsets.fromLTRB(30, 10, 30, 10),
+                                      side: BorderSide(color: Colors.red, width: 1),
+                                      padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
                                       backgroundColor: Colors.white,
                                       // minimumSize: const Size.fromHeight(50), // NEW
                                     ),
                                     onPressed: () => {},
                                     child: const Text(
                                       'Nu confirm',
-                                      style: TextStyle(
-                                          fontSize: 24, color: Colors.red),
+                                      style: TextStyle(fontSize: 24, color: Colors.red),
                                     ),
                                   ),
                                 ],
@@ -338,8 +308,7 @@ class ProgramModalItem extends StatelessWidget {
               ),
               onPressed: () {
                 showModalBottomSheet(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                   isScrollControlled: true,
                   context: context,
                   builder: (context) {
@@ -357,25 +326,18 @@ class ProgramModalItem extends StatelessWidget {
                         child: Column(
                           children: [
                             SizedBox(height: 40),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("Atentie!",
-                                      style: TextStyle(
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.bold)),
-                                ]),
+                            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                              Text("Atentie!", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                            ]),
                             SizedBox(height: 20),
-                            Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                      "Doriti anularea programarii. Trebuie avut in vedere faptul ca timpul si locurile sunt limitate si astfel este posibil sa nu gasiti un interval orar disponibil in perioada imediat urmatoare.",
-                                      maxLines: 4,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 16))
-                                ]),
+                            Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                              Text(
+                                  "Doriti anularea programarii. Trebuie avut in vedere faptul ca timpul si locurile sunt limitate si astfel este posibil sa nu gasiti un interval orar disponibil in perioada imediat urmatoare.",
+                                  maxLines: 4,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 16))
+                            ]),
                             SizedBox(height: 60),
                             IntrinsicWidth(
                               child: Column(
@@ -383,8 +345,7 @@ class ProgramModalItem extends StatelessWidget {
                                 children: [
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      padding:
-                                          EdgeInsets.fromLTRB(30, 10, 30, 10),
+                                      padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
                                       backgroundColor: Colors.red,
                                       // minimumSize: const Size.fromHeight(50), // NEW
                                     ),
@@ -397,18 +358,15 @@ class ProgramModalItem extends StatelessWidget {
                                   const SizedBox(height: 30),
                                   OutlinedButton(
                                     style: OutlinedButton.styleFrom(
-                                      side: BorderSide(
-                                          color: Colors.red, width: 1),
-                                      padding:
-                                          EdgeInsets.fromLTRB(30, 10, 30, 10),
+                                      side: BorderSide(color: Colors.red, width: 1),
+                                      padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
                                       backgroundColor: Colors.white,
                                       // minimumSize: const Size.fromHeight(50), // NEW
                                     ),
                                     onPressed: () => {},
                                     child: const Text(
                                       'Nu Anulez',
-                                      style: TextStyle(
-                                          fontSize: 24, color: Colors.red),
+                                      style: TextStyle(fontSize: 24, color: Colors.red),
                                     ),
                                   ),
                                 ],

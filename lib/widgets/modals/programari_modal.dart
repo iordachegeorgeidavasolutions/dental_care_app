@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import '../../utils/classes.dart';
 import '../items/program_modal_item.dart';
 
 class ProgramariModal extends StatelessWidget {
   final int selectedIndex;
-  const ProgramariModal({super.key, required this.selectedIndex});
+  final List<Programare> programare;
+  const ProgramariModal({super.key, required this.selectedIndex, required this.programare});
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -32,7 +34,13 @@ class ProgramariModal extends StatelessWidget {
               ]),
               const SizedBox(height: 15),
               Column(
-                children: [const SizedBox(height: 20), ProgramModalItem(selectedIndex: selectedIndex)],
+                children: [
+                  const SizedBox(height: 20),
+                  ProgramModalItem(
+                    selectedIndex: selectedIndex,
+                    programare: programare,
+                  )
+                ],
               ),
             ],
           ),
