@@ -4,8 +4,10 @@ import 'package:dental_care_app/pages/webview.dart';
 import 'package:dental_care_app/widgets/items/dosarulMeu_item.dart';
 import 'package:dental_care_app/widgets/items/servicii_grid_item.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/items/home_butonUrmatoareProgramare.dart';
 import '../widgets/modals/user_modal.dart';
+import '../utils/shared_pref_keys.dart' as pref_keys;
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -15,6 +17,8 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+  Future<List<String>>? getNumePrenumeFuture;
+
   final List serviciiItems = [
     [
       "Implanotologie",
@@ -29,6 +33,11 @@ class HomePageState extends State<HomePage> {
     ["Protetica", "./assets/images/homescreen_servicii/protetica.png", "https://app.dentocare.ro/servicii/protetica/"],
     ["Preventie", "./assets/images/homescreen_servicii/preventie.png", "https://app.dentocare.ro/servicii/preventie/"],
   ];
+  @override
+  void initState() {
+    super.initState();
+    getNumePrenumeFuture = getUserName();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +72,7 @@ class HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 20),
               serviciiWidget(),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
             ]),
           ),
         ]),
@@ -205,26 +214,44 @@ class HomePageState extends State<HomePage> {
   }
 
   welcomeWidget(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.fromLTRB(20, 50, 20, 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return FutureBuilder(
+      future: getNumePrenumeFuture,
+      builder: (context, snapshot) {
+        return Container(
+          margin: const EdgeInsets.fromLTRB(20, 50, 20, 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              InkWell(
-                  onTap: () {
-                    userModal(context);
-                  },
-                  child: Image.asset('./assets/images/person-icon.jpg', height: 40)),
-              const SizedBox(height: 20),
-              const Text('Bine ai venit,', style: TextStyle(fontSize: 38, fontWeight: FontWeight.bold)),
-              const Text('Stefan Elefterescu', style: TextStyle(fontSize: 26)),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  InkWell(
+                      onTap: () {
+                        userModal(context);
+                      },
+                      child: Image.asset('./assets/images/person-icon.jpg', height: 40)),
+                  const SizedBox(height: 20),
+                  const Text('Bine ai venit,', style: TextStyle(fontSize: 38, fontWeight: FontWeight.bold)),
+                  Text(
+                    '${snapshot.data![0]} ${snapshot.data![1]}',
+                    style: const TextStyle(fontSize: 26),
+                  ),
+                ],
+              ),
             ],
           ),
-        ],
-      ),
+        );
+      },
     );
+  }
+
+  Future<List<String>> getUserName() async {
+    List<String> dateUser = [];
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var nume = prefs.getString(pref_keys.userNume);
+    var prenume = prefs.getString(pref_keys.userPrenume);
+    dateUser.add(nume ?? "");
+    dateUser.add(prenume ?? "");
+    return dateUser;
   }
 }

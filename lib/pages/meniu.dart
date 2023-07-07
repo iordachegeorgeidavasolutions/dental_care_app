@@ -1,4 +1,3 @@
-import 'package:dental_care_app/main.dart';
 import 'package:dental_care_app/pages/home.dart';
 import 'package:dental_care_app/pages/locatii.dart';
 import 'package:dental_care_app/pages/webview.dart';
