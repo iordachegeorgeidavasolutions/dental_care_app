@@ -323,7 +323,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
             nume: '',
             prenume: '',
             idPacient: '',
-            id: '',
+            id: l[6],
             medic: l[2],
             categorie: l[3],
             status: l[4],

@@ -354,6 +354,8 @@ class ProgramModalItem extends StatelessWidget {
                                       // minimumSize: const Size.fromHeight(50), // NEW
                                     ),
                                     onPressed: () => {
+                                      print("asd"),
+                                      print(programare[selectedIndex].id),
                                       apiCallFunctions.anuleazaProgramarea(programare[selectedIndex].id),
                                     },
                                     child: const Text(

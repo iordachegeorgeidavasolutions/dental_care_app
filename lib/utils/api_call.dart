@@ -113,7 +113,6 @@ class ApiCall {
 
         print('66');
         print(response.body);
-        return '66';
 
       case api_response.cheieGresita:
         // print('CHEIE GRESITA - ' + pNumeMetoda);

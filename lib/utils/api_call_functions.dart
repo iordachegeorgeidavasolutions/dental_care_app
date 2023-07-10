@@ -150,7 +150,7 @@ class ApiCallFunctions {
             nume: '',
             prenume: '',
             idPacient: '',
-            id: '',
+            id: l[6],
             medic: l[2],
             categorie: l[3],
             status: l[4],
@@ -181,7 +181,7 @@ class ApiCallFunctions {
   Future<void> anuleazaProgramarea(String pIdProgramare) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final Map<String, String> params = {
-      'pCheie': 'uniqueID',
+      // 'pCheie': 'uniqueID',
       'pAdresaMail': prefs.getString(pref_keys.userEmail)!,
       'pParolaMD5': prefs.getString(pref_keys.userPassMD5)!,
       'pIdProgramare': pIdProgramare,
