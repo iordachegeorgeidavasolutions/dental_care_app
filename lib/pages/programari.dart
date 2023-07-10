@@ -1,6 +1,4 @@
 // ignore_for_file: avoid_print
-
-import 'package:dental_care_app/data/programari_data.dart';
 import 'package:dental_care_app/utils/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -265,8 +263,8 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
     if (res.contains('%\$%')) {
       print(res);
       List<String> list = res.split('%\$%');
-      List<String> viitoare = list[0].split('*\$*');
-      List<String> trecute = list[1].split('*\$*');
+      List<String> viitoare = list[1].split('*\$*');
+      List<String> trecute = list[0].split('*\$*');
       viitoare.removeWhere((element) => element.isEmpty);
       trecute.removeWhere((element) => element.isEmpty);
 

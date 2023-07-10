@@ -1,7 +1,10 @@
+// ignore_for_file: sized_box_for_whitespace
+
 import 'package:dental_care_app/utils/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../utils/classes.dart';
+import '../../utils/api_call_functions.dart';
 
 class ProgramModalItem extends StatelessWidget {
   final int selectedIndex;
@@ -10,6 +13,7 @@ class ProgramModalItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ApiCallFunctions apiCallFunctions = ApiCallFunctions();
     return Container(
       width: MediaQuery.of(context).size.width,
       child: Column(
@@ -21,7 +25,7 @@ class ProgramModalItem extends StatelessWidget {
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width * 0.3,
-                    child: Column(
+                    child: const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -55,7 +59,7 @@ class ProgramModalItem extends StatelessWidget {
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width * 0.3,
-                    child: Column(
+                    child: const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -85,7 +89,7 @@ class ProgramModalItem extends StatelessWidget {
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width * 0.3,
-                    child: Column(
+                    child: const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -192,7 +196,7 @@ class ProgramModalItem extends StatelessWidget {
               ),
               const Divider(color: Colors.black12, thickness: 2),
               const SizedBox(height: 30),
-              programariModalButtons(context),
+              programariModalButtons(context, apiCallFunctions),
             ],
           ),
         ],
@@ -200,7 +204,7 @@ class ProgramModalItem extends StatelessWidget {
     );
   }
 
-  Column programariModalButtons(BuildContext context) {
+  Column programariModalButtons(BuildContext context, ApiCallFunctions apiCallFunctions) {
     return Column(
       children: [
         Row(
@@ -322,15 +326,15 @@ class ProgramModalItem extends StatelessWidget {
                         color: Colors.white,
                       ),
                       child: Padding(
-                        padding: EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(20),
                         child: Column(
                           children: [
-                            SizedBox(height: 40),
-                            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                            const SizedBox(height: 40),
+                            const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                               Text("Atentie!", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                             ]),
-                            SizedBox(height: 20),
-                            Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                            const SizedBox(height: 20),
+                            const Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                               Text(
                                   "Doriti anularea programarii. Trebuie avut in vedere faptul ca timpul si locurile sunt limitate si astfel este posibil sa nu gasiti un interval orar disponibil in perioada imediat urmatoare.",
                                   maxLines: 4,
@@ -338,18 +342,20 @@ class ProgramModalItem extends StatelessWidget {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(fontSize: 16))
                             ]),
-                            SizedBox(height: 60),
+                            const SizedBox(height: 60),
                             IntrinsicWidth(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+                                      padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                                       backgroundColor: Colors.red,
                                       // minimumSize: const Size.fromHeight(50), // NEW
                                     ),
-                                    onPressed: () => {},
+                                    onPressed: () => {
+                                      apiCallFunctions.anuleazaProgramarea(programare[selectedIndex].id),
+                                    },
                                     child: const Text(
                                       'Anulez',
                                       style: TextStyle(fontSize: 24),
@@ -358,8 +364,8 @@ class ProgramModalItem extends StatelessWidget {
                                   const SizedBox(height: 30),
                                   OutlinedButton(
                                     style: OutlinedButton.styleFrom(
-                                      side: BorderSide(color: Colors.red, width: 1),
-                                      padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+                                      side: const BorderSide(color: Colors.red, width: 1),
+                                      padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                                       backgroundColor: Colors.white,
                                       // minimumSize: const Size.fromHeight(50), // NEW
                                     ),
