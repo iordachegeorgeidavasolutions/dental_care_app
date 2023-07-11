@@ -188,4 +188,15 @@ class ApiCallFunctions {
     };
     await apiCall.apeleazaMetodaString(pNumeMetoda: 'AnuleazaProgramarea', pParametrii: params);
   }
+
+  Future<void> confirmaProgramarea(String pIdProgramare) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final Map<String, String> params = {
+      // 'pCheie': 'uniqueID',
+      'pAdresaMail': prefs.getString(pref_keys.userEmail)!,
+      'pParolaMD5': prefs.getString(pref_keys.userPassMD5)!,
+      'pIdProgramare': pIdProgramare,
+    };
+    await apiCall.apeleazaMetodaString(pNumeMetoda: 'ConfirmaProgramarea', pParametrii: params);
+  }
 }

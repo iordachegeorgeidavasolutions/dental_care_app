@@ -81,7 +81,7 @@ class ApiCall {
       // print('EROARE XML - ' + pNumeMetoda);
       // print(response.body);
       // showSnackbar(l.universalEroare);
-      return 'error parsing';
+      return 'Error parsing';
     }
 
     switch (data) {

@@ -1,5 +1,4 @@
 import 'package:dental_care_app/data/home_dosarulmeu_data.dart';
-import 'package:dental_care_app/data/programari_data.dart';
 import 'package:dental_care_app/pages/webview.dart';
 import 'package:dental_care_app/widgets/items/dosarulMeu_item.dart';
 import 'package:dental_care_app/widgets/items/servicii_grid_item.dart';
@@ -57,10 +56,7 @@ class HomePageState extends State<HomePage> {
                   Text('Urmatoarea programare : ', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold))
                 ]),
               ),
-              ButonUrmatoareaProgramare(
-                ora: programariList[programariList.length - 1].ora,
-                data: programariList[programariList.length - 1].data,
-              ),
+              const ButonUrmatoareaProgramare(),
               dosarulMeu(context),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 22),
@@ -154,65 +150,6 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  Container urmatoareaProgramareWidget() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      height: 100,
-      decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)), color: Color.fromARGB(255, 243, 68, 68)),
-      child: const Row(
-        children: [
-          Expanded(
-            flex: 5,
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(15, 10, 10, 10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.calendar_month_outlined, color: Colors.white, size: 30),
-                      SizedBox(width: 8),
-                      Text('Sambata, 16.02.2023',
-                          style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold)),
-                    ],
-                  ),
-                  SizedBox(height: 15),
-                  Row(children: [
-                    Icon(
-                      Icons.access_time_rounded,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                    SizedBox(width: 8),
-                    Text(
-                      '18:30',
-                      style: TextStyle(fontSize: 23, color: Colors.white, fontWeight: FontWeight.bold),
-                    )
-                  ])
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 50,
-                  color: Colors.white,
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   welcomeWidget(BuildContext context) {
     return FutureBuilder(
       future: getNumePrenumeFuture,
@@ -250,8 +187,67 @@ class HomePageState extends State<HomePage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var nume = prefs.getString(pref_keys.userNume);
     var prenume = prefs.getString(pref_keys.userPrenume);
-    dateUser.add(nume ?? "");
-    dateUser.add(prenume ?? "");
+    dateUser.add(nume!);
+    dateUser.add(prenume!);
     return dateUser;
   }
+
+  // Container urmatoareaProgramareWidget() {
+  //   return Container(
+  //     margin: const EdgeInsets.symmetric(horizontal: 20),
+  //     height: 100,
+  //     decoration: const BoxDecoration(
+  //         borderRadius: BorderRadius.all(Radius.circular(10)), color: Color.fromARGB(255, 243, 68, 68)),
+  //     child: const Row(
+  //       children: [
+  //         Expanded(
+  //           flex: 5,
+  //           child: Padding(
+  //             padding: EdgeInsets.fromLTRB(15, 10, 10, 10),
+  //             child: Column(
+  //               mainAxisAlignment: MainAxisAlignment.center,
+  //               crossAxisAlignment: CrossAxisAlignment.center,
+  //               children: [
+  //                 Row(
+  //                   children: [
+  //                     Icon(Icons.calendar_month_outlined, color: Colors.white, size: 30),
+  //                     SizedBox(width: 8),
+  //                     Text('Sambata, 16.02.2023',
+  //                         style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold)),
+  //                   ],
+  //                 ),
+  //                 SizedBox(height: 15),
+  //                 Row(children: [
+  //                   Icon(
+  //                     Icons.access_time_rounded,
+  //                     color: Colors.white,
+  //                     size: 30,
+  //                   ),
+  //                   SizedBox(width: 8),
+  //                   Text(
+  //                     '18:30',
+  //                     style: TextStyle(fontSize: 23, color: Colors.white, fontWeight: FontWeight.bold),
+  //                   )
+  //                 ])
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //         Expanded(
+  //           flex: 1,
+  //           child: Column(
+  //             mainAxisAlignment: MainAxisAlignment.center,
+  //             children: [
+  //               Icon(
+  //                 Icons.arrow_forward_ios,
+  //                 size: 50,
+  //                 color: Colors.white,
+  //               )
+  //             ],
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }

@@ -1,10 +1,25 @@
+import 'package:dental_care_app/utils/functions.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import '../../utils/api_call_functions.dart';
+import '../../utils/classes.dart';
 
-class ButonUrmatoareaProgramare extends StatelessWidget {
-  final String ora;
-  final String data;
-  const ButonUrmatoareaProgramare(
-      {super.key, required this.data, required this.ora});
+class ButonUrmatoareaProgramare extends StatefulWidget {
+  const ButonUrmatoareaProgramare({super.key});
+
+  @override
+  State<ButonUrmatoareaProgramare> createState() => _ButonUrmatoareaProgramareState();
+}
+
+class _ButonUrmatoareaProgramareState extends State<ButonUrmatoareaProgramare> {
+  ApiCallFunctions apiCallFunctions = ApiCallFunctions();
+  late Programare ultimaProgramareP;
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,51 +27,43 @@ class ButonUrmatoareaProgramare extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20),
       height: 100,
       decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          color: Color.fromARGB(255, 243, 68, 68)),
+          borderRadius: BorderRadius.all(Radius.circular(10)), color: Color.fromARGB(255, 243, 68, 68)),
       child: Row(
         children: [
           Expanded(
             flex: 5,
             child: Padding(
-              padding: EdgeInsets.fromLTRB(15, 10, 10, 10),
+              padding: const EdgeInsets.fromLTRB(15, 10, 10, 10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.calendar_month_outlined,
-                          color: Colors.white, size: 30),
-                      SizedBox(width: 8),
-                      Text(data,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold)),
+                      const Icon(Icons.calendar_month_outlined, color: Colors.white, size: 30),
+                      const SizedBox(width: 8),
+                      Text(DateFormat('EEEE, d.M.yyyy', 'ro').format(ultimaProgramareP.inceput).capitalizeFirst(),
+                          style: const TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold)),
                     ],
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   Row(children: [
-                    Icon(
+                    const Icon(
                       Icons.access_time_rounded,
                       color: Colors.white,
                       size: 30,
                     ),
-                    SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     Text(
-                      ora,
-                      style: TextStyle(
-                          fontSize: 23,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
+                      DateFormat.jm().format(ultimaProgramareP.inceput),
+                      style: const TextStyle(fontSize: 23, color: Colors.white, fontWeight: FontWeight.bold),
                     )
                   ])
                 ],
               ),
             ),
           ),
-          Expanded(
+          const Expanded(
             flex: 1,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -72,5 +79,14 @@ class ButonUrmatoareaProgramare extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  loadData() async {
+    Programari? ultimaProgramare = await apiCallFunctions.getListaProgramari();
+    if (ultimaProgramare != null) {
+      setState(() {
+        ultimaProgramareP = ultimaProgramare.viitoare[ultimaProgramare.viitoare.length - 1];
+      });
+    }
   }
 }
