@@ -18,6 +18,17 @@ class Programare {
       required this.prenume});
 }
 
+class DetaliiProgramare {
+  final String idInterventie;
+  final String medicResponsabil;
+  final String denumireInterventie;
+  final String observatii;
+  final String valoareInterventie;
+
+  DetaliiProgramare(
+      this.idInterventie, this.medicResponsabil, this.denumireInterventie, this.observatii, this.valoareInterventie);
+}
+
 class Programari {
   List<Programare> viitoare;
   List<Programare> trecute;
