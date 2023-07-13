@@ -149,7 +149,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                   setState(() {
                     _selectedIndex = index;
                   });
-                  // apiCallFunctions.getDetaliiProgramare(trecute[_selectedIndex].id);
+                  apiCallFunctions.getDetaliiProgramare(trecute[_selectedIndex].id);
                   showModalBottomSheet(
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
                       isScrollControlled: true,

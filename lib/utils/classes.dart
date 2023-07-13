@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Programare {
   final String id;
   final DateTime inceput, sfarsit;
@@ -16,6 +18,37 @@ class Programare {
       required this.idPacient,
       required this.nume,
       required this.prenume});
+}
+
+class LinieFisaTratament {
+  final String tipObiect;
+  final String idObiect;
+  final String numeMedic;
+  final String denumireInterventie;
+  final String dinti;
+  final String observatii;
+  final DateTime dataDateTime;
+  final String dataString;
+  final String pret;
+  final Color culoare;
+  final DateTime? dataCreareDateTime;
+  final String? dataCreareString;
+  final String valoareInitiala;
+
+  LinieFisaTratament(
+      {required this.tipObiect,
+      required this.pret,
+      required this.idObiect,
+      required this.numeMedic,
+      required this.denumireInterventie,
+      required this.dinti,
+      required this.observatii,
+      required this.dataDateTime,
+      required this.dataString,
+      required this.culoare,
+      this.dataCreareDateTime,
+      this.dataCreareString,
+      required this.valoareInitiala});
 }
 
 class DetaliiProgramare {

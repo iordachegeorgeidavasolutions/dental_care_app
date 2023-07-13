@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import './shared_pref_keys.dart' as pref_keys;
 import 'api_call.dart';
@@ -198,6 +200,49 @@ class ApiCallFunctions {
       'pIdProgramare': pIdProgramare,
     };
     await apiCall.apeleazaMetodaString(pNumeMetoda: 'ConfirmaProgramarea', pParametrii: params);
+  }
+
+  Future<List<LinieFisaTratament>?> getListaLiniiFisaTratamentRealizate(MembruFamilie membruFamilie) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map<String, String> params = {
+      'pAdresaMail': prefs.getString(pref_keys.userEmail)!,
+      'pParolaMD5': prefs.getString(pref_keys.userPassMD5)!,
+    };
+
+    String? res =
+        await apiCall.apeleazaMetodaString(pNumeMetoda: 'GetListaLiniiFisaTratamentRealizate', pParametrii: params);
+
+    List<LinieFisaTratament> interventii = <LinieFisaTratament>[];
+    if (res == null) {
+      return null;
+    }
+    if (res.contains('*\$*')) {
+      List<String> interventiiRaw = res.split('*\$*');
+      interventiiRaw.removeWhere((v) => v.isEmpty);
+
+      for (var interv in interventiiRaw) {
+        List<String> list = interv.split('\$#\$');
+
+        DateTime dateTime = DateTime.utc(
+            int.parse(list[6].substring(0, 4)), int.parse(list[6].substring(4, 6)), int.parse(list[6].substring(6, 8)));
+
+        String data = DateFormat('dd.MM.yyyy').format(dateTime);
+
+        interventii.add(LinieFisaTratament(
+            tipObiect: list[0],
+            idObiect: list[1],
+            numeMedic: list[2],
+            denumireInterventie: list[3],
+            dinti: list[4],
+            observatii: list[5],
+            dataDateTime: dateTime,
+            dataString: data,
+            pret: list[7],
+            culoare: Color(int.parse(list[8])),
+            valoareInitiala: list[9]));
+      }
+    }
+    return interventii;
   }
 
   Future<DetaliiProgramare?> getDetaliiProgramare(String pIdProgramare) async {

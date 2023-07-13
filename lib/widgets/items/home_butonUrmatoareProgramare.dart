@@ -43,7 +43,7 @@ class _ButonUrmatoareaProgramareState extends State<ButonUrmatoareaProgramare> {
                   Expanded(
                     flex: 5,
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 10, 10, 10),
+                      padding: const EdgeInsets.fromLTRB(15, 15, 0, 10),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,

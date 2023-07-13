@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  // ApiCallFunctions apiCallFunctions = ApiCallFunctions();
+  ApiCallFunctions apiCallFunctions = ApiCallFunctions();
   Future<List<String>>? getNumePrenumeFuture;
   late Programare ultimaProgramareP;
   bool futeMa = false;
@@ -40,7 +40,7 @@ class HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     getNumePrenumeFuture = getUserName();
-    // loadData();
+    loadData();
   }
 
   @override
@@ -195,15 +195,15 @@ class HomePageState extends State<HomePage> {
     return dateUser;
   }
 
-  // loadData() async {
-  //   Programari? ultimaProgramare = await apiCallFunctions.getListaProgramari();
-  //   ultimaProgramareP = ultimaProgramare!.viitoare[ultimaProgramare.viitoare.length - 1];
-  //   if (ultimaProgramareP.id.isNotEmpty) {
-  //     setState(() {
-  //       futeMa = true;
-  //     });
-  //   }
-  // }
+  loadData() async {
+    Programari? ultimaProgramare = await apiCallFunctions.getListaProgramari();
+    ultimaProgramareP = ultimaProgramare!.viitoare[ultimaProgramare.viitoare.length - 1];
+    if (ultimaProgramareP.id.isNotEmpty) {
+      setState(() {
+        futeMa = true;
+      });
+    }
+  }
 
   // Container urmatoareaProgramareWidget() {
   //   return Container(
