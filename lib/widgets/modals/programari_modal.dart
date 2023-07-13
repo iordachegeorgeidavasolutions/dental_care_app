@@ -27,9 +27,12 @@ class ProgramariModal extends StatelessWidget {
                     icon: const Icon(Icons.arrow_back_ios_new_outlined),
                     color: Colors.red,
                     onPressed: () => Navigator.pop(context)),
-                const Text(
-                  "Inapoi",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400, color: Colors.red),
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: const Text(
+                    "Inapoi",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400, color: Colors.red),
+                  ),
                 )
               ]),
               const SizedBox(height: 15),

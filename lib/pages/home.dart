@@ -4,6 +4,8 @@ import 'package:dental_care_app/widgets/items/dosarulMeu_item.dart';
 import 'package:dental_care_app/widgets/items/servicii_grid_item.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../utils/api_call_functions.dart';
+import '../utils/classes.dart';
 import '../widgets/items/home_butonUrmatoareProgramare.dart';
 import '../widgets/modals/user_modal.dart';
 import '../utils/shared_pref_keys.dart' as pref_keys;
@@ -16,8 +18,10 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+  // ApiCallFunctions apiCallFunctions = ApiCallFunctions();
   Future<List<String>>? getNumePrenumeFuture;
-
+  late Programare ultimaProgramareP;
+  bool futeMa = false;
   final List serviciiItems = [
     [
       "Implanotologie",
@@ -36,6 +40,7 @@ class HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     getNumePrenumeFuture = getUserName();
+    // loadData();
   }
 
   @override
@@ -50,13 +55,11 @@ class HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
                 color: Color.fromARGB(255, 236, 236, 236)),
             child: Column(children: [
-              const Padding(
-                padding: EdgeInsets.fromLTRB(30, 20, 20, 10),
-                child: Row(children: [
-                  Text('Urmatoarea programare : ', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold))
-                ]),
+              Visibility(
+                visible: futeMa,
+                child: ButonUrmatoareaProgramare(
+                    numeZiUltimaProg: ultimaProgramareP.inceput, oraInceputUltimaProg: ultimaProgramareP.inceput),
               ),
-              const ButonUrmatoareaProgramare(),
               dosarulMeu(context),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 22),
@@ -191,6 +194,16 @@ class HomePageState extends State<HomePage> {
     dateUser.add(prenume!);
     return dateUser;
   }
+
+  // loadData() async {
+  //   Programari? ultimaProgramare = await apiCallFunctions.getListaProgramari();
+  //   ultimaProgramareP = ultimaProgramare!.viitoare[ultimaProgramare.viitoare.length - 1];
+  //   if (ultimaProgramareP.id.isNotEmpty) {
+  //     setState(() {
+  //       futeMa = true;
+  //     });
+  //   }
+  // }
 
   // Container urmatoareaProgramareWidget() {
   //   return Container(
