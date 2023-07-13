@@ -7,7 +7,7 @@ import '../../utils/classes.dart';
 import '../../utils/api_call_functions.dart';
 
 class ProgramModalItem extends StatefulWidget {
-  final int selectedIndex;
+  final int? selectedIndex;
   final List<Programare> programare;
   ProgramModalItem({super.key, required this.selectedIndex, required this.programare});
 
@@ -52,7 +52,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                       Text(
                           DateFormat('EEEE, d.M.yyyy', 'ro')
-                              .format(widget.programare[widget.selectedIndex].inceput)
+                              .format(widget.programare[widget.selectedIndex!].inceput)
                               .capitalizeFirst(),
                           maxLines: 9,
                           style: const TextStyle(fontSize: 18)),
@@ -84,7 +84,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                   Container(
                     width: MediaQuery.of(context).size.width * 0.5,
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text(DateFormat.jm().format(widget.programare[widget.selectedIndex].inceput),
+                      Text(DateFormat.jm().format(widget.programare[widget.selectedIndex!].inceput),
                           maxLines: 9, style: const TextStyle(fontSize: 18)),
                     ]),
                   ),
@@ -114,7 +114,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                   Container(
                     width: MediaQuery.of(context).size.width * 0.5,
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text(widget.programare[widget.selectedIndex].nume,
+                      Text(widget.programare[widget.selectedIndex!].nume,
                           maxLines: 9, style: const TextStyle(fontSize: 18)),
                     ]),
                   ),
@@ -144,7 +144,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.5,
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text(widget.programare[widget.selectedIndex].status,
+                      Text(widget.programare[widget.selectedIndex!].status,
                           maxLines: 9, style: const TextStyle(fontSize: 18)),
                     ]),
                   ),
@@ -174,7 +174,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.5,
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text(widget.programare[widget.selectedIndex].idPacient,
+                      Text(widget.programare[widget.selectedIndex!].idPacient,
                           maxLines: 9, style: const TextStyle(fontSize: 18)),
                     ]),
                   ),
@@ -204,7 +204,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.5,
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text(widget.programare[widget.selectedIndex].medic,
+                      Text(widget.programare[widget.selectedIndex!].medic,
                           maxLines: 9, style: const TextStyle(fontSize: 18)),
                     ]),
                   ),
@@ -285,9 +285,9 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                             // minimumSize: const Size.fromHeight(50), // NEW
                                           ),
                                           onPressed: () => {
-                                            isDisabled ? null : print(widget.programare[widget.selectedIndex].id),
+                                            isDisabled ? null : print(widget.programare[widget.selectedIndex!].id),
                                             apiCallFunctions
-                                                .confirmaProgramarea(widget.programare[widget.selectedIndex].id),
+                                                .confirmaProgramarea(widget.programare[widget.selectedIndex!].id),
                                             disableButtons,
                                             // Navigator.pop(context),
                                           },
@@ -381,8 +381,8 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                       // minimumSize: const Size.fromHeight(50), // NEW
                                     ),
                                     onPressed: () => {
-                                      print(widget.programare[widget.selectedIndex].id),
-                                      apiCallFunctions.anuleazaProgramarea(widget.programare[widget.selectedIndex].id),
+                                      print(widget.programare[widget.selectedIndex!].id),
+                                      apiCallFunctions.anuleazaProgramarea(widget.programare[widget.selectedIndex!].id),
                                       Navigator.pop(context),
                                     },
                                     child: const Text(

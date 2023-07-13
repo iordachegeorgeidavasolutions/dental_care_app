@@ -2,6 +2,7 @@ import 'package:dental_care_app/data/home_dosarulmeu_data.dart';
 import 'package:dental_care_app/pages/webview.dart';
 import 'package:dental_care_app/widgets/items/dosarulMeu_item.dart';
 import 'package:dental_care_app/widgets/items/servicii_grid_item.dart';
+import 'package:dental_care_app/widgets/modals/programari_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/api_call_functions.dart';
@@ -20,7 +21,7 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   ApiCallFunctions apiCallFunctions = ApiCallFunctions();
   Future<List<String>>? getNumePrenumeFuture;
-  late Programare ultimaProgramareP;
+  late List<Programare> ultimaProgramareP;
   bool futeMa = false;
   final List serviciiItems = [
     [
@@ -57,8 +58,12 @@ class HomePageState extends State<HomePage> {
             child: Column(children: [
               Visibility(
                 visible: futeMa,
-                child: ButonUrmatoareaProgramare(
-                    numeZiUltimaProg: ultimaProgramareP.inceput, oraInceputUltimaProg: ultimaProgramareP.inceput),
+                child: GestureDetector(
+                  onTap: () => ProgramariModal(programare: ultimaProgramareP),
+                  child: ButonUrmatoareaProgramare(
+                      numeZiUltimaProg: ultimaProgramareP[0].inceput,
+                      oraInceputUltimaProg: ultimaProgramareP[0].inceput),
+                ),
               ),
               dosarulMeu(context),
               const Padding(
@@ -197,7 +202,7 @@ class HomePageState extends State<HomePage> {
 
   loadData() async {
     Programari? ultimaProgramare = await apiCallFunctions.getListaProgramari();
-    ultimaProgramareP = ultimaProgramare!.viitoare[ultimaProgramare.viitoare.length - 1];
+    ultimaProgramareP = ultimaProgramareP.add(ultimaProgramare!.viitoare[ultimaProgramare.viitoare.length - 1]);
     if (ultimaProgramareP.id.isNotEmpty) {
       setState(() {
         futeMa = true;
