@@ -3,9 +3,8 @@ import '../../utils/classes.dart';
 import '../items/program_modal_item.dart';
 
 class ProgramariModal extends StatelessWidget {
-  final int? selectedIndex;
-  final List<Programare> programare;
-  const ProgramariModal({super.key, this.selectedIndex, required this.programare});
+  final Programare programare;
+  const ProgramariModal({super.key, required this.programare});
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -31,7 +30,10 @@ class ProgramariModal extends StatelessWidget {
                   onTap: () => Navigator.pop(context),
                   child: const Text(
                     "Inapoi",
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400, color: Colors.red),
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.red),
                   ),
                 )
               ]),
@@ -40,7 +42,6 @@ class ProgramariModal extends StatelessWidget {
                 children: [
                   const SizedBox(height: 20),
                   ProgramModalItem(
-                    selectedIndex: selectedIndex,
                     programare: programare,
                   )
                 ],

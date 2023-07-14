@@ -20,7 +20,7 @@ class ProgramariScreen extends StatefulWidget {
 
 class _ProgramariScreenState extends State<ProgramariScreen> {
   ApiCallFunctions apiCallFunctions = ApiCallFunctions();
-  Future<Programari?>? getProgramari;
+  Future<Programari?>? programari;
   bool isSelected = true;
   int initialLabelIndex = 0;
   var _selectedIndex = 0;
@@ -31,7 +31,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
   @override
   void initState() {
     super.initState();
-    getProgramari = getListaProgramari();
+    programari = getListaProgramari();
   }
 
   @override
@@ -65,7 +65,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
               ),
               const SizedBox(height: 15),
               FutureBuilder(
-                  future: getProgramari,
+                  future: programari,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
                       if (snapshot.hasData) {
@@ -113,8 +113,13 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                                 ? Colors.yellow
                                 : Colors.grey),
                 title: Text(
-                  DateFormat('EEEE, d.M.yyyy', 'ro').format(viitoare[index].inceput).capitalizeFirst(),
-                  style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.black87),
+                  DateFormat('EEEE, d.M.yyyy', 'ro')
+                      .format(viitoare[index].inceput)
+                      .capitalizeFirst(),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                      color: Colors.black87),
                 ),
                 trailing: const Icon(
                   Icons.arrow_forward_ios_rounded,
@@ -149,23 +154,30 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                   setState(() {
                     _selectedIndex = index;
                   });
-                  apiCallFunctions.getDetaliiProgramare(trecute[_selectedIndex].id);
+                  apiCallFunctions
+                      .getDetaliiProgramare(trecute[_selectedIndex].id);
                   showModalBottomSheet(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(35)),
                       isScrollControlled: true,
                       context: context,
                       builder: (context) {
                         return ProgramariModal(
-                          selectedIndex: _selectedIndex,
-                          programare: trecute,
+                          programare: trecute[_selectedIndex],
                         );
                       });
                 },
                 child: ListTile(
-                  leading: Image.asset('./assets/images/programari.png', height: 25),
+                  leading:
+                      Image.asset('./assets/images/programari.png', height: 25),
                   title: Text(
-                    DateFormat('EEEE, d.M.yyyy', 'ro').format(trecute[index].inceput).capitalizeFirst(),
-                    style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.black87),
+                    DateFormat('EEEE, d.M.yyyy', 'ro')
+                        .format(trecute[index].inceput)
+                        .capitalizeFirst(),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                        color: Colors.black87),
                   ),
                   trailing: const Icon(
                     Icons.arrow_forward_ios_rounded,
@@ -214,11 +226,13 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
               onTap: () {
                 userModal(context);
               },
-              child: Image.asset('./assets/images/person-icon.jpg', height: 40)),
+              child:
+                  Image.asset('./assets/images/person-icon.jpg', height: 40)),
           const SizedBox(
             height: 20,
           ),
-          const Text('Programari', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
+          const Text('Programari',
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
         ]),
       ],
     );
@@ -236,7 +250,8 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
       'pIdLimba': '0',
     };
 
-    String? res = await apiCall.apeleazaMetodaString(pNumeMetoda: 'GetListaProgramarileLui', pParametrii: param);
+    String? res = await apiCall.apeleazaMetodaString(
+        pNumeMetoda: 'GetListaProgramarileLui', pParametrii: param);
 
     List<Programare> programariViitoare = <Programare>[];
     List<Programare> programariTrecute = <Programare>[];
@@ -264,8 +279,8 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
     if (res.contains('%\$%')) {
       print(res);
       List<String> list = res.split('%\$%');
-      List<String> viitoare = list[1].split('*\$*');
-      List<String> trecute = list[0].split('*\$*');
+      List<String> viitoare = list[0].split('*\$*');
+      List<String> trecute = list[1].split('*\$*');
       viitoare.removeWhere((element) => element.isEmpty);
       trecute.removeWhere((element) => element.isEmpty);
 
@@ -336,7 +351,8 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
     }
     programariTrecute.sort((a, b) => b.inceput.compareTo(a.inceput));
     programariViitoare.sort((a, b) => a.inceput.compareTo(b.inceput));
-    Programari? pP = Programari(trecute: programariTrecute, viitoare: programariViitoare);
+    Programari? pP =
+        Programari(trecute: programariTrecute, viitoare: programariViitoare);
     viitoare.addAll(pP.viitoare);
     trecute.addAll(pP.trecute);
     return pP;

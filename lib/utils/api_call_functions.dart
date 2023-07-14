@@ -45,7 +45,9 @@ class ApiCallFunctions {
     };
 
     String? res = await apiCall.apeleazaMetodaString(
-        pNumeMetoda: 'AdaugaPacient', pParametrii: parametriiApiCall, afiseazaMesajPacientNeasociat: false);
+        pNumeMetoda: 'AdaugaPacient',
+        pParametrii: parametriiApiCall,
+        afiseazaMesajPacientNeasociat: false);
 
     return res;
   }
@@ -68,7 +70,9 @@ class ApiCallFunctions {
     };
 
     String? res = await apiCall.apeleazaMetodaString(
-        pNumeMetoda: 'Login', pParametrii: param, afiseazaMesajPacientNeasociat: false);
+        pNumeMetoda: 'Login',
+        pParametrii: param,
+        afiseazaMesajPacientNeasociat: false);
 
     return res;
   }
@@ -82,7 +86,8 @@ class ApiCallFunctions {
       "pParolaMD5": prefs.getString(pref_keys.userPassMD5)!
     };
 
-    String? res = await apiCall.apeleazaMetodaString(pNumeMetoda: 'GetListaProgramarileLui', pParametrii: param);
+    String? res = await apiCall.apeleazaMetodaString(
+        pNumeMetoda: 'GetListaProgramarileLui', pParametrii: param);
 
     List<Programare> programariViitoare = <Programare>[];
     List<Programare> programariTrecute = <Programare>[];
@@ -188,7 +193,8 @@ class ApiCallFunctions {
       'pParolaMD5': prefs.getString(pref_keys.userPassMD5)!,
       'pIdProgramare': pIdProgramare,
     };
-    await apiCall.apeleazaMetodaString(pNumeMetoda: 'AnuleazaProgramarea', pParametrii: params);
+    await apiCall.apeleazaMetodaString(
+        pNumeMetoda: 'AnuleazaProgramarea', pParametrii: params);
   }
 
   Future<void> confirmaProgramarea(String pIdProgramare) async {
@@ -199,18 +205,21 @@ class ApiCallFunctions {
       'pParolaMD5': prefs.getString(pref_keys.userPassMD5)!,
       'pIdProgramare': pIdProgramare,
     };
-    await apiCall.apeleazaMetodaString(pNumeMetoda: 'ConfirmaProgramarea', pParametrii: params);
+    await apiCall.apeleazaMetodaString(
+        pNumeMetoda: 'ConfirmaProgramarea', pParametrii: params);
   }
 
-  Future<List<LinieFisaTratament>?> getListaLiniiFisaTratamentRealizate(MembruFamilie membruFamilie) async {
+  Future<List<LinieFisaTratament>?> getListaLiniiFisaTratamentRealizate(
+      MembruFamilie membruFamilie) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, String> params = {
       'pAdresaMail': prefs.getString(pref_keys.userEmail)!,
       'pParolaMD5': prefs.getString(pref_keys.userPassMD5)!,
     };
 
-    String? res =
-        await apiCall.apeleazaMetodaString(pNumeMetoda: 'GetListaLiniiFisaTratamentRealizate', pParametrii: params);
+    String? res = await apiCall.apeleazaMetodaString(
+        pNumeMetoda: 'GetListaLiniiFisaTratamentRealizate',
+        pParametrii: params);
 
     List<LinieFisaTratament> interventii = <LinieFisaTratament>[];
     if (res == null) {
@@ -224,7 +233,9 @@ class ApiCallFunctions {
         List<String> list = interv.split('\$#\$');
 
         DateTime dateTime = DateTime.utc(
-            int.parse(list[6].substring(0, 4)), int.parse(list[6].substring(4, 6)), int.parse(list[6].substring(6, 8)));
+            int.parse(list[6].substring(0, 4)),
+            int.parse(list[6].substring(4, 6)),
+            int.parse(list[6].substring(6, 8)));
 
         String data = DateFormat('dd.MM.yyyy').format(dateTime);
 
@@ -254,7 +265,8 @@ class ApiCallFunctions {
       'pParolaMD5': prefs.getString(pref_keys.userPassMD5)!,
       'pIdProgramare': pIdProgramare,
     };
-    String? lmao = await apiCall.apeleazaMetodaString(pNumeMetoda: 'GetDetaliiProgramare', pParametrii: params);
+    String? lmao = await apiCall.apeleazaMetodaString(
+        pNumeMetoda: 'GetDetaliiProgramare', pParametrii: params);
     print(lmao);
     List<String>? ayy = lmao?.split('%\$%');
     if (lmao == null) {
