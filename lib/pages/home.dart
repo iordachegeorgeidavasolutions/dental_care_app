@@ -1,3 +1,5 @@
+import 'dart:js_interop';
+
 import 'package:dental_care_app/data/home_dosarulmeu_data.dart';
 import 'package:dental_care_app/pages/webview.dart';
 import 'package:dental_care_app/widgets/items/dosarulMeu_item.dart';
@@ -20,9 +22,9 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   ApiCallFunctions apiCallFunctions = ApiCallFunctions();
-  Future<List<String>>? getNumePrenumeFuture;
-  late List<Programare> ultimaProgramareP;
-  bool futeMa = false;
+  Future<List<String?>>? getNumePrenumeFuture;
+  late Programare? ultimaProgramare;
+  bool isVisible = true;
   final List serviciiItems = [
     [
       "Implanotologie",
@@ -34,14 +36,31 @@ class HomePageState extends State<HomePage> {
       "./assets/images/homescreen_servicii/ortodontie.png",
       "https://app.dentocare.ro/servicii/ortodontie/"
     ],
-    ["Protetica", "./assets/images/homescreen_servicii/protetica.png", "https://app.dentocare.ro/servicii/protetica/"],
-    ["Preventie", "./assets/images/homescreen_servicii/preventie.png", "https://app.dentocare.ro/servicii/preventie/"],
+    [
+      "Protetica",
+      "./assets/images/homescreen_servicii/protetica.png",
+      "https://app.dentocare.ro/servicii/protetica/"
+    ],
+    [
+      "Preventie",
+      "./assets/images/homescreen_servicii/preventie.png",
+      "https://app.dentocare.ro/servicii/preventie/"
+    ],
   ];
-  @override
+  // @override
+  // void initState() {
+
+  //   getNumePrenumeFuture = getUserName();
+  //   loadData();
+  // }
+
   void initState() {
     super.initState();
-    getNumePrenumeFuture = getUserName();
-    loadData();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      getNumePrenumeFuture = getUserName();
+      await this.loadData();
+      setState(() {});
+    });
   }
 
   @override
@@ -53,16 +72,18 @@ class HomePageState extends State<HomePage> {
           welcomeWidget(context),
           Container(
             decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30)),
                 color: Color.fromARGB(255, 236, 236, 236)),
             child: Column(children: [
               Visibility(
-                visible: futeMa,
+                visible: isVisible,
                 child: GestureDetector(
-                  onTap: () => ProgramariModal(programare: ultimaProgramareP),
+                  onTap: () => ProgramariModal(programare: ultimaProgramare!),
                   child: ButonUrmatoareaProgramare(
-                      numeZiUltimaProg: ultimaProgramareP[0].inceput,
-                      oraInceputUltimaProg: ultimaProgramareP[0].inceput),
+                      numeZiUltimaProg: ultimaProgramare!.inceput,
+                      oraInceputUltimaProg: ultimaProgramare!.inceput),
                 ),
               ),
               dosarulMeu(context),
@@ -70,7 +91,9 @@ class HomePageState extends State<HomePage> {
                 padding: EdgeInsets.symmetric(horizontal: 22),
                 child: Row(
                   children: [
-                    Text('Servicii', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                    Text('Servicii',
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold)),
                   ],
                 ),
               ),
@@ -90,13 +113,19 @@ class HomePageState extends State<HomePage> {
       itemCount: serviciiItems.length,
       shrinkWrap: true,
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+      gridDelegate:
+          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => WebScreen(url: serviciiItems[index][2])));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        WebScreen(url: serviciiItems[index][2])));
           },
-          child: ServiciuItem(nume: serviciiItems[index][0], image: serviciiItems[index][1]),
+          child: ServiciuItem(
+              nume: serviciiItems[index][0], image: serviciiItems[index][1]),
         );
       },
     );
@@ -124,7 +153,8 @@ class HomePageState extends State<HomePage> {
                     children: [
                       const Text(
                         'Dosarul meu',
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
                       ),
                       ListView.builder(
                         physics: const ScrollPhysics(),
@@ -148,7 +178,8 @@ class HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Image.asset('./assets/images/dentist.png', height: 130, color: Colors.black.withOpacity(0.4))
+                  Image.asset('./assets/images/dentist.png',
+                      height: 130, color: Colors.black.withOpacity(0.4))
                 ],
               ),
             )
@@ -174,9 +205,12 @@ class HomePageState extends State<HomePage> {
                       onTap: () {
                         userModal(context);
                       },
-                      child: Image.asset('./assets/images/person-icon.jpg', height: 40)),
+                      child: Image.asset('./assets/images/person-icon.jpg',
+                          height: 40)),
                   const SizedBox(height: 20),
-                  const Text('Bine ai venit,', style: TextStyle(fontSize: 38, fontWeight: FontWeight.bold)),
+                  const Text('Bine ai venit,',
+                      style:
+                          TextStyle(fontSize: 38, fontWeight: FontWeight.bold)),
                   Text(
                     '${snapshot.data![0]} ${snapshot.data![1]}',
                     style: const TextStyle(fontSize: 26),
@@ -190,24 +224,38 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  Future<List<String>> getUserName() async {
-    List<String> dateUser = [];
+  Future<List<String?>> getUserName() async {
+    List<String?> user = [];
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var nume = prefs.getString(pref_keys.userNume);
     var prenume = prefs.getString(pref_keys.userPrenume);
-    dateUser.add(nume!);
-    dateUser.add(prenume!);
-    return dateUser;
+    nume ??= "undefined";
+    prenume ??= "undefined";
+    user.add(nume);
+    user.add(prenume);
+    return user;
   }
 
   loadData() async {
-    Programari? ultimaProgramare = await apiCallFunctions.getListaProgramari();
-    ultimaProgramareP = ultimaProgramareP.add(ultimaProgramare!.viitoare[ultimaProgramare.viitoare.length - 1]);
-    if (ultimaProgramareP.id.isNotEmpty) {
+    Programari? programari = await apiCallFunctions.getListaProgramari();
+    if (programari == null) {
+      // TODO: show error message, nu ai NET/nu merge API-ul
       setState(() {
-        futeMa = true;
+        isVisible = false;
       });
+      return;
     }
+    programari.viitoare = programari.trecute;
+    if (programari.viitoare.isEmpty) {
+      // TODO: show error message, nu ai programari viitoare
+      setState(() {
+        isVisible = false;
+      });
+      return;
+    }
+    // TODO: swap trecute to viitoare
+    //
+    ultimaProgramare = programari.viitoare[programari.viitoare.length - 1];
   }
 
   // Container urmatoareaProgramareWidget() {
