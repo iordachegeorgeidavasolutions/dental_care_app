@@ -9,7 +9,7 @@ import './pages/login.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import "./pages/meniu.dart";
 import 'package:flutter_localizations/flutter_localizations.dart';
-import "./utils/shared_pref_keys.dart" as pref_keys;
+// import "./utils/shared_pref_keys.dart" as pref_keys;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,23 +24,27 @@ void main() async {
         home: firstTime == true
             ? const OnBoardingPage()
             : loggedIn == true
-                ? const MyApp()
+                ? MyApp(
+                    setPage: () {},
+                  )
                 : LoginPage()), // use MaterialApp
   );
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({
-    super.key,
-  });
+  final VoidCallback setPage;
+  const MyApp({super.key, required this.setPage});
 
   @override
   State<MyApp> createState() => MyAppState();
 }
 
 class MyAppState extends State<MyApp> {
-  GlobalKey<CurvedNavigationBarState> bottomNavigationKey = GlobalKey();
+  final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   int pageIndex = 0;
+
+  // HomePage? tab1;
+  // final ProgramariScreen tab2 = ProgramariScreen();
 
   final List<Widget> pages = [
     const HomePage(),
@@ -59,13 +63,13 @@ class MyAppState extends State<MyApp> {
   ];
 
   void setPage(index) {
-    final CurvedNavigationBarState navBarState = bottomNavigationKey.currentState!;
-    navBarState.setPage(index);
+    final CurvedNavigationBarState? navBarState = _bottomNavigationKey.currentState;
+    navBarState?.setPage(index);
   }
 
   @override
   void initState() {
-    // tab1 = NavigationTabHome(setPage);
+    // (setPage);
     super.initState();
   }
 
@@ -80,8 +84,12 @@ class MyAppState extends State<MyApp> {
 
   CurvedNavigationBar curvedNavigation() {
     return CurvedNavigationBar(
-      onTap: setPage,
-      key: bottomNavigationKey,
+      onTap: (index) {
+        setState(() {
+          pageIndex = index;
+        });
+      },
+      key: _bottomNavigationKey,
       animationDuration: const Duration(milliseconds: 400),
       backgroundColor: const Color.fromARGB(255, 236, 236, 236),
       buttonBackgroundColor: Colors.white,
