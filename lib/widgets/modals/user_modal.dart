@@ -7,7 +7,7 @@ Future<dynamic> userModal(BuildContext context) {
     ["Profilul meu", "./assets/images/profile_modal_images/person-icon.jpg"],
     ["Programari", "./assets/images/profile_modal_images/programari.png"],
     ["Tratamente", "./assets/images/profile_modal_images/syringe.png"],
-    ["Sold curent", "./assets/images/profile_modal_images/soldcurent.png"],
+    // ["Sold curent", "./assets/images/profile_modal_images/soldcurent.png"],
     ["Iesi din cont", "./assets/images/profile_modal_images/exiticon.png"],
   ];
 
@@ -73,7 +73,6 @@ Future<dynamic> userModal(BuildContext context) {
           ]),
         ),
       );
-      ;
     },
   );
 }

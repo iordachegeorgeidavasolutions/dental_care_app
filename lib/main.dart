@@ -40,13 +40,13 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   GlobalKey<CurvedNavigationBarState> bottomNavigationKey = GlobalKey();
-  int pageindex = 0;
+  int pageIndex = 0;
 
   final List<Widget> pages = [
-    HomePage(),
+    const HomePage(),
     const ProgramariScreen(),
     const LocatiiScreen(),
-    EducatieScreen(),
+    const EducatieScreen(),
     MeniuScreen(),
   ];
 
@@ -57,12 +57,16 @@ class MyAppState extends State<MyApp> {
     ImageIcon(AssetImage("./assets/images/navbar/educatie.png")),
     ImageIcon(AssetImage("./assets/images/navbar/menu.png")),
   ];
-  void changePage(index) {
-    setState(
-      () {
-        pageindex = index;
-      },
-    );
+
+  void setPage(index) {
+    final CurvedNavigationBarState navBarState = bottomNavigationKey.currentState!;
+    navBarState.setPage(index);
+  }
+
+  @override
+  void initState() {
+    // tab1 = NavigationTabHome(setPage);
+    super.initState();
   }
 
   // This widget is the root of your application
@@ -70,13 +74,13 @@ class MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: curvedNavigation(),
-      body: pages[pageindex],
+      body: pages[pageIndex],
     );
   }
 
   CurvedNavigationBar curvedNavigation() {
     return CurvedNavigationBar(
-      onTap: changePage,
+      onTap: setPage,
       key: bottomNavigationKey,
       animationDuration: const Duration(milliseconds: 400),
       backgroundColor: const Color.fromARGB(255, 236, 236, 236),

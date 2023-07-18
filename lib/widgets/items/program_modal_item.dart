@@ -1,5 +1,4 @@
 // ignore_for_file: sized_box_for_whitespace
-
 import 'package:dental_care_app/utils/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -7,8 +6,8 @@ import '../../utils/classes.dart';
 import '../../utils/api_call_functions.dart';
 
 class ProgramModalItem extends StatefulWidget {
-  final Programare programare;
-  ProgramModalItem({super.key, required this.programare});
+  final Programare? programare;
+  const ProgramModalItem({super.key, required this.programare});
 
   @override
   State<ProgramModalItem> createState() => _ProgramModalItemState();
@@ -25,220 +24,199 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        children: [
-          Column(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    child: const Column(
+    return widget.programare == null
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        : Container(
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              children: [
+                Column(
+                  children: [
+                    Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Data:",
-                          style: TextStyle(fontSize: 18),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          child: const Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Data:",
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                            Text(
+                                DateFormat('EEEE, d.M.yyyy', 'ro').format(widget.programare!.inceput).capitalizeFirst(),
+                                maxLines: 9,
+                                style: const TextStyle(fontSize: 18)),
+                          ]),
                         ),
                       ],
                     ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                              DateFormat('EEEE, d.M.yyyy', 'ro')
-                                  .format(widget.programare.inceput)
-                                  .capitalizeFirst(),
-                              maxLines: 9,
-                              style: const TextStyle(fontSize: 18)),
-                        ]),
-                  ),
-                ],
-              ),
-              const Divider(color: Colors.black12, thickness: 2),
-              const SizedBox(height: 20),
-            ],
-          ),
-          Column(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    child: const Column(
+                    const Divider(color: Colors.black12, thickness: 2),
+                    const SizedBox(height: 20),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Ora:",
-                          style: TextStyle(fontSize: 18),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          child: const Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Ora:",
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                            Text(DateFormat.jm().format(widget.programare!.inceput),
+                                maxLines: 9, style: const TextStyle(fontSize: 18)),
+                          ]),
                         ),
                       ],
                     ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                              DateFormat.jm().format(widget.programare.inceput),
-                              maxLines: 9,
-                              style: const TextStyle(fontSize: 18)),
-                        ]),
-                  ),
-                ],
-              ),
-              const Divider(color: Colors.black12, thickness: 2),
-              const SizedBox(height: 20),
-            ],
-          ),
-          Column(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    child: const Column(
+                    const Divider(color: Colors.black12, thickness: 2),
+                    const SizedBox(height: 20),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Locatie:",
-                          style: TextStyle(fontSize: 18),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          child: const Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Locatie:",
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                            Text(widget.programare!.nume, maxLines: 9, style: const TextStyle(fontSize: 18)),
+                          ]),
                         ),
                       ],
                     ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(widget.programare.nume,
-                              maxLines: 9,
-                              style: const TextStyle(fontSize: 18)),
-                        ]),
-                  ),
-                ],
-              ),
-              const Divider(color: Colors.black12, thickness: 2),
-              const SizedBox(height: 20),
-            ],
-          ),
-          Column(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    child: const Column(
+                    const Divider(color: Colors.black12, thickness: 2),
+                    const SizedBox(height: 20),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Status:",
-                          style: TextStyle(fontSize: 18),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          child: const Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Status:",
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                            Text(widget.programare!.status, maxLines: 9, style: const TextStyle(fontSize: 18)),
+                          ]),
                         ),
                       ],
                     ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(widget.programare.status,
-                              maxLines: 9,
-                              style: const TextStyle(fontSize: 18)),
-                        ]),
-                  ),
-                ],
-              ),
-              const Divider(color: Colors.black12, thickness: 2),
-              const SizedBox(height: 20),
-            ],
-          ),
-          Column(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    child: const Column(
+                    const Divider(color: Colors.black12, thickness: 2),
+                    const SizedBox(height: 20),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Financiar:",
-                          style: TextStyle(fontSize: 18),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          child: const Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Financiar:",
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                            Text(widget.programare!.idPacient, maxLines: 9, style: const TextStyle(fontSize: 18)),
+                          ]),
                         ),
                       ],
                     ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(widget.programare.idPacient,
-                              maxLines: 9,
-                              style: const TextStyle(fontSize: 18)),
-                        ]),
-                  ),
-                ],
-              ),
-              const Divider(color: Colors.black12, thickness: 2),
-              const SizedBox(height: 20),
-            ],
-          ),
-          Column(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    child: const Column(
+                    const Divider(color: Colors.black12, thickness: 2),
+                    const SizedBox(height: 20),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Doctor:",
-                          style: TextStyle(fontSize: 18),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          child: const Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Doctor:",
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                            Text(widget.programare!.medic, maxLines: 9, style: const TextStyle(fontSize: 18)),
+                          ]),
                         ),
                       ],
                     ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(widget.programare.medic,
-                              maxLines: 9,
-                              style: const TextStyle(fontSize: 18)),
-                        ]),
-                  ),
-                ],
-              ),
-              const Divider(color: Colors.black12, thickness: 2),
-              const SizedBox(height: 30),
-              programariModalButtons(context, apiCallFunctions, isDisabled),
-            ],
-          ),
-        ],
-      ),
-    );
+                    const Divider(color: Colors.black12, thickness: 2),
+                    const SizedBox(height: 30),
+                    programariModalButtons(context, apiCallFunctions, isDisabled),
+                  ],
+                ),
+              ],
+            ),
+          );
   }
 
-  Column programariModalButtons(
-      BuildContext context, ApiCallFunctions apiCallFunctions, isDisabled) {
+  Column programariModalButtons(BuildContext context, ApiCallFunctions apiCallFunctions, isDisabled) {
     return Column(
       children: [
         Row(
@@ -247,8 +225,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
             ElevatedButton(
               style: isDisabled
                   ? ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
-                      backgroundColor: Colors.grey)
+                      padding: const EdgeInsets.fromLTRB(40, 15, 40, 15), backgroundColor: Colors.grey)
                   : ElevatedButton.styleFrom(
                       padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
                       backgroundColor: Colors.red,
@@ -258,8 +235,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                 isDisabled
                     ? null
                     : showModalBottomSheet(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25)),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                         isScrollControlled: true,
                         context: context,
                         builder: (context) {
@@ -277,55 +253,36 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                               child: Column(
                                 children: [
                                   const SizedBox(height: 40),
-                                  const Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text("Confirmare",
-                                            style: TextStyle(
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.bold)),
-                                      ]),
+                                  const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                                    Text("Confirmare", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                                  ]),
                                   const SizedBox(height: 20),
-                                  const Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                            "Prin apasarea butonului 'Confirm', confirmati ca ca veti ajunge la programarea stabilita.",
-                                            maxLines: 4,
-                                            overflow: TextOverflow.ellipsis,
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(fontSize: 16))
-                                      ]),
+                                  const Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                                    Text(
+                                        "Prin apasarea butonului 'Confirm', confirmati ca ca veti ajunge la programarea stabilita.",
+                                        maxLines: 4,
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 16))
+                                  ]),
                                   const SizedBox(height: 20),
-                                  const Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text("Va multumim!",
-                                            style: TextStyle(fontSize: 18)),
-                                      ]),
+                                  const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                                    Text("Va multumim!", style: TextStyle(fontSize: 18)),
+                                  ]),
                                   const SizedBox(height: 60),
                                   IntrinsicWidth(
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.stretch,
+                                      crossAxisAlignment: CrossAxisAlignment.stretch,
                                       children: [
                                         ElevatedButton(
                                           style: ElevatedButton.styleFrom(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                30, 10, 30, 10),
+                                            padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                                             backgroundColor: Colors.red,
                                             // minimumSize: const Size.fromHeight(50), // NEW
                                           ),
                                           onPressed: () => {
-                                            isDisabled
-                                                ? null
-                                                : print(widget.programare.id),
-                                            apiCallFunctions
-                                                .confirmaProgramarea(
-                                                    widget.programare.id),
+                                            isDisabled ? null : print(widget.programare!.id),
+                                            apiCallFunctions.confirmaProgramarea(widget.programare!.id),
                                             disableButtons,
                                             // Navigator.pop(context),
                                           },
@@ -337,19 +294,15 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                         const SizedBox(height: 30),
                                         OutlinedButton(
                                           style: OutlinedButton.styleFrom(
-                                            side: const BorderSide(
-                                                color: Colors.red, width: 1),
-                                            padding: const EdgeInsets.fromLTRB(
-                                                30, 10, 30, 10),
+                                            side: const BorderSide(color: Colors.red, width: 1),
+                                            padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                                             backgroundColor: Colors.white,
                                             // minimumSize: const Size.fromHeight(50), // NEW
                                           ),
                                           onPressed: () => {},
                                           child: const Text(
                                             'Nu confirm',
-                                            style: TextStyle(
-                                                fontSize: 24,
-                                                color: Colors.red),
+                                            style: TextStyle(fontSize: 24, color: Colors.red),
                                           ),
                                         ),
                                       ],
@@ -381,8 +334,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
               ),
               onPressed: () {
                 showModalBottomSheet(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                   isScrollControlled: true,
                   context: context,
                   builder: (context) {
@@ -400,25 +352,18 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                         child: Column(
                           children: [
                             const SizedBox(height: 40),
-                            const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("Atentie!",
-                                      style: TextStyle(
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.bold)),
-                                ]),
+                            const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                              Text("Atentie!", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                            ]),
                             const SizedBox(height: 20),
-                            const Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                      "Doriti anularea programarii. Trebuie avut in vedere faptul ca timpul si locurile sunt limitate si astfel este posibil sa nu gasiti un interval orar disponibil in perioada imediat urmatoare.",
-                                      maxLines: 4,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 16))
-                                ]),
+                            const Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                              Text(
+                                  "Doriti anularea programarii. Trebuie avut in vedere faptul ca timpul si locurile sunt limitate si astfel este posibil sa nu gasiti un interval orar disponibil in perioada imediat urmatoare.",
+                                  maxLines: 4,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 16))
+                            ]),
                             const SizedBox(height: 60),
                             IntrinsicWidth(
                               child: Column(
@@ -426,15 +371,13 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                 children: [
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          30, 10, 30, 10),
+                                      padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                                       backgroundColor: Colors.red,
                                       // minimumSize: const Size.fromHeight(50), // NEW
                                     ),
                                     onPressed: () => {
-                                      print(widget.programare.id),
-                                      apiCallFunctions.anuleazaProgramarea(
-                                          widget.programare.id),
+                                      print(widget.programare!.id),
+                                      apiCallFunctions.anuleazaProgramarea(widget.programare!.id),
                                       Navigator.pop(context),
                                     },
                                     child: const Text(
@@ -445,10 +388,8 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                   const SizedBox(height: 30),
                                   OutlinedButton(
                                     style: OutlinedButton.styleFrom(
-                                      side: const BorderSide(
-                                          color: Colors.red, width: 1),
-                                      padding: const EdgeInsets.fromLTRB(
-                                          30, 10, 30, 10),
+                                      side: const BorderSide(color: Colors.red, width: 1),
+                                      padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                                       backgroundColor: Colors.white,
                                       // minimumSize: const Size.fromHeight(50), // NEW
                                     ),
@@ -457,8 +398,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                     },
                                     child: const Text(
                                       'Nu Anulez',
-                                      style: TextStyle(
-                                          fontSize: 24, color: Colors.red),
+                                      style: TextStyle(fontSize: 24, color: Colors.red),
                                     ),
                                   ),
                                 ],

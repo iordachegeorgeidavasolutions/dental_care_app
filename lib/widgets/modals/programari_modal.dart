@@ -30,10 +30,7 @@ class ProgramariModal extends StatelessWidget {
                   onTap: () => Navigator.pop(context),
                   child: const Text(
                     "Inapoi",
-                    style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.red),
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400, color: Colors.red),
                   ),
                 )
               ]),
