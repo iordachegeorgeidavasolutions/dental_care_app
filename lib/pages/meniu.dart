@@ -1,6 +1,8 @@
 import 'package:dental_care_app/pages/home.dart';
 import 'package:dental_care_app/pages/locatii.dart';
+import 'package:dental_care_app/pages/programari.dart';
 import 'package:dental_care_app/pages/webview.dart';
+import 'package:dental_care_app/utils/classes.dart';
 import 'package:flutter/material.dart';
 import '../widgets/items/meniu_grid_item.dart';
 import '../widgets/modals/user_modal.dart';
@@ -42,11 +44,11 @@ class _MeniuScreenState extends State<MeniuScreen> {
   ];
 
   final List<Widget> _screens = [
-    Placeholder(),
-    HomePage(),
-    LocatiiScreen(),
-    LocatiiScreen(),
-    LocatiiScreen(),
+    const Placeholder(),
+    const HomePage(),
+    const ProgramariScreen(),
+    const LocatiiScreen(),
+    const LocatiiScreen(),
   ];
 
   @override

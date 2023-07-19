@@ -24,16 +24,16 @@ void main() async {
         home: firstTime == true
             ? const OnBoardingPage()
             : loggedIn == true
-                ? MyApp(
-                    setPage: () {},
-                  )
+                ? MyApp()
                 : LoginPage()), // use MaterialApp
   );
 }
 
 class MyApp extends StatefulWidget {
-  final VoidCallback setPage;
-  const MyApp({super.key, required this.setPage});
+  // final VoidCallback setPage;
+  const MyApp({
+    super.key,
+  });
 
   @override
   State<MyApp> createState() => MyAppState();
