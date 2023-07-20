@@ -1,7 +1,10 @@
 import 'package:dental_care_app/data/home_dosarulmeu_data.dart';
+import 'package:dental_care_app/pages/programari.dart';
+import 'package:dental_care_app/pages/tratamente.dart';
 import 'package:dental_care_app/pages/webview.dart';
 import 'package:dental_care_app/widgets/items/dosarulMeu_item.dart';
 import 'package:dental_care_app/widgets/items/servicii_grid_item.dart';
+import 'package:dental_care_app/widgets/items/tratemente_item.dart';
 import 'package:dental_care_app/widgets/modals/programari_modal.dart';
 import 'package:flutter/material.dart';
 import '../utils/api_call_functions.dart';
@@ -22,7 +25,10 @@ class HomePageState extends State<HomePage> {
   bool isVisible = true;
   Future<List<String?>>? getNumePrenumeFuture;
   Future<Programare?>? ultimaProgramare;
-
+  final List<Widget> _screens = [
+    const ProgramariScreen(),
+    const TratamenteScreen(),
+  ];
   final List serviciiItems = [
     [
       "Implanotologie",
@@ -160,9 +166,13 @@ class HomePageState extends State<HomePage> {
                         shrinkWrap: true,
                         itemCount: dosarulMeuList.length,
                         itemBuilder: (context, index) {
-                          return DosarulMeuItem(
-                            titlu: dosarulMeuList[index].titlu,
-                            widgetRoute: dosarulMeuList[index].widgetRoute,
+                          return GestureDetector(
+                            onTap: () =>
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => _screens[index])),
+                            child: DosarulMeuItem(
+                              titlu: dosarulMeuList[index].titlu,
+                              widgetRoute: dosarulMeuList[index].widgetRoute,
+                            ),
                           );
                         },
                       ),

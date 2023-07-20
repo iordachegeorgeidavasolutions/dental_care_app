@@ -1,12 +1,15 @@
 import 'package:dental_care_app/pages/login.dart';
+import 'package:dental_care_app/pages/tratamente.dart';
 import "package:flutter/material.dart";
+import '../../pages/home.dart';
+import '../../pages/programari.dart';
 import '../items/profile_modal_item.dart';
 
 Future<dynamic> userModal(BuildContext context) {
   final List profileItemsList = [
-    ["Profilul meu", "./assets/images/profile_modal_images/person-icon.jpg"],
-    ["Programari", "./assets/images/profile_modal_images/programari.png"],
-    ["Tratamente", "./assets/images/profile_modal_images/syringe.png"],
+    ["Profilul meu", "./assets/images/profile_modal_images/person-icon.jpg", const HomePage()],
+    ["Programari", "./assets/images/profile_modal_images/programari.png", const ProgramariScreen()],
+    ["Tratamente", "./assets/images/profile_modal_images/syringe.png", const TratamenteScreen()],
     // ["Sold curent", "./assets/images/profile_modal_images/soldcurent.png"],
     ["Iesi din cont", "./assets/images/profile_modal_images/exiticon.png"],
   ];
@@ -63,7 +66,8 @@ Future<dynamic> userModal(BuildContext context) {
                         index == 4
                             ? Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(builder: (context) => LoginPage()), (route) => false)
-                            : null;
+                            : Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) => profileItemsList[index][2]));
                       },
                     ),
                   ],
