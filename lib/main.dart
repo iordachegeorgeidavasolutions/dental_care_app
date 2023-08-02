@@ -29,6 +29,8 @@ void main() async {
   );
 }
 
+PageController MyController = PageController();
+
 class MyApp extends StatefulWidget {
   // final VoidCallback setPage;
   const MyApp({
@@ -50,7 +52,7 @@ class MyAppState extends State<MyApp> {
     const HomePage(),
     const ProgramariScreen(),
     const LocatiiScreen(),
-    const EducatieScreen(),
+    EducatieScreen(),
     MeniuScreen(),
   ];
 
@@ -77,17 +79,29 @@ class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: curvedNavigation(),
-      body: pages[pageIndex],
-    );
+        bottomNavigationBar: curvedNavigation(),
+        body: PageView(
+          physics: NeverScrollableScrollPhysics(),
+          children: <Widget>[
+            const HomePage(),
+            const ProgramariScreen(),
+            const LocatiiScreen(),
+            EducatieScreen(),
+            MeniuScreen(),
+          ],
+          controller: MyController,
+          onPageChanged: (index) {
+            setState(() {
+              pageIndex = index;
+            });
+          },
+        ));
   }
 
   CurvedNavigationBar curvedNavigation() {
     return CurvedNavigationBar(
       onTap: (index) {
-        setState(() {
-          pageIndex = index;
-        });
+        MyController.jumpToPage(index);
       },
       key: _bottomNavigationKey,
       animationDuration: const Duration(milliseconds: 400),
@@ -96,7 +110,7 @@ class MyAppState extends State<MyApp> {
       color: Colors.white,
       items: icons,
       height: 60,
-      index: 0,
+      index: pageIndex,
     );
   }
 }

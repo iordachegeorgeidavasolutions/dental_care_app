@@ -1,5 +1,6 @@
 // import 'package:flutter/cupertino.dart';
 import 'package:dental_care_app/pages/home.dart';
+import 'package:dental_care_app/widgets/dialogs/privacy_dialog.dart';
 
 import '../utils/shared_pref_keys.dart' as pref_keys;
 import 'package:flutter/gestures.dart';
@@ -114,7 +115,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   style: TextStyle(fontSize: 24),
                 ),
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               RichText(
                 text: TextSpan(
                     text: 'Ai deja un cont? Conecteaza-te aici!',
@@ -124,7 +125,43 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Navigator.pop(context);
                       }),
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
+              RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                    text: 'Prin crearea unui cont, sunteti de acord cu \n',
+                    style: const TextStyle(fontSize: 15, color: Colors.black),
+                    children: [
+                      TextSpan(
+                          text: "Termenii & Conditiile",
+                          style: const TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.bold),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return const PrivacyDialog(mdFileName: 'terms_and_conditions.md', radius: 5);
+                                },
+                              );
+                            }),
+                      const TextSpan(
+                        text: " si ",
+                      ),
+                      TextSpan(
+                          text: "Politica de confidentialitate!",
+                          style: const TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.bold),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return const PrivacyDialog(mdFileName: 'privacy.md', radius: 5);
+                                },
+                              );
+                            }),
+                    ]),
+              ),
+              const SizedBox(height: 15),
             ],
           ),
         ),

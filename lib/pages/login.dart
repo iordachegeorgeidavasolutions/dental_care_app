@@ -1,4 +1,5 @@
 import 'package:dental_care_app/main.dart';
+import 'package:dental_care_app/pages/password_reset.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import './register.dart';
@@ -14,12 +15,18 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final loginKey = GlobalKey<FormState>();
-
-  final ControllerEmail = TextEditingController();
-  final ControllerPass = TextEditingController();
+  bool isHidden = true;
+  final controllerEmail = TextEditingController();
+  final controllerPass = TextEditingController();
 
   final FocusNode focusNodeEmail = FocusNode();
   final FocusNode focusNodePassword = FocusNode();
+
+  void passVisibiltyToggle() {
+    setState(() {
+      isHidden = !isHidden;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,31 +63,6 @@ class _LoginPageState extends State<LoginPage> {
               child: loginForm(),
             ),
             const SizedBox(height: 25),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 22),
-            //   child: ClipRRect(
-            //     borderRadius: BorderRadius.circular(10),
-            //     child: ElevatedButton(
-            //       onPressed: () {
-            //         // Do something when the button is pressed
-            //       },
-            //       style: ElevatedButton.styleFrom(
-            //         minimumSize: const Size.fromHeight(50),
-            //         backgroundColor: Colors.red,
-            //         shape: RoundedRectangleBorder(
-            //           borderRadius: BorderRadius.circular(10),
-            //         ),
-            //       ),
-            //       child: const Text(
-            //         'Intra in cont',
-            //         style: TextStyle(
-            //           color: Colors.white,
-            //           fontSize: 16,
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: ElevatedButton(
@@ -98,33 +80,40 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             const SizedBox(height: 15),
-            Padding(
-              padding: const EdgeInsetsDirectional.symmetric(horizontal: 25),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Ai uitat parola?",
-                    style: TextStyle(fontSize: 17, color: Colors.black),
-                  ),
-                  RichText(
-                    text: TextSpan(
-                        text: 'Nu ai cont?',
-                        style: const TextStyle(fontSize: 17, color: Colors.black),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => RegisterScreen(),
-                                ));
-                          }),
-                  ),
-                ],
-              ),
-            ),
+            otherLoginOptions(context),
           ],
         ),
+      ),
+    );
+  }
+
+  Padding otherLoginOptions(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsetsDirectional.symmetric(horizontal: 25),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => const PasswordReset())),
+            child: const Text(
+              "Ai uitat parola?",
+              style: TextStyle(fontSize: 17, color: Colors.black),
+            ),
+          ),
+          RichText(
+            text: TextSpan(
+                text: 'Nu ai cont?',
+                style: const TextStyle(fontSize: 17, color: Colors.black),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RegisterScreen(),
+                        ));
+                  }),
+          ),
+        ],
       ),
     );
   }
@@ -138,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
             onFieldSubmitted: (String s) {
               focusNodePassword.requestFocus();
             },
-            controller: ControllerEmail,
+            controller: controllerEmail,
             keyboardType: TextInputType.emailAddress,
             decoration: const InputDecoration(
                 hintText: 'E-mail',
@@ -155,8 +144,12 @@ class _LoginPageState extends State<LoginPage> {
           ),
           TextFormField(
             focusNode: focusNodePassword,
-            controller: ControllerPass,
-            decoration: const InputDecoration(
+            controller: controllerPass,
+            obscureText: isHidden,
+            decoration: InputDecoration(
+                suffixIcon: IconButton(
+                    onPressed: passVisibiltyToggle,
+                    icon: isHidden ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off)),
                 hintText: "Parola",
                 enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
                 filled: true,
@@ -177,16 +170,33 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   login(BuildContext context) async {
-    String mail = ControllerEmail.text;
-    String pass = ControllerPass.text;
+    String mail = controllerEmail.text;
+    String pass = controllerPass.text;
     // final token = await FirebaseMessaging.instance.getToken() ?? '';
 
     String? res = await apiCallFunctions.login(
         pAdresaEmail: mail.trim(), pParolaMD5: apiCallFunctions.generateMd5(pass), pFirebaseGoogleDeviceID: "uniqueID");
-    if (res!.contains('\$#\$')) {
+    print(res);
+    if (res == null) {
+      showsnackbar(
+        context,
+        "Date de login gresite!",
+      );
+      return;
+      // } else if (res.startsWith('161')) {
+      //   showsnackbar(
+      //     context,
+      //     "Date de login varule!",
+      //   );
+      // return;
+    } else if (res.startsWith('66')) {
+      showsnackbar(context, "Date de login gresite!");
+      return;
+    } else if (res.contains('\$#\$')) {
+      // showsnackbar(context, "Succes!");
       List<String> info = res.split('\$#\$');
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString(pref_keys.userPassMD5, apiCallFunctions.generateMd5(ControllerPass.text));
+      prefs.setString(pref_keys.userPassMD5, apiCallFunctions.generateMd5(controllerPass.text));
       prefs.setString(pref_keys.userIdInregistrare, info[0]);
       prefs.setString(pref_keys.userNume, info[1]);
       prefs.setString(pref_keys.userPrenume, info[2]);
@@ -202,7 +212,7 @@ class _LoginPageState extends State<LoginPage> {
       prefs.setString(pref_keys.userDataFisa, info[12]);
       prefs.setString(pref_keys.userTelefon, info[13]);
       prefs.setString(pref_keys.userEmail,
-          ControllerEmail.text.trim()); //mail din info poate fi diferit si nu vor mai merge metodele
+          controllerEmail.text.trim()); //mail din info poate fi diferit si nu vor mai merge metodele
       prefs.setString(pref_keys.userNumarPuncteAcumulate, info[15]);
       prefs.setString(pref_keys.userUltimaDataAsociere, info[16]);
       prefs.setString(pref_keys.userTotalPuncteNivelMediu, info[17]);
@@ -217,5 +227,13 @@ class _LoginPageState extends State<LoginPage> {
       }
       return;
     }
+  }
+
+  void showsnackbar(BuildContext context, String text) {
+    final snackBar = SnackBar(
+      content: Text(text),
+      duration: Duration(seconds: 5),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

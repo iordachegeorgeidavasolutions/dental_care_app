@@ -4,6 +4,7 @@ import 'package:dental_care_app/pages/programari.dart';
 import 'package:dental_care_app/pages/webview.dart';
 import 'package:dental_care_app/utils/classes.dart';
 import 'package:flutter/material.dart';
+import '../main.dart';
 import '../widgets/items/meniu_grid_item.dart';
 import '../widgets/modals/user_modal.dart';
 
@@ -68,18 +69,20 @@ class _MeniuScreenState extends State<MeniuScreen> {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  index == 3
-                      ? Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => WebScreen(url: links[index]),
-                          ),
-                        )
-                      : Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => _screens[index],
-                          ));
+                  index == 2
+                      ? MyController.jumpToPage(2)
+                      : index == 3
+                          ? Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => WebScreen(url: links[index]),
+                              ),
+                            )
+                          : Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => _screens[index],
+                              ));
                 },
                 child: MeniuGridItem(nume: items[index][0], image: items[index][1]),
               );

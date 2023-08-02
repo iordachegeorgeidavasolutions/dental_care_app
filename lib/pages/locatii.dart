@@ -20,16 +20,16 @@ class _LocatiiScreenState extends State<LocatiiScreen> {
         child: Column(children: [
           Padding(
             padding: EdgeInsets.only(left: 10, top: 10),
-            child: Row(
-              children: [
-                IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    icon: Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      size: 30,
-                    ))
-              ],
-            ),
+            // child: Row(
+            //   children: [
+            //     IconButton(
+            //         onPressed: () => Navigator.pop(context),
+            //         icon: Icon(
+            //           Icons.arrow_back_ios_new_rounded,
+            //           size: 30,
+            //         ))
+            //   ],
+            // ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 25, 20, 20),
@@ -53,8 +53,7 @@ class _LocatiiScreenState extends State<LocatiiScreen> {
           const SizedBox(
             height: 20,
           ),
-          const Text('Locatii',
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
+          const Text('Locatii', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
         ]),
       ],
     );
@@ -73,9 +72,7 @@ class _LocatiiScreenState extends State<LocatiiScreen> {
                 modalBottomSheet(context, index);
               },
               child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white),
                 height: 80,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -84,8 +81,7 @@ class _LocatiiScreenState extends State<LocatiiScreen> {
                     children: [
                       Text(
                         locatiiList[index].nume,
-                        style: const TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                       ),
                       const Icon(Icons.arrow_forward_ios)
                     ],

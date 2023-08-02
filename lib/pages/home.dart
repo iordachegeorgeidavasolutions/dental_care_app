@@ -1,4 +1,5 @@
 import 'package:dental_care_app/data/home_dosarulmeu_data.dart';
+import 'package:dental_care_app/main.dart';
 import 'package:dental_care_app/pages/programari.dart';
 import 'package:dental_care_app/pages/tratamente.dart';
 import 'package:dental_care_app/pages/webview.dart';
@@ -6,6 +7,7 @@ import 'package:dental_care_app/widgets/items/dosarulMeu_item.dart';
 import 'package:dental_care_app/widgets/items/servicii_grid_item.dart';
 import 'package:dental_care_app/widgets/items/tratemente_item.dart';
 import 'package:dental_care_app/widgets/modals/programari_modal.dart';
+import 'package:dental_care_app/widgets/modals/user_modal_remade.dart';
 import 'package:flutter/material.dart';
 import '../utils/api_call_functions.dart';
 import '../utils/classes.dart';
@@ -24,7 +26,7 @@ class HomePageState extends State<HomePage> {
   ApiCallFunctions apiCallFunctions = ApiCallFunctions();
   bool isVisible = true;
   Future<List<String?>>? getNumePrenumeFuture;
-  Future<Programare?>? ultimaProgramare;
+  Programare? ultimaProgramare;
   final List<Widget> _screens = [
     const ProgramariScreen(),
     const TratamenteScreen(),
@@ -45,19 +47,24 @@ class HomePageState extends State<HomePage> {
   ];
   // @override
   // void initState() {
+  //   super.initState();
 
   //   getNumePrenumeFuture = getUserName();
   //   loadData();
   // }
 
+  void asd() async {
+    var ultimaProgramare1 = await loadData();
+    setState(() {
+      ultimaProgramare = ultimaProgramare1;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      getNumePrenumeFuture = getUserName();
-      ultimaProgramare = loadData();
-      setState(() {});
-    });
+    asd();
+    getNumePrenumeFuture = getUserName();
   }
 
   @override
@@ -73,33 +80,26 @@ class HomePageState extends State<HomePage> {
                 color: Color.fromARGB(255, 236, 236, 236)),
             child: Column(children: [
               Visibility(
-                visible: isVisible,
-                child: FutureBuilder(
-                  future: ultimaProgramare,
-                  builder: (context, snapshot) {
-                    var data = snapshot.data;
-                    print(data);
-                    return data == null
-                        ? const Center(
-                            child: CircularProgressIndicator(color: Colors.red),
-                          )
-                        : GestureDetector(
-                            onTap: () {
-                              showModalBottomSheet(
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
-                                isScrollControlled: true,
-                                context: context,
-                                builder: (context) {
-                                  return ProgramariModal(programare: snapshot.data!);
-                                },
-                              );
-                            },
-                            child: ButonUrmatoareaProgramare(
-                                numeZiUltimaProg: snapshot.data!.inceput, oraInceputUltimaProg: snapshot.data!.inceput),
-                          );
-                  },
-                ),
-              ),
+                  visible: isVisible,
+                  child: GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (context) {
+                          return ultimaProgramare == null
+                              ? Container()
+                              : ProgramariModal(programare: ultimaProgramare!);
+                        },
+                      );
+                    },
+                    child: ultimaProgramare == null
+                        ? Container()
+                        : ButonUrmatoareaProgramare(
+                            numeZiUltimaProg: ultimaProgramare!.inceput,
+                            oraInceputUltimaProg: ultimaProgramare!.inceput),
+                  )),
               dosarulMeu(context),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 22),
@@ -141,7 +141,7 @@ class HomePageState extends State<HomePage> {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Container(
-        height: 250,
+        height: 215,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: Colors.white,
@@ -157,9 +157,14 @@ class HomePageState extends State<HomePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const Text(
-                        'Dosarul meu',
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      GestureDetector(
+                        onTap: () {
+                          MyController.jumpToPage(1);
+                        },
+                        child: const Text(
+                          'Dosarul meu',
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
                       ),
                       ListView.builder(
                         physics: const ScrollPhysics(),
@@ -167,8 +172,11 @@ class HomePageState extends State<HomePage> {
                         itemCount: dosarulMeuList.length,
                         itemBuilder: (context, index) {
                           return GestureDetector(
-                            onTap: () =>
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => _screens[index])),
+                            onTap: () {
+                              MyController.jumpToPage(1);
+                            }
+                            //Navigator.of(context).push(MaterialPageRoute(builder: (context) => _screens[index])
+                            ,
                             child: DosarulMeuItem(
                               titlu: dosarulMeuList[index].titlu,
                               widgetRoute: dosarulMeuList[index].widgetRoute,
@@ -218,7 +226,13 @@ class HomePageState extends State<HomePage> {
                 children: [
                   InkWell(
                       onTap: () {
-                        userModal(context);
+                        showModalBottomSheet(
+                            isScrollControlled: true,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
+                            context: context,
+                            builder: (context) {
+                              return const UserModalRemade();
+                            });
                       },
                       child: Image.asset('./assets/images/person-icon.jpg', height: 40)),
                   const SizedBox(height: 20),
@@ -251,7 +265,7 @@ class HomePageState extends State<HomePage> {
   //   return user;
   // }
 
-  Future<Programare?>? loadData() async {
+  Future<Programare?> loadData() async {
     Programari? programari = await apiCallFunctions.getListaProgramari();
     if (programari == null) {
       // TODO: show error message, nu ai NET/nu merge API-ul

@@ -1,6 +1,7 @@
 import 'package:dental_care_app/pages/login.dart';
 import 'package:dental_care_app/pages/tratamente.dart';
 import "package:flutter/material.dart";
+import '../../main.dart';
 import '../../pages/home.dart';
 import '../../pages/programari.dart';
 import '../items/profile_modal_item.dart';
@@ -63,11 +64,16 @@ Future<dynamic> userModal(BuildContext context) {
                     GestureDetector(
                       child: ProfileModalItem(icon: profileItemsList[index][1], text: profileItemsList[index][0]),
                       onTap: () {
-                        index == 4
+                        index == 3
                             ? Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(builder: (context) => LoginPage()), (route) => false)
-                            : Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (context) => profileItemsList[index][2]));
+                            : index == 1
+                                ? {
+                                    MyController.jumpToPage(1),
+                                    Navigator.pop(context),
+                                  }
+                                : Navigator.of(context)
+                                    .push(MaterialPageRoute(builder: (context) => profileItemsList[index][2]));
                       },
                     ),
                   ],

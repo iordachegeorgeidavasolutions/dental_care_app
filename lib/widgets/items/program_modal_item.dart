@@ -29,16 +29,19 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
             child: CircularProgressIndicator(),
           )
         : Container(
+            padding: EdgeInsets.only(right: 20),
             width: MediaQuery.of(context).size.width,
             child: Column(
               children: [
                 Column(
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          width: MediaQuery.of(context).size.width * 0.3,
+                          width: 100,
+                          // width: MediaQuery.of(context).size.width * 0.3,
                           child: const Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -50,11 +53,13 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                           ),
                         ),
                         Container(
-                          width: MediaQuery.of(context).size.width * 0.5,
+                          // padding: EdgeInsets.only(right: 70),
+                          // width: MediaQuery.of(context).size.width * 0.5,
                           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                             Text(
                                 DateFormat('EEEE, d.M.yyyy', 'ro').format(widget.programare!.inceput).capitalizeFirst(),
                                 maxLines: 9,
+                                overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(fontSize: 18)),
                           ]),
                         ),
@@ -67,10 +72,12 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                 Column(
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          width: MediaQuery.of(context).size.width * 0.3,
+                          width: 100,
+                          // width: MediaQuery.of(context).size.width * 0.3,
                           child: const Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

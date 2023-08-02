@@ -77,6 +77,7 @@ class ApiCall {
 
     try {
       data = XmlDocument.parse(response.body).findAllElements('${pNumeMetoda}Result').first.firstChild.toString();
+      print(data);
     } catch (e) {
       // print('EROARE XML - ' + pNumeMetoda);
       // print(response.body);
@@ -108,6 +109,7 @@ class ApiCall {
         // print('DATE GRESITE - ' + pNumeMetoda);
         // print('3');
         if (afiseazaMesajPacientNeasociat) {
+          return "eroare date";
           // showSnackbar(l.universalMesajUserNeasociat);
         }
 

@@ -43,19 +43,16 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                child: SizedBox(
-                  height: 30,
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () => Navigator.pop(context),
-                        icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                      ),
-                    ],
-                  ),
-                ),
+              const SizedBox(
+                height: 30,
+                // child: Row(
+                //   children: [
+                //     IconButton(
+                //       onPressed: () => Navigator.pop(context),
+                //       icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                //     ),
+                //   ],
+                // ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -113,13 +110,8 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                                 ? Colors.yellow
                                 : Colors.grey),
                 title: Text(
-                  DateFormat('EEEE, d.M.yyyy', 'ro')
-                      .format(viitoare[index].inceput)
-                      .capitalizeFirst(),
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20,
-                      color: Colors.black87),
+                  DateFormat('EEEE, d.M.yyyy', 'ro').format(viitoare[index].inceput).capitalizeFirst(),
+                  style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.black87),
                 ),
                 trailing: const Icon(
                   Icons.arrow_forward_ios_rounded,
@@ -154,11 +146,9 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                   setState(() {
                     _selectedIndex = index;
                   });
-                  apiCallFunctions
-                      .getDetaliiProgramare(trecute[_selectedIndex].id);
+                  apiCallFunctions.getDetaliiProgramare(trecute[_selectedIndex].id);
                   showModalBottomSheet(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(35)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
                       isScrollControlled: true,
                       context: context,
                       builder: (context) {
@@ -168,16 +158,10 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                       });
                 },
                 child: ListTile(
-                  leading:
-                      Image.asset('./assets/images/programari.png', height: 25),
+                  leading: Image.asset('./assets/images/programari.png', height: 25),
                   title: Text(
-                    DateFormat('EEEE, d.M.yyyy', 'ro')
-                        .format(trecute[index].inceput)
-                        .capitalizeFirst(),
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                        color: Colors.black87),
+                    DateFormat('EEEE, d.M.yyyy', 'ro').format(trecute[index].inceput).capitalizeFirst(),
+                    style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.black87),
                   ),
                   trailing: const Icon(
                     Icons.arrow_forward_ios_rounded,
@@ -226,13 +210,11 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
               onTap: () {
                 userModal(context);
               },
-              child:
-                  Image.asset('./assets/images/person-icon.jpg', height: 40)),
+              child: Image.asset('./assets/images/person-icon.jpg', height: 40)),
           const SizedBox(
             height: 20,
           ),
-          const Text('Programari',
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
+          const Text('Programari', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
         ]),
       ],
     );
@@ -250,8 +232,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
       'pIdLimba': '0',
     };
 
-    String? res = await apiCall.apeleazaMetodaString(
-        pNumeMetoda: 'GetListaProgramarileLui', pParametrii: param);
+    String? res = await apiCall.apeleazaMetodaString(pNumeMetoda: 'GetListaProgramarileLui', pParametrii: param);
 
     List<Programare> programariViitoare = <Programare>[];
     List<Programare> programariTrecute = <Programare>[];
@@ -351,8 +332,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
     }
     programariTrecute.sort((a, b) => b.inceput.compareTo(a.inceput));
     programariViitoare.sort((a, b) => a.inceput.compareTo(b.inceput));
-    Programari? pP =
-        Programari(trecute: programariTrecute, viitoare: programariViitoare);
+    Programari? pP = Programari(trecute: programariTrecute, viitoare: programariViitoare);
     viitoare.addAll(pP.viitoare);
     trecute.addAll(pP.trecute);
     return pP;
