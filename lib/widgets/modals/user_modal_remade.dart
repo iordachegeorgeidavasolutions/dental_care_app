@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../utils/shared_pref_keys.dart' as pref_keys;
 import '../../main.dart';
 import '../../pages/home.dart';
 import '../../pages/login.dart';
@@ -31,6 +32,11 @@ class _UserModalRemadeState extends State<UserModalRemade> {
     setState(() {
       getNumePrenumeFuture = userName;
     });
+  }
+
+  void logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool(pref_keys.loggedIn, false);
   }
 
   @override
@@ -88,8 +94,11 @@ class _UserModalRemadeState extends State<UserModalRemade> {
                     child: ProfileModalItem(icon: profileItemsList[index][1], text: profileItemsList[index][0]),
                     onTap: () {
                       index == 3
-                          ? Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(builder: (context) => LoginPage()), (route) => false)
+                          ? {
+                              logout(),
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(builder: (context) => LoginPage()), (route) => false)
+                            }
                           : index == 1
                               ? {
                                   MyController.jumpToPage(1),
