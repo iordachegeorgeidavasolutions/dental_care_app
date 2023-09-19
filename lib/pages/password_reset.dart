@@ -1,5 +1,8 @@
 import 'package:dental_care_app/pages/password_reset_pin.dart';
+import 'package:dental_care_app/pages/register.dart';
 import 'package:flutter/material.dart';
+import 'package:dental_care_app/utils/api_call_functions.dart';
+import '../utils/functions.dart';
 
 class PasswordReset extends StatefulWidget {
   const PasswordReset({super.key});
@@ -8,7 +11,10 @@ class PasswordReset extends StatefulWidget {
   State<PasswordReset> createState() => _PasswordResetState();
 }
 
+ApiCallFunctions apiCallFunctions = ApiCallFunctions();
+
 class _PasswordResetState extends State<PasswordReset> {
+  bool verificationOk = false;
   final loginKey = GlobalKey<FormState>();
   bool isHidden = true;
   final controllerEmail = TextEditingController();
@@ -81,7 +87,10 @@ class _PasswordResetState extends State<PasswordReset> {
                   minimumSize: const Size.fromHeight(50), // NEW
                 ),
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const PasswordResetPin()));
+                  final isValidForm = loginKey.currentState!.validate();
+                  if (isValidForm) {
+                    resetPassword();
+                  }
                 },
                 child: const Text(
                   'Trimite cererea de resetare',
@@ -162,5 +171,36 @@ class _PasswordResetState extends State<PasswordReset> {
         ],
       ),
     );
+  }
+
+  resetPassword() async {
+    String? res =
+        await apiCallFunctions.reseteazaParola(pAdresaMail: controllerEmail.text, pParolaNoua: controllerPass.text);
+    print(res);
+    if (res == null) {
+      showSnackbar(
+        context,
+        "E-mail gresit!",
+      );
+      return;
+    } else if (res.startsWith('66')) {
+      showSnackbar(context, "E-mail gresit!");
+      return;
+    } else if (res.startsWith('13')) {
+      showSnackbar(context, "E-mail corect - cerere trimisa!");
+      setState(() {
+        verificationOk = true;
+        if (verificationOk) {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => PasswordResetPin(
+                    resetEmailOrPhoneNumber: false,
+                    password: controllerPass.text,
+                    email: controllerEmail.text,
+                  )));
+        }
+      });
+
+      return;
+    }
   }
 }

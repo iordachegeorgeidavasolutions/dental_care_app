@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/shared_pref_keys.dart' as pref_keys;
 
@@ -18,4 +19,12 @@ Future<List<String>> getUserName() async {
   user.add(prenume);
   // print(user);
   return user;
+}
+
+void showSnackbar(BuildContext context, String text) {
+  final snackBar = SnackBar(
+    content: Text(text),
+    duration: Duration(seconds: 5),
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }

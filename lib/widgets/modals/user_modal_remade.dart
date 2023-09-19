@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../pages/profile/profile.dart';
+import '../../pages/my_account_screen.dart';
 import '../../utils/shared_pref_keys.dart' as pref_keys;
 import '../../main.dart';
 import '../../pages/home.dart';
@@ -20,7 +22,7 @@ class _UserModalRemadeState extends State<UserModalRemade> {
   List<String>? getNumePrenumeFuture;
 
   final List profileItemsList = [
-    ["Profilul meu", "./assets/images/profile_modal_images/person-icon.jpg", const HomePage()],
+    ["Profilul meu", "./assets/images/profile_modal_images/person-icon.jpg", UserProfileScreen()],
     ["Programari", "./assets/images/profile_modal_images/programari.png", const ProgramariScreen()],
     ["Tratamente", "./assets/images/profile_modal_images/syringe.png", const TratamenteScreen()],
     // ["Sold curent", "./assets/images/profile_modal_images/soldcurent.png"],
@@ -48,7 +50,7 @@ class _UserModalRemadeState extends State<UserModalRemade> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.86,
+      height: MediaQuery.of(context).size.height * 0.70,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(35),
@@ -112,6 +114,8 @@ class _UserModalRemadeState extends State<UserModalRemade> {
               );
             },
           ),
+          SizedBox(height: 10),
+          Image.asset('./assets/images/logo-dentocare.png', height: 35),
         ]),
       ),
     );

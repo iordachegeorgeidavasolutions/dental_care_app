@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/api_call_functions.dart';
 
 class RegisterScreen extends StatefulWidget {
-  RegisterScreen({super.key});
+  const RegisterScreen({super.key});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -38,8 +38,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final FocusNode focusNodePassConfirm = FocusNode();
   final FocusNode focusNodeBirthdate = FocusNode();
 
-  String? errorEmail, errorTel, errorNume, errorPrenume, errorPass, errorPassConfirm, errorDDN, errorInfo = '';
-
   DateTime? dataNasterii;
 
   bool isHidden = true;
@@ -49,26 +47,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // requestPermission();
     // getToken();
   }
-
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   final controllerNume = TextEditingController();
-  //   final controllerPrenume = TextEditingController();
-  //   final controllerEmail = TextEditingController();
-  //   final controllerTelefon = TextEditingController();
-  //   final controllerBirthdate = TextEditingController();
-  //   final controllerPass = TextEditingController();
-  //   final controllerPassConfirm = TextEditingController();
-
-  //   final FocusNode focusNodeNume = FocusNode();
-  //   final FocusNode focusNodePrenume = FocusNode();
-  //   final FocusNode focusNodeEmail = FocusNode();
-  //   final FocusNode focusNodeTelefon = FocusNode();
-  //   final FocusNode focusNodePass = FocusNode();
-  //   final FocusNode focusNodePassConfirm = FocusNode();
-  //   final FocusNode focusNodeBirthdate = FocusNode();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -118,12 +96,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 15),
               RichText(
                 text: TextSpan(
-                    text: 'Ai deja un cont? Conecteaza-te aici!',
-                    style: const TextStyle(fontSize: 17, color: Colors.black),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        Navigator.pop(context);
-                      }),
+                  text: 'Ai deja un cont? ',
+                  style: const TextStyle(fontSize: 16, color: Colors.black),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      Navigator.pop(context);
+                    },
+                  children: [
+                    TextSpan(
+                        text: 'Conecteaza-te aici!',
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.pop(context);
+                          },
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
+                  ],
+                ),
               ),
               const SizedBox(height: 15),
               RichText(
@@ -193,6 +181,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
                 filled: true,
                 fillColor: Colors.white)),
+        const SizedBox(height: 3),
         TextFormField(
             focusNode: focusNodeNume,
             controller: controllerPrenume,
@@ -212,6 +201,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
                 filled: true,
                 fillColor: Colors.white)),
+        const SizedBox(height: 3),
         TextFormField(
             focusNode: focusNodeEmail,
             controller: controllerEmail,
@@ -232,6 +222,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
                 filled: true,
                 fillColor: Colors.white)),
+        const SizedBox(height: 3),
         TextFormField(
             focusNode: focusNodeTelefon,
             keyboardType: TextInputType.number,
@@ -249,6 +240,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
                 filled: true,
                 fillColor: Colors.white)),
+        const SizedBox(height: 3),
         TextFormField(
             focusNode: focusNodeBirthdate,
             controller: controllerBirthdate,
@@ -257,10 +249,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             onTap: () async {
               DateTime? date = await showDatePicker(
                   context: context, initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime(2024));
-              controllerBirthdate.text = DateFormat('yyyy.MM.dd').format(date!);
-
-              // ScaffoldMessenger.of(context)
-              //     .showSnackBar(const SnackBar(content: Text('Success')));
+              controllerBirthdate.text = DateFormat('yyyyMMdd').format(date!).toString();
             },
             onFieldSubmitted: (String s) {
               focusNodePass.requestFocus();
@@ -277,6 +266,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
                 filled: true,
                 fillColor: Colors.white)),
+        const SizedBox(height: 3),
         TextFormField(
             focusNode: focusNodePass,
             controller: controllerPass,
@@ -288,7 +278,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             validator: (value) {
               confirmPassCheck = value;
               if (value!.isEmpty) {
-                return "Please Enter New Password";
+                return "Please enter a password";
               } else if (value.length < 6) {
                 return "Password must be atleast 6 characters long";
               } else {
@@ -304,6 +294,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
                 filled: true,
                 fillColor: Colors.white)),
+        const SizedBox(height: 3),
         TextFormField(
             focusNode: focusNodePassConfirm,
             controller: controllerPassConfirm,
@@ -313,6 +304,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               focusNodePassConfirm.requestFocus();
             },
             validator: (value) {
+              if (value!.isEmpty) {
+                return "Please enter a password";
+              }
               if (value != confirmPassCheck) {
                 return "Parolele nu se potrivesc!";
               } else {
@@ -333,16 +327,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void register(BuildContext context) async {
-    // final uniqueId = await FirebaseMessaging.instance.getToken() ?? '';
-
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     String? res = await apiCallFunctions.register(
       pNume: controllerNume.text,
       pPrenume: controllerPrenume.text,
       pTelefonMobil: controllerTelefon.text,
       pDataDeNastereYYYYMMDD: controllerBirthdate.text,
-      pAdresaMail: controllerEmail.text,
+      pAdresaMail: controllerEmail.text.trim(),
       pParola: controllerPass.text,
-      pFirebaseGoogleDeviceID: "uniqueID",
+      pFirebaseGoogleDeviceID: prefs.getString(pref_keys.fcmToken) ?? "FCM Token not available in Shared Preferences",
     );
 
     if (!mounted) {
@@ -356,6 +349,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return;
     }
     if (res.startsWith('13\$#\$')) {
+      prefs.setString(pref_keys.userEmail, controllerEmail.text);
       print("success");
       Navigator.pop(context);
     }
@@ -368,41 +362,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       print("register error");
       return;
     }
-    if (res.contains('\$#\$')) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-
-      List<String> info = res.split('\$#\$');
-
-      prefs.setString(pref_keys.userPassMD5, apiCallFunctions.generateMd5(controllerPass.text));
-      prefs.setString(pref_keys.userIdInregistrare, info[0]);
-      prefs.setString(pref_keys.userNume, info[1]);
-      prefs.setString(pref_keys.userPrenume, info[2]);
-      prefs.setString(pref_keys.userIdPacientAsociat, info[3]);
-      prefs.setString(pref_keys.userVip, info[4]);
-      prefs.setString(pref_keys.userNeserios, info[5]);
-      prefs.setString(pref_keys.userDDN, info[6]);
-      prefs.setString(pref_keys.userSex, info[7]);
-      prefs.setString(pref_keys.userIdAjustareCurenta, info[8]);
-      prefs.setString(pref_keys.userDataInceputAjustare, info[9]);
-      prefs.setString(pref_keys.userDataSfarsitAjustare, info[10]);
-      prefs.setString(pref_keys.dataAsociere, info[11]);
-      prefs.setString(pref_keys.userDataFisa, info[12]);
-      prefs.setString(pref_keys.userTelefon, info[13]);
-      prefs.setString(pref_keys.userEmail,
-          controllerEmail.text.trim()); //mail din info poate fi diferit si nu vor mai merge metodele
-      prefs.setString(pref_keys.userNumarPuncteAcumulate, info[15]);
-      prefs.setString(pref_keys.userUltimaDataAsociere, info[16]);
-      prefs.setString(pref_keys.userTotalPuncteNivelMediu, info[17]);
-      prefs.setString(pref_keys.userTotalPuncteNivelSuperior, info[18]);
-      prefs.setString(pref_keys.idSediuUser, info[19]);
-      prefs.setString(pref_keys.permiteIntroducereaDeProgramari, info[20]);
-      if (!mounted) {
-        return;
-      }
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomePage()), (route) => false);
-      return;
-    }
-
     print(res);
   }
 
@@ -411,111 +370,4 @@ class _RegisterScreenState extends State<RegisterScreen> {
       isHidden = !isHidden;
     });
   }
-
-//   void requestPermission() async {
-//     FirebaseMessaging messaging = FirebaseMessaging.instance;
-//     NotificationSettings settings = await messaging.requestPermission(
-//       alert: true,
-//       announcement: true,
-//       badge: true,
-//       carPlay: false,
-//       criticalAlert: false,
-//       provisional: false,
-//       sound: true,
-//     );
-
-//     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-//       print("User granted permission");
-//     }
-//   }
-
-//   void getToken() async {
-//     await FirebaseMessaging.instance.getToken().then(
-//       (token) {
-//         setState(() {
-//           mtoken = token;
-//           print("My token is $mtoken");
-//         });
-//       },
-//     );
-//   }
-// }
-
-  // chooseBirthdate(BuildContext context) async {
-  //   DateTime? d = dataNasterii;
-  //   DateTime now = DateTime.now();
-  //   DateTime check = DateTime(now.year - 18, now.month, now.day);
-  //   showBottomSheet(
-  //       context: context,
-  //       builder: (context) {
-  //         return Center(
-  //           child: SizedBox(
-  //             height: 300,
-  //             child: Column(
-  //               children: [
-  //                 Expanded(
-  //                     child: CupertinoTheme(
-  //                   data: const CupertinoThemeData(),
-  //                   child: CupertinoDatePicker(
-  //                       maximumDate: DateTime.now(),
-  //                       initialDateTime: d?.add(const Duration(minutes: 11)) ?? check,
-  //                       mode: CupertinoDatePickerMode.date,
-  //                       onDateTimeChanged: onDateTimeChanged),
-  //                 )),
-  //                 const SizedBox(
-  //                   height: 20,
-  //                 ),
-  //                 ElevatedButton(
-  //                     onPressed: () {
-  //                       dataNasterii = dataNasterii?.add(const Duration(minutes: 11)) ?? check;
-  //                       controllerBirthdate.text = DateFormat('dd.MM.yyyy').format(dataNasterii!);
-
-  //                       Navigator.of(context).pop();
-  //                       bool ok = true;
-  //                       if (controllerBirthdate.text.isEmpty) {
-  //                         ok = false;
-  //                         errorDDN = "Campul nu poate fi lasat liber";
-  //                         setState(() {});
-  //                       } else {
-  //                         DateTime d = dataNasterii!;
-  //                         DateTime selected = DateTime.utc(d.year, d.month, d.day);
-  //                         DateTime now = DateTime.now();
-  //                         DateTime check = DateTime.utc(now.year - 18, now.month, now.day);
-  //                         if (selected.isAfter(check)) {
-  //                           ok = false;
-  //                           errorDDN = "Trebuie sa ai macar 18 ani";
-  //                         } else {
-  //                           errorDDN = null;
-  //                         }
-  //                         setState(() {});
-  //                       }
-  //                       if (ok) {
-  //                         focusNodePass.requestFocus();
-  //                       }
-  //                     },
-  //                     child: const Text("Okay",
-  //                         style: TextStyle(
-  //                           fontSize: 20,
-  //                           fontWeight: FontWeight.bold,
-  //                         )))
-  //               ],
-  //             ),
-  //           ),
-  //         );
-  //       });
-  // }
-
-  // void onDateTimeChanged(DateTime d) {
-  //   dataNasterii = d;
-  //   controllerBirthdate.text = DateFormat('dd.MM.yyyy', Localizations.localeOf(context).languageCode).format(d);
-  //   DateTime selected = DateTime.utc(d.year, d.month, d.day);
-  //   DateTime now = DateTime.now();
-  //   DateTime check = DateTime.utc(now.year - 18, now.month, now.day);
-  //   if (selected.isAfter(check)) {
-  //     errorDDN = "Trebuie sa ai cel putin 18 ani ";
-  //   } else {
-  //     errorDDN = null;
-  //   }
-  //   setState(() {});
-  // }
 }

@@ -1,6 +1,7 @@
 import 'package:dental_care_app/pages/home.dart';
 import 'package:dental_care_app/pages/locatii.dart';
 import 'package:dental_care_app/pages/programari.dart';
+import 'package:dental_care_app/pages/my_account_screen.dart';
 import 'package:dental_care_app/pages/webview.dart';
 import 'package:dental_care_app/utils/classes.dart';
 import 'package:flutter/material.dart';
@@ -28,9 +29,10 @@ List<Function> meniuGridItemFunctions = [
 ];
 
 List<String> links = [
-  'https://www.google.com',
+  'https://dentocare.ro/promotii/',
+  'https://dentocare.ro/preturi/',
   'https://www.facebook.com',
-  'https://www.twitter.com',
+  'https://dentocare.ro/informatii-utile/',
   'https://app.dentocare.ro'
   // more links
 ];
@@ -69,20 +71,20 @@ class _MeniuScreenState extends State<MeniuScreen> {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  index == 2
-                      ? MyController.jumpToPage(2)
-                      : index == 3
+                  index == 0
+                      ? Navigator.push(context, MaterialPageRoute(builder: (context) => WebScreen(url: links[index])))
+                      : index == 1
                           ? Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => WebScreen(url: links[index]),
-                              ),
-                            )
-                          : Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => _screens[index],
-                              ));
+                              context, MaterialPageRoute(builder: (context) => WebScreen(url: links[index])))
+                          : index == 2
+                              ? MyController.jumpToPage(2)
+                              : index == 3
+                                  ? Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => WebScreen(url: links[index])),
+                                    )
+                                  : Navigator.push(
+                                      context, MaterialPageRoute(builder: (context) => UserProfileScreen()));
                 },
                 child: MeniuGridItem(nume: items[index][0], image: items[index][1]),
               );

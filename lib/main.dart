@@ -1,31 +1,29 @@
 import 'package:dental_care_app/pages/educatie.dart';
 import 'package:dental_care_app/pages/home.dart';
 import 'package:dental_care_app/pages/locatii.dart';
-import 'package:dental_care_app/pages/oboarding.dart';
 import 'package:dental_care_app/pages/programari.dart';
+import 'package:dental_care_app/utils/api_firebase.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import './pages/login.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import "./pages/meniu.dart";
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:firebase_core/firebase_core.dart';
 // import "./utils/shared_pref_keys.dart" as pref_keys;
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
+  await Firebase.initializeApp();
+  await FirebaseApi().initNotifications();
   var loggedIn = prefs.getBool('loggedIn');
-  var firstTime = prefs.getBool('firstTime') ?? true;
 
   runApp(
     MaterialApp(
         localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
         supportedLocales: const [Locale('en'), Locale('ro')],
-        home: firstTime == true
-            ? const OnBoardingPage()
-            : loggedIn == true
-                ? MyApp()
-                : LoginPage()), // use MaterialApp
+        home: loggedIn == true ? const MyApp() : LoginPage()), // use MaterialApp
   );
 }
 
@@ -81,20 +79,20 @@ class MyAppState extends State<MyApp> {
     return Scaffold(
         bottomNavigationBar: curvedNavigation(),
         body: PageView(
-          physics: NeverScrollableScrollPhysics(),
-          children: <Widget>[
-            const HomePage(),
-            const ProgramariScreen(),
-            const LocatiiScreen(),
-            EducatieScreen(),
-            MeniuScreen(),
-          ],
+          physics: const NeverScrollableScrollPhysics(),
           controller: MyController,
           onPageChanged: (index) {
             setState(() {
               pageIndex = index;
             });
           },
+          children: <Widget>[
+            HomePage(),
+            ProgramariScreen(),
+            LocatiiScreen(),
+            EducatieScreen(),
+            MeniuScreen(),
+          ],
         ));
   }
 

@@ -25,3 +25,4 @@ const String userTotalPuncteNivelMediu = 'userTotalPuncteNivelMediu';
 const String userTotalPuncteNivelSuperior = 'userTotalPuncteNivelSuperior';
 const String idSediuUser = 'idSediuUser';
 const String permiteIntroducereaDeProgramari = 'permiteIntroducereaDeProgramari';
+const String fcmToken = 'fcmToken';

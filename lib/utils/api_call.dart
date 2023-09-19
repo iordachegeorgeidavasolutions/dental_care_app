@@ -15,7 +15,6 @@ class ApiCall {
   Future<String?> apeleazaMetodaString({
     required String pNumeMetoda,
     Map<String, String>? pParametrii,
-    bool afiseazaMesajPacientNeasociat = true,
   }) async {
     String url, host, key, xmlns;
     key = api_config.keyAppPacienti;
@@ -106,15 +105,9 @@ class ApiCall {
         return 'Eroare';
 
       case api_response.dateGresite:
-        // print('DATE GRESITE - ' + pNumeMetoda);
-        // print('3');
-        if (afiseazaMesajPacientNeasociat) {
-          return "eroare date";
-          // showSnackbar(l.universalMesajUserNeasociat);
-        }
-
-        print('66');
-        print(response.body);
+        print('DATE GRESITE - ' + pNumeMetoda);
+        return "66";
+      // showSnackbar(l.universalMesajUserNeasociat);
 
       case api_response.cheieGresita:
         // print('CHEIE GRESITA - ' + pNumeMetoda);

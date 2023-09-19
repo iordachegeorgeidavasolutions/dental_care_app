@@ -16,14 +16,10 @@ class ProfileModalItem extends StatelessWidget {
           ),
           title: Text(
             text,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
           ),
         ),
-        Divider(
-          color: Colors.black12,
-          height: 7,
-          thickness: 0.5,
-        ),
+        const Divider(color: Colors.black12, height: 7, thickness: 0.5),
       ],
     );
   }

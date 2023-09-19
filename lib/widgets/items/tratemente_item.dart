@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class TratamenteItem extends StatelessWidget {
-  const TratamenteItem({super.key});
+  final String doctor;
+  final DateTime data;
+  final String procedure;
+  final String price;
+  const TratamenteItem(
+      {super.key, required this.doctor, required this.data, required this.procedure, required this.price});
 
   @override
   Widget build(BuildContext context) {
@@ -12,28 +18,22 @@ class TratamenteItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(7),
           color: Colors.white,
         ),
-        padding: EdgeInsets.all(10),
-        child: const Column(children: [
+        padding: const EdgeInsets.all(10),
+        child: Column(children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "14.03.2023",
-                style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold),
+                DateFormat('yMd', 'ro').format(data),
+                style: const TextStyle(color: Colors.red, fontSize: 15, fontWeight: FontWeight.bold),
               ),
               Text(
-                "Dr. Elefterescu Stefan",
-                style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold),
+                doctor,
+                style: const TextStyle(color: Colors.red, fontSize: 15, fontWeight: FontWeight.bold),
               ),
             ],
           ),
-          Divider(
+          const Divider(
             thickness: 2,
             color: Colors.black26,
           ),
@@ -41,18 +41,12 @@ class TratamenteItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "2x Control periodic arcada",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400),
+                procedure,
+                style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w400),
               ),
               Text(
-                "150 RON",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400),
+                price,
+                style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w400),
               ),
             ],
           )

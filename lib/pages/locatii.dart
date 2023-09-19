@@ -42,18 +42,18 @@ class _LocatiiScreenState extends State<LocatiiScreen> {
   }
 
   Row logoTitle() {
-    return Row(
+    return const Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Image.asset(
-            './assets/images/person-icon.jpg',
-            height: 40,
-          ),
-          const SizedBox(
+          // Image.asset(
+          //   './assets/images/person-icon.jpg',
+          //   height: 40,
+          // ),
+          SizedBox(
             height: 20,
           ),
-          const Text('Locatii', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
+          Text('Locatii', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
         ]),
       ],
     );

@@ -1,18 +1,15 @@
 import 'package:dental_care_app/data/home_dosarulmeu_data.dart';
 import 'package:dental_care_app/main.dart';
-import 'package:dental_care_app/pages/programari.dart';
-import 'package:dental_care_app/pages/tratamente.dart';
 import 'package:dental_care_app/pages/webview.dart';
 import 'package:dental_care_app/widgets/items/dosarulMeu_item.dart';
+import 'package:dental_care_app/widgets/items/home_buttonNoUpcomingAppointments.dart';
 import 'package:dental_care_app/widgets/items/servicii_grid_item.dart';
-import 'package:dental_care_app/widgets/items/tratemente_item.dart';
 import 'package:dental_care_app/widgets/modals/programari_modal.dart';
 import 'package:dental_care_app/widgets/modals/user_modal_remade.dart';
 import 'package:flutter/material.dart';
 import '../utils/api_call_functions.dart';
 import '../utils/classes.dart';
 import '../widgets/items/home_butonUrmatoareProgramare.dart';
-import '../widgets/modals/user_modal.dart';
 import '../utils/functions.dart';
 
 class HomePage extends StatefulWidget {
@@ -27,10 +24,7 @@ class HomePageState extends State<HomePage> {
   bool isVisible = true;
   Future<List<String?>>? getNumePrenumeFuture;
   Programare? ultimaProgramare;
-  final List<Widget> _screens = [
-    const ProgramariScreen(),
-    const TratamenteScreen(),
-  ];
+
   final List serviciiItems = [
     [
       "Implanotologie",
@@ -53,7 +47,7 @@ class HomePageState extends State<HomePage> {
   //   loadData();
   // }
 
-  void asd() async {
+  void loadUltimaProgramare() async {
     var ultimaProgramare1 = await loadData();
     setState(() {
       ultimaProgramare = ultimaProgramare1;
@@ -63,7 +57,7 @@ class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    asd();
+    loadUltimaProgramare();
     getNumePrenumeFuture = getUserName();
   }
 
@@ -82,24 +76,29 @@ class HomePageState extends State<HomePage> {
               Visibility(
                   visible: isVisible,
                   child: GestureDetector(
-                    onTap: () {
-                      showModalBottomSheet(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (context) {
-                          return ultimaProgramare == null
-                              ? Container()
-                              : ProgramariModal(programare: ultimaProgramare!);
-                        },
-                      );
-                    },
-                    child: ultimaProgramare == null
-                        ? Container()
-                        : ButonUrmatoareaProgramare(
-                            numeZiUltimaProg: ultimaProgramare!.inceput,
-                            oraInceputUltimaProg: ultimaProgramare!.inceput),
-                  )),
+                      onTap: () {
+                        apiCallFunctions.getDetaliiProgramare(ultimaProgramare!.id).then((value) {
+                          showModalBottomSheet(
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
+                            isScrollControlled: true,
+                            context: context,
+                            builder: (context) {
+                              return ultimaProgramare == null
+                                  ? Container()
+                                  : ProgramariModal(
+                                      programare: ultimaProgramare!,
+                                      total: value!,
+                                    );
+                            },
+                          );
+                        });
+                      },
+                      child: ultimaProgramare == null
+                          ? const Center(child: Text(''))
+                          : ButonUrmatoareaProgramare(
+                              numeZiUltimaProg: ultimaProgramare!.inceput,
+                              oraInceputUltimaProg: ultimaProgramare!.inceput))),
+              Visibility(visible: !isVisible, child: const ButtonNoUpcomingAppointments()),
               dosarulMeu(context),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 22),
@@ -141,51 +140,42 @@ class HomePageState extends State<HomePage> {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Container(
-        height: 215,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
-        ),
+        height: 170,
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
               flex: 2,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(25, 25, 10, 0),
-                child: IntrinsicWidth(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          MyController.jumpToPage(1);
-                        },
-                        child: const Text(
-                          'Dosarul meu',
-                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      ListView.builder(
-                        physics: const ScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: dosarulMeuList.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
+                padding: const EdgeInsets.fromLTRB(25, 0, 10, 0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('Dosarul meu', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                    ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: dosarulMeuList.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          // onTap: () => MyController.jumpToPage(1),
+                          onTap: () {
+                            if (index == 0) {
                               MyController.jumpToPage(1);
+                            } else {
+                              Navigator.of(context)
+                                  .push(MaterialPageRoute(builder: (context) => dosarulMeuList[index].widgetRoute));
                             }
-                            //Navigator.of(context).push(MaterialPageRoute(builder: (context) => _screens[index])
-                            ,
-                            child: DosarulMeuItem(
-                              titlu: dosarulMeuList[index].titlu,
-                              widgetRoute: dosarulMeuList[index].widgetRoute,
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
+                          },
+                          child: DosarulMeuItem(
+                            titlu: dosarulMeuList[index].titlu,
+                            widgetRoute: dosarulMeuList[index].widgetRoute,
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -210,6 +200,7 @@ class HomePageState extends State<HomePage> {
       future: getNumePrenumeFuture,
       builder: (context, snapshot) {
         var data = snapshot.data;
+        // ignore: avoid_print
         print(data);
         if (data == null) {
           return const Center(

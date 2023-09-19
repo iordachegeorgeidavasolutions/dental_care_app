@@ -28,6 +28,12 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
   List<Programare> trecute = <Programare>[];
   ApiCall apiCall = ApiCall();
 
+  Future refresh() async {
+    setState(() {
+      programari = getListaProgramari();
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -39,45 +45,41 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
     return Scaffold(
       // appBar: AppBar(leading: Icon(icon)),
       backgroundColor: const Color.fromARGB(255, 236, 236, 236),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 30,
-                // child: Row(
-                //   children: [
-                //     IconButton(
-                //       onPressed: () => Navigator.pop(context),
-                //       icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                //     ),
-                //   ],
-                // ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  switchWidget(),
-                ],
-              ),
-              const SizedBox(height: 15),
-              FutureBuilder(
-                  future: programari,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      if (snapshot.hasData) {
-                        return isSelected ? viitoareList() : istoricList();
-                      } else if (snapshot.hasError) {
-                        return const Center(
-                          child: Text("Error"),
-                        );
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await refresh();
+        },
+        child: SafeArea(
+          child: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: Column(
+              children: [
+                const SizedBox(height: 30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    switchWidget(),
+                  ],
+                ),
+                const SizedBox(height: 15),
+                FutureBuilder(
+                    future: programari,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.hasData) {
+                          return isSelected ? viitoareList() : istoricList();
+                        } else if (snapshot.hasError) {
+                          return const Center(
+                            child: Text("Error"),
+                          );
+                        }
                       }
-                    }
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }),
-            ],
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }),
+              ],
+            ),
           ),
         ),
       ),
@@ -100,22 +102,43 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.white,
               ),
-              child: ListTile(
-                leading: Icon(Icons.circle,
-                    color: viitoare[index].status == "Programat"
-                        ? Colors.red
-                        : viitoare[index].status == "Confirmat"
-                            ? Colors.green
-                            : viitoare[index].status == "Finalizat"
-                                ? Colors.yellow
-                                : Colors.grey),
-                title: Text(
-                  DateFormat('EEEE, d.M.yyyy', 'ro').format(viitoare[index].inceput).capitalizeFirst(),
-                  style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.black87),
-                ),
-                trailing: const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: Colors.black,
+              child: InkWell(
+                onTap: () {
+                  setState(() {
+                    _selectedIndex = index;
+                  });
+                  apiCallFunctions.getDetaliiProgramare(viitoare[_selectedIndex].id).then((value) {
+                    showModalBottomSheet(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (context) {
+                          return ProgramariModal(
+                            total: value!,
+                            programare: viitoare[_selectedIndex],
+                          );
+                        });
+                  });
+                },
+                child: ListTile(
+                  leading: Icon(Icons.circle,
+                      color: viitoare[index].status == "Programat"
+                          ? Colors.blue
+                          : viitoare[index].status == "Confirmat"
+                              ? Colors.green
+                              : viitoare[index].status == "Finalizat"
+                                  ? Colors.yellow
+                                  : viitoare[index].status == "Anulat"
+                                      ? Colors.red
+                                      : Colors.grey),
+                  title: Text(
+                    DateFormat('EEEE, d.M.yyyy', 'ro').format(viitoare[index].inceput).capitalizeFirst(),
+                    style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.black87),
+                  ),
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: Colors.black,
+                  ),
                 ),
               ),
             ),
@@ -146,16 +169,18 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                   setState(() {
                     _selectedIndex = index;
                   });
-                  apiCallFunctions.getDetaliiProgramare(trecute[_selectedIndex].id);
-                  showModalBottomSheet(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
-                      isScrollControlled: true,
-                      context: context,
-                      builder: (context) {
-                        return ProgramariModal(
-                          programare: trecute[_selectedIndex],
-                        );
-                      });
+                  apiCallFunctions.getDetaliiProgramare(trecute[_selectedIndex].id).then((value) {
+                    showModalBottomSheet(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (context) {
+                          return ProgramariModal(
+                            total: value!,
+                            programare: trecute[_selectedIndex],
+                          );
+                        });
+                  });
                 },
                 child: ListTile(
                   leading: Image.asset('./assets/images/programari.png', height: 25),
@@ -226,7 +251,6 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // final String idUser = prefs.getString(pref_keys.userIdInregistrare)!;
     final Map<String, String> param = {
-      'pCheie': 'uniqueID',
       'pAdresaMail': prefs.getString(pref_keys.userEmail)!,
       'pParolaMD5': prefs.getString(pref_keys.userPassMD5)!,
       'pIdLimba': '0',
@@ -260,8 +284,8 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
     if (res.contains('%\$%')) {
       print(res);
       List<String> list = res.split('%\$%');
-      List<String> viitoare = list[0].split('*\$*');
-      List<String> trecute = list[1].split('*\$*');
+      List<String> viitoare = list[1].split('*\$*');
+      List<String> trecute = list[0].split('*\$*');
       viitoare.removeWhere((element) => element.isEmpty);
       trecute.removeWhere((element) => element.isEmpty);
 
@@ -291,7 +315,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
             medic: l[2],
             categorie: l[3],
             status: l[4],
-            anulata: l[5] == '1',
+            anulata: l[5],
             inceput: date,
             sfarsit: dateSf,
             id: l[6]);
@@ -324,7 +348,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
             medic: l[2],
             categorie: l[3],
             status: l[4],
-            anulata: l[5] == '1',
+            anulata: l[5],
             inceput: date,
             sfarsit: dateSf);
         programariTrecute.add(p);

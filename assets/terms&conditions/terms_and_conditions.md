@@ -1,36 +1,99 @@
-**Terms & Conditions**
+Protecția datelor dumneavoastră cu caracter personal este importantă pentru noi, prin urmare acordăm o atenție deosebită protejării datelor personale ale tuturor celora cu care derulăm operațiuni comerciale, precum și a vieții private a vizitatorilor care accesează site-ul DentoCare, în conformitate cu Regulamentul (UE) 2016/679 al Parlamentului European și al Consiliului, din data de 27 aprilie 2016 în ceea ce privește prelucrarea datelor cu caracter personal și libera circulație a acestor date (“GDPR”).
 
-By downloading or using the app, these terms will automatically apply to you – you should make sure therefore that you read them carefully before using the app. You’re not allowed to copy or modify the app, any part of the app, or our trademarks in any way. You’re not allowed to attempt to extract the source code of the app, and you also shouldn’t try to translate the app into other languages or make derivative versions. The app itself, and all the trademarks, copyright, database rights, and other intellectual property rights related to it, still belong to DentoCare.
+Pentru a înțelege modul în care sunt tratate datele dvs. personale, vă rugăm să citiți cu atenție noua noastră Politică de Confidențialitate. Prezenta Politică reprezintă modul în care compania noastră înțelege și respectă principiile de protecție a datelor personale, precum și drepturile de care beneficiați cu privire la modul în care informațiile dumneavoastră sunt utilizate în cadrul proceselor noastre de afaceri.
 
-DentoCare is committed to ensuring that the app is as useful and efficient as possible. For that reason, we reserve the right to make changes to the app or to charge for its services, at any time and for any reason. We will never charge you for the app or its services without making it very clear to you exactly what you’re paying for.
+Prelucrarea datelor cu caracter personal efectuată de DentoCare se va realiza întotdeauna în conformitate cu prevederile Regulamentului EU 679 – 2016. Prin prezenta Politică de protecție a prelucrării datelor cu caracter personal dorim să informăm toți clienții, partenerii și furnizorii noștri cu privire la natura datelor cu caracter personal pe care le colectăm și le procesăm, cu privire la scopurile acestei prelucrări și drepturile de care beneficiați
 
-The DentoCare app stores and processes personal data that you have provided to us, to provide our Service. It’s your responsibility to keep your phone and access to the app secure. We therefore recommend that you do not jailbreak or root your phone, which is the process of removing software restrictions and limitations imposed by the official operating system of your device. It could make your phone vulnerable to malware/viruses/malicious programs, compromise your phone’s security features and it could mean that the DentoCare app won’t work properly or at all.
+DREPTURI DE PROPRIETATE INTELECTUALĂ
 
-The app does use third-party services that declare their Terms and Conditions.
+DentoCare este proprietarul exclusiv al tuturor drepturilor de proprietate intelectuală referitoare la conținutului acestei aplicatii, inclusiv, fără a se limita la, articole, text, fotografii, ilustrații, muzică, clipuri audio și video, mărci comerciale, embleme și modele.
 
-Link to Terms and Conditions of third-party service providers used by the app
+Nicio secțiune din conținutul de proprietate intelectuală al acestei aplicatii nu poate fi reprodusă, distribuită sau publicată sub nici o formă sau prin niciun mijloc, fără acordul prealabil scris al DentoCare. Prin urmare, vizitatorii site-ului trebuie să înțeleagă și să consimtă să nu modifice, să vândă, să distribuie sau să creeze lucrări/opere/ derivate, pe baza imaginilor și a informațiilor publicate pe acest site.
 
-*   [Google Play Services](https://policies.google.com/terms)
-*   [Google Analytics for Firebase](https://firebase.google.com/terms/analytics)
+OPERATOR DE DATE CU CARACTER PERSONAL
 
-You should be aware that there are certain things that DentoCare will not take responsibility for. Certain functions of the app will require the app to have an active internet connection. The connection can be Wi-Fi or provided by your mobile network provider, but DentoCare cannot take responsibility for the app not working at full functionality if you don’t have access to Wi-Fi, and you don’t have any of your data allowance left.
+Operatorul de date cu caracter personal este compania VALUMA DENTCARE SRL, furnizor de servicii medicale, cu sediul principal în București, strada Ion Minulescu 45, denumit in continuare DentoCare
 
-If you’re using the app outside of an area with Wi-Fi, you should remember that the terms of the agreement with your mobile network provider will still apply. As a result, you may be charged by your mobile provider for the cost of data for the duration of the connection while accessing the app, or other third-party charges. In using the app, you’re accepting responsibility for any such charges, including roaming data charges if you use the app outside of your home territory (i.e. region or country) without turning off data roaming. If you are not the bill payer for the device on which you’re using the app, please be aware that we assume that you have received permission from the bill payer for using the app.
+RESPONSABILUL CU PROTECȚIA DATELOR
 
-Along the same lines, DentoCare cannot always take responsibility for the way you use the app i.e. You need to make sure that your device stays charged – if it runs out of battery and you can’t turn it on to avail the Service, DentoCare cannot accept responsibility.
+Utilizatorii aplicatiei “DentoCare” au posibilitatea de a comunica în orice moment cu Responsabilul pentru protecția datelor personale în mod direct, pentru orice subiect legat de prezenta Politică, utilizând date de contact de mai jos:
 
-With respect to DentoCare’s responsibility for your use of the app, when you’re using the app, it’s important to bear in mind that although we endeavor to ensure that it is updated and correct at all times, we do rely on third parties to provide information to us so that we can make it available to you. DentoCare accepts no liability for any loss, direct or indirect, you experience as a result of relying wholly on this functionality of the app.
+Responsabil cu protecția datelor personale DentoCare: office@dentocare.ro
 
-At some point, we may wish to update the app. The app is currently available on Android & iOS – the requirements for the both systems(and for any additional systems we decide to extend the availability of the app to) may change, and you’ll need to download the updates if you want to keep using the app. DentoCare does not promise that it will always update the app so that it is relevant to you and/or works with the Android & iOS version that you have installed on your device. However, you promise to always accept updates to the application when offered to you, We may also wish to stop providing the app, and may terminate use of it at any time without giving notice of termination to you. Unless we tell you otherwise, upon any termination, (a) the rights and licenses granted to you in these terms will end; (b) you must stop using the app, and (if needed) delete it from your device.
+PRINCIPII PRIVIND PRELUCRAREA DATELOR
 
-**Changes to This Terms and Conditions**
+Prin prezenta Politică ne obligăm să respectăm principiile de protecție a datelor cu caracter personal (Principiile) prevăzute de Articolul 5 din GDPR, și vă putem asigura că toate datele dvs, personale sunt:
 
-We may update our Terms and Conditions from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Terms and Conditions on this page.
+Prelucrate în mod corect, legal și transparent;
+Colectate în scopuri specificate, explicite și legitime;
+Adecvate, relevante și limitate în raport cu scopurile pentru care sunt prelucrate;
+Corecte și actualizate;
+Păstrate într-o formă care nu permite identificarea persoanelor vizate mai mult timp decât este necesar în raport de scopul prelucrării;
+Procesate în conformitate cu drepturile persoanei vizate, într-un mod care să asigure o securitate adecvată a prelucrării, astfel încât datele să fie integre, confidențiale și disponibile.
+SCOPURILE PRELUCRĂRII DATELOR CU CARACTER PERSONAL
 
-These terms and conditions are effective as of 2023-08-01
+Procesarea datelor de contact DentoCare va folosi informațiile personale de contact pe care le furnizați prin intermediul acestei aplicatii și a adreselor de contact menționate, exclusiv cu scopul de a procesa solicitarea dumneavoastră în scop legitim asociat cu profilul nostru de activitate.
 
-**Contact Us**
+Prin furnizarea oricăror date cu caracter personal prin intermediul formularelor de din aplicatia noastra, vă dați acordul implicit ca datele dumneavoastră să fie prelucrate în mod exclusiv pentru scopul pentru care ne-ați contactat, în conformitate cu prevederile prezentei Politici de protecție a prelucrării datelor personale.
 
-If you have any questions or suggestions about our Terms and Conditions, do not hesitate to contact us at contact@dentocare.ro.
+Pentru asigurarea celor mai depline condiții de Securitate a datelor dvs. personale, DentoCare a adoptat și menține întregul set de măsuri tehnice și organizatorice adecvate pentru prelucrarea și stocarea datelor dumneavoastră personale, în conformitate cu prevederile Regulamentului general. Datele dumneavoastră cu caracter personal pot fi transmise către alte entități terțe cu care DentoCare colaborează în mod permanent, doar în scopul bunei derulări a serviciilor specifice asigurate și intereselor noastre legitime legate de aceste activități, cu excepția situațiilor în care poate apărea o obligație legală pentru DentoCare de a partaja datele cu alte instituții sau autorități.
 
-This Terms and Conditions page was generated by [App Privacy Policy Generator](https://app-privacy-policy-generator.nisrulz.com/)
+DentoCare se obligă să nu prelucreze datele cu caracter personal furnizate prin intermediul relațiilor noastre în alt scop decât acela pentru care au fost transmise, cu excepția situațiilor în care există consimțământul dumneavoastră clar pentru a le utiliza și în alte scopuri asociate activităților noastre de investigații și analize medicale. În măsura în care nu există constrângeri legale, unele dintre datele dumneavoastră cu caracter personal ar putea fi șterse de îndată ce ne solicitați acest lucru la adresa office@dentocare.ro
+
+Ce informaţii colectăm?
+
+În cadrul aplicatiei:
+
+Nume
+Prenume
+Adresa email
+Telefon
+Data de nastere.
+Alte date necesare bunei functionari a aplicatiei.
+Folosim aceste date pentru a vă creea dosarul virtual in cadrul aplicatiei DentoCare si pentru a putea corela profilul virtual cu cel clinic.
+
+PRELUCRARE AUTOMATĂ DE DATE. POLITICA DE COOKIE
+
+Aplicatia DentoCare folosește identificatori de tip Cookie. Cookie-urile sunt fișiere text care sunt stocate într-un computer prin intermediul Browserului de Internet. Multe site-uri și servere utilizează cookie-uri. Multe module cookie conțin un cod așa-numit cookie. Un ID cookie este un identificator unic al cookie-ului. Se compune dintr-un șir de caractere prin care paginile și serverele Internet pot fi atribuite browserului de Internet în care a fost stocat cookie-ul. Acest lucru permite site-urilor web si serverelor vizitate să diferențieze browserul individual al datelor de la alte browsere de Internet care conțin alte cookie-uri. Un anumit browser de Internet poate fi recunoscut si identificat folosind un cod de cookie unic.
+
+Prin utilizarea cookie-urilor, DentoCare poate furniza celor care utilizează site-ul servicii mai ușor de utilizat care nu ar fi posibile fără setarea cookie-urilor. Cu ajutorul unui cookie, informațiile și ofertele de pe site-ul nostru pot fi optimizate având în vedere utilizatorul. Cookie-urile ne permit să recunoaștem utilizatorii site-ului nostru web. Scopul acestei recunoașteri este de a facilita utilizarea de către vizitatori a site-ului nostru web. Vizitatorul site-ului web care utilizează module cookie, nu trebuie să introducă date de acces de fiecare dată când site-ul este accesat, deoarece acesta este preluat de site-ul web, iar cookie-ul este astfel stocat în sistemul informatic al utilizatorului.
+
+Alte cookie-uri pe care le folosim provin de la Google Analytics si Facebook Pixel care ne ajută să măsurăm eficienţa publicităţii şi modul în care vizitatorii folosesc pagina web
+
+Majoritatea browser-elor vă arată cum să blocaţi acceptarea de cookie-uri noi, cum să fiţi înştiinţaţi atunci când primiţi un nou cookie şi cum să dezactivaţi cookie-urile existente. Nu uitaţi însă că fără cookies s-ar putea să nu beneficiaţi pe deplin de toate caracteristicile paginii noastre web.
+
+Persoana vizată poate, în orice timp, să prevină activarea cookie-urilor prin intermediul unei setări corespunzătoare a browserului de internet utilizat, poate astfel să refuze definitiv setarea cookie-urilor. În plus, cookie-urile deja setate pot fi șterse în orice moment prin intermediul unui browser de Internet sau al altor programe software. Acest lucru este posibil în toate browserele de Internet populare. Dacă persoana vizată dezactivează setarea cookie-urilor în browserul de internet utilizat, nu toate funcțiile site-ului nostru pot fi utilizate în totalitate. În timpul utilizării este posibil să colectăm automat informații nepersonale cum ar fi adresele IP de la care accesați site-ul și browserul pe care îl folosiți, iar dumneavoastră sunteți de acord cu stocarea anumitor informații pe computerul dumneavoastră (“module cookie”), toate în scopul de a vă asigura un acces optim la site și operarea acestuia de către dumneavoastră.
+
+DURATA DE VIAȚĂ PENTRU COOKIES
+
+Cookie-urile pe care le folosim pe acest website au o durată de viață variabilă dar aceasta nu depășește 2 ani de zile. Toate cookie-urile sunt de tip “first-party” adică nu sunt transmise altor companii externe.
+
+POLITICA DE RETENȚIE A DATELOR
+
+DentoCare este obligată prin temeiul legal să păstreze datele personale și evidențele medicale asociate pe perioada necesară prevăzută prin lege. Datele pe care le furnizați prin formularul de contact/rezervari de pe site-ul nostru sunt păstrate până la momentul primirii unei solicitări formulată clar la adresa office@dentocare.ro
+
+DREPTURILE PERSOANELOR VIZATE
+
+Toți clienții, furnizorii și partenerii ale căror date personale de contact le deținem în calitate de persoane vizate au următoarele drepturi în conformitate cu Articolele 15 – 22 din GDPR:
+
+Dreptul de acces la datele prelucrare;
+Dreptul la rectificarea și ștergerea datelor (“dreptul de a fi uitat”);
+Dreptul la restricționarea prelucrării;
+Dreptul la portabilitatea datelor;
+Dreptul de opoziție;
+Dreptul de a retrage consimțământul în orice moment;
+Dreptul de a depune o plângere la autoritatea de supraveghere competentă.
+Orice persoană vizată înregistrată la DentoCare poate solicita exercitarea acestor drepturi printr- un mesaj scris la adresa office@dentocare.ro sau printr-o scrisoare expediată pe adresa biroului nostru din Str. Pomarla nr. 3, bl. b21, sc. 3, et. 5, ap. 81, sector 4, Bucuresti.
+
+INFORMAȚII DESPRE MĂSURILE DE SECURITATE A PRELUCRĂRII
+
+DentoCare a investit pentru adoptarea de măsuri tehnice și organizatorice de prelucrare a datelor, actualizate în conformitate cu cerințele GDPR, cu scopul de a proteja datele dumneavoastră cu caracter personal împotriva oricăror acțiuni de acces neautorizat, utilizare necorespunzătoare sau divulgare, modificare neautorizată, distrugere sau pierdere accidentală. Toți angajații și colaboratorii DentoCare, precum și orice terțe părți care acționează în numele și pe seama DentoCare sunt obligați să respecte confidențialitatea informațiilor dumneavoastră, în conformitate cu prevederile prezentei Politici.
+
+DISCLAIMER SITE-URI PARTENERE
+
+Aplicatia DentoCare poate conține legături către alte site-uri și / sau alte pagini web cu proprietate intelectuală care nu este proprietatea DentoCare. Nu ne asumăm nicio responsabilitate cu privire la conținutul acestor site-uri și, prin urmare, compania DentoCare nu va putea fi considerate răspunzătoare pentru conținutul, publicitatea, bunurile, serviciile, software-ul, informațiile sau alte materiale disponibile pe sau prin intermediul acestor site-uri. DentoCare nu va fi responsabilă de pierderea datelor cu caracter personal, de orice efecte negative asupra datelor personale ale vizitatorilor sau de alte daune morale și / sau patrimoniale cauzate de accesul la respectivele site-uri.
+
+ACTUALIZAREA TERMENILOR ȘI CONDIȚIILOR
+
+Utilizatorii noștri sunt rugați să aibă în vedere faptul că prezenta Politică poate face obiectul unor modificări periodice de conținut, la fel ca și actualizarea site-ului DentoCare. Prin urmare, este necesar să verificați Termenii și Condițiile de utilizare a site-ului DentoCare pentru orice actualizare.
+

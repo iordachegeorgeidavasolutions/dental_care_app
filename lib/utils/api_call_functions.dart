@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:dental_care_app/pages/register.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -44,10 +45,37 @@ class ApiCallFunctions {
       'pLimbaSelectata': '1',
     };
 
-    String? res = await apiCall.apeleazaMetodaString(
-        pNumeMetoda: 'AdaugaPacient', pParametrii: parametriiApiCall, afiseazaMesajPacientNeasociat: false);
+    String? res = await apiCall.apeleazaMetodaString(pNumeMetoda: 'AdaugaPacient', pParametrii: parametriiApiCall);
 
     return res;
+  }
+
+  Future<List<Sediu>> getListaSedii() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // final String idUser = prefs.getString(pref_keys.userIdAjustareCurenta)!;
+    final Map<String, String> param = {
+      "pAdresaMail": prefs.getString(pref_keys.userEmail)!,
+      "pParolaMD5": prefs.getString(pref_keys.userPassMD5)!
+    };
+    String? data = await apiCall.apeleazaMetodaString(pNumeMetoda: 'GetListaSedii', pParametrii: param);
+
+    List<Sediu> sedii = <Sediu>[];
+
+    if (data == null) {
+      return [];
+    }
+
+    if (data.contains('*\$*')) {
+      List<String> l = data.split('*\$*');
+      l.removeWhere((element) => element.isEmpty);
+      for (var element in l) {
+        List<String> parts = element.split('\$#\$');
+
+        Sediu s = Sediu(id: parts[0], denumire: parts[1], adresa: parts[2], telefon: parts[3]);
+        sedii.add(s);
+      }
+    }
+    return sedii;
   }
 
   Future<String?> login({
@@ -67,14 +95,60 @@ class ApiCallFunctions {
       'pModelDispozitiv': await deviceInfo(),
     };
 
-    String? res = await apiCall.apeleazaMetodaString(
-        pNumeMetoda: 'Login', pParametrii: param, afiseazaMesajPacientNeasociat: false);
+    String? res = await apiCall.apeleazaMetodaString(pNumeMetoda: 'Login', pParametrii: param);
+
+    return res;
+  }
+
+  Future<String?> loginByPhone({
+    required String pTelefon,
+    required String pParolaMD5,
+    required String pFirebaseGoogleDeviceID,
+  }) async {
+    final Map<String, String> param = {
+      'pTelefon': pTelefon,
+      'pParolaMD5': pParolaMD5,
+      'pFirebaseGoogleDeviceID': pFirebaseGoogleDeviceID,
+      'pTipDispozitiv': Platform.isAndroid
+          ? '1'
+          : Platform.isIOS
+              ? '2'
+              : '0',
+      'pModelDispozitiv': await deviceInfo(),
+    };
+
+    String? res = await apiCall.apeleazaMetodaString(pNumeMetoda: 'LoginByTelefon', pParametrii: param);
+
+    return res;
+  }
+
+  Future<String?> updateDeviceID({
+    required String pAdresaEmail,
+    required String pParolaMD5,
+    required String pFirebaseGoogleDeviceID,
+  }) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final Map<String, String> param = {
+      'pAdresaEmail': pAdresaEmail,
+      'pParolaMD5': pParolaMD5,
+      'pFirebaseGoogleDeviceID': prefs.getString(pref_keys.fcmToken)!,
+      'pTipDispozitiv': Platform.isAndroid
+          ? '1'
+          : Platform.isIOS
+              ? '2'
+              : '0',
+      'pModelDispozitiv': await deviceInfo(),
+    };
+
+    String? res = await apiCall.apeleazaMetodaString(pNumeMetoda: 'UpdateDeviceID', pParametrii: param);
 
     return res;
   }
 
   Future<Programari?> getListaProgramari() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(prefs.getString(pref_keys.userEmail));
+
     // final String idUser = prefs.getString(pref_keys.userIdAjustareCurenta)!;
     final Map<String, String> param = {
       'pIdLimba': '0',
@@ -123,7 +197,7 @@ class ApiCallFunctions {
             medic: l[2],
             categorie: l[3],
             status: l[4],
-            anulata: l[5] == '1',
+            anulata: l[5],
             inceput: date,
             sfarsit: dateSf,
             id: l[6]);
@@ -156,7 +230,7 @@ class ApiCallFunctions {
             medic: l[2],
             categorie: l[3],
             status: l[4],
-            anulata: l[5] == '1',
+            anulata: l[5],
             inceput: date,
             sfarsit: dateSf);
         programariTrecute.add(p);
@@ -183,7 +257,6 @@ class ApiCallFunctions {
   Future<void> anuleazaProgramarea(String pIdProgramare) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final Map<String, String> params = {
-      // 'pCheie': 'uniqueID',
       'pAdresaMail': prefs.getString(pref_keys.userEmail)!,
       'pParolaMD5': prefs.getString(pref_keys.userPassMD5)!,
       'pIdProgramare': pIdProgramare,
@@ -194,7 +267,6 @@ class ApiCallFunctions {
   Future<void> confirmaProgramarea(String pIdProgramare) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final Map<String, String> params = {
-      // 'pCheie': 'uniqueID',
       'pAdresaMail': prefs.getString(pref_keys.userEmail)!,
       'pParolaMD5': prefs.getString(pref_keys.userPassMD5)!,
       'pIdProgramare': pIdProgramare,
@@ -202,7 +274,7 @@ class ApiCallFunctions {
     await apiCall.apeleazaMetodaString(pNumeMetoda: 'ConfirmaProgramarea', pParametrii: params);
   }
 
-  Future<List<LinieFisaTratament>?> getListaLiniiFisaTratamentRealizate(MembruFamilie membruFamilie) async {
+  Future<List<LinieFisaTratament>?> getListaLiniiFisaTratamentRealizate() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, String> params = {
       'pAdresaMail': prefs.getString(pref_keys.userEmail)!,
@@ -245,22 +317,42 @@ class ApiCallFunctions {
     return interventii;
   }
 
-  Future<DetaliiProgramare?> getDetaliiProgramare(String pIdProgramare) async {
+  Future<String?> getDetaliiProgramare(String pIdProgramare) async {
     ApiCall apiCall = ApiCall();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final Map<String, String> params = {
-      // 'pCheie': 'uniqueID',
       'pAdresaMail': prefs.getString(pref_keys.userEmail)!,
       'pParolaMD5': prefs.getString(pref_keys.userPassMD5)!,
       'pIdProgramare': pIdProgramare,
     };
     String? lmao = await apiCall.apeleazaMetodaString(pNumeMetoda: 'GetDetaliiProgramare', pParametrii: params);
     print(lmao);
-    List<String>? ayy = lmao?.split('%\$%');
     if (lmao == null) {
       return null;
     } else {
-      return null;
+      List<String> ayy = lmao.split('\$#\$');
+      DetaliiProgramare a = DetaliiProgramare(
+          dataInceput: ayy[0],
+          oraFinal: ayy[1],
+          numeMedic: ayy[2],
+          idCategorie: ayy[3],
+          statusProgramare: ayy[4],
+          esteAnulat: ayy[5],
+          numeLocatie: ayy[6],
+          listaInterventii: ayy[7].split('%\$%'));
+      // String total = '';
+      // List<String> details = [];
+      // details.add(a.numeLocatie);
+      // print(a.listaInterventii);
+      // // print(a.listaInterventii[6]);
+      // List<double> listaPreturi = [];
+
+      // for (String date in a.listaInterventii) {
+      //   listaPreturi.add(double.parse(date[2]));
+      // }
+      // double sumaTotala = listaPreturi.reduce((a, b) => a + b);
+      // return (sumaTotala.toString());
+      return a.GetTotal().toString();
     }
   }
 
@@ -269,10 +361,80 @@ class ApiCallFunctions {
     required String pParolaNoua,
   }) async {
     final String pParolaNouaMD5 = generateMd5(pParolaNoua);
-
     final Map<String, String> param = {'pAdresaMail': pAdresaMail, 'pParolaNouaMD5': pParolaNouaMD5};
-
     String? res = await apiCall.apeleazaMetodaString(pNumeMetoda: 'ReseteazaParola', pParametrii: param);
     return res;
+  }
+
+  Future<String?> reseteazaParolaValidarePIN({
+    required String pAdresaMail,
+    required String pParolaNoua,
+    required String pPINDinMail,
+  }) async {
+    final String pParolaNouaMD5 = generateMd5(pParolaNoua);
+
+    final Map<String, String> param = {
+      'pAdresaMail': pAdresaMail,
+      'pParolaNouaMD5': pParolaNouaMD5,
+      'pPINDinMail': pPINDinMail
+    };
+
+    String? res = await apiCall.apeleazaMetodaString(pNumeMetoda: 'ReseteazaParolaValidarePIN', pParametrii: param);
+    return res;
+  }
+
+  Future<String?> schimbaDateleDeContact({
+    required String pNouaAdresaDeEmail,
+    required String pNoulTelefon,
+    required String pAdresaDeEmail,
+    required String pParola,
+  }) async {
+    Map<String, String> param = {
+      'pAdresaMail': pAdresaDeEmail,
+      'pParola': pParola,
+      'pNouaAdresaDeEmail': pNouaAdresaDeEmail,
+      'pNoulTelefon': pNoulTelefon,
+    };
+
+    String? data = await apiCall.apeleazaMetodaString(pNumeMetoda: 'SchimbaDateleDeContact', pParametrii: param);
+
+    return data;
+  }
+
+  Future<String?> schimbaDateleDeContactValidarePin({
+    required String pAdresaMail,
+    required String pParola,
+    required String pPINDinMail,
+  }) async {
+    final Map<String, String> param = {'pAdresaMail': pAdresaMail, 'pParola': pParola, 'pPINDinMail': pPINDinMail};
+    String? res =
+        await apiCall.apeleazaMetodaString(pNumeMetoda: 'SchimbaDateleDeContactValidarePIN', pParametrii: param);
+    return res;
+  }
+
+  Future<String?> adaugaProgramare({
+    required String pIdCategorie,
+    required String pIdMedic,
+    required String pDataProgramareDDMMYYYYHHmm,
+    required String pObservatiiProgramare,
+    required String pIdSediu,
+    required String pIdMembruFamilie,
+  }) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final Map<String, String> param = {
+      'pCheie': ' ',
+      'pAdresaMail': prefs.getString(pref_keys.userEmail)!,
+      'pParolaMD5': prefs.getString(pref_keys.userPassMD5)!,
+      'pIdCategorie': pIdCategorie,
+      'pIdMedic': pIdMedic,
+      'pDataProgramareDDMMYYYYHHmm': pDataProgramareDDMMYYYYHHmm,
+      'pObservatiiProgramare': pObservatiiProgramare,
+      'pIdSediu': pIdSediu,
+      'pIdMembruFamilie': pIdMembruFamilie,
+    };
+
+    String? data = await apiCall.apeleazaMetodaString(pNumeMetoda: 'AdaugaProgramareV2', pParametrii: param);
+
+    return data;
   }
 }

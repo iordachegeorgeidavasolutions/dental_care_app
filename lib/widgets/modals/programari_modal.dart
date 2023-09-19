@@ -3,8 +3,9 @@ import '../../utils/classes.dart';
 import '../items/program_modal_item.dart';
 
 class ProgramariModal extends StatelessWidget {
-  final Programare programare;
-  const ProgramariModal({super.key, required this.programare});
+  final String total;
+  final Programare? programare;
+  const ProgramariModal({super.key, required this.programare, required this.total});
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -39,6 +40,7 @@ class ProgramariModal extends StatelessWidget {
                 children: [
                   const SizedBox(height: 20),
                   ProgramModalItem(
+                    total: total,
                     programare: programare,
                   )
                 ],

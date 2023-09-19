@@ -1,7 +1,6 @@
 import 'package:dental_care_app/utils/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../utils/api_call_functions.dart';
 
 class ButonUrmatoareaProgramare extends StatefulWidget {
   final DateTime numeZiUltimaProg;
@@ -13,14 +12,6 @@ class ButonUrmatoareaProgramare extends StatefulWidget {
 }
 
 class _ButonUrmatoareaProgramareState extends State<ButonUrmatoareaProgramare> {
-  ApiCallFunctions apiCallFunctions = ApiCallFunctions();
-  // late Programare ultimaProgramareP;
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   loadData();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Column(

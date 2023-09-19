@@ -52,10 +52,26 @@ dependencies:
   flutter_localizations:
     sdk: flutter  
   flutter_markdown: ^0.6.17
+  date_picker_timeline: ^1.2.5
+  flutter_svg: ^2.0.7
+  flutter_otp_text_field: ^1.1.1
+  image_picker: ^1.0.2
+  path_provider: ^2.1.0
+  flutter_local_notifications: ^15.1.0+1
+  firebase_messaging: ^14.6.6
+  cloud_firestore: ^4.8.5
+  another_flushbar: ^1.12.30
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.13.1"
 
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/icon/icon.png"
+  min_sdk_android: 21 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -83,6 +99,7 @@ flutter:
     - assets/images/profile_modal_images/
     - assets/images/onboarding/
     - assets/terms&conditions/
+    - assets/images/profile/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
