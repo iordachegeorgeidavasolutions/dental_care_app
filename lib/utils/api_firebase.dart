@@ -38,8 +38,16 @@ Future<void> saveTokenToDB(String token) async {
 class FirebaseApi {
   late Stream<String> _tokenStream;
   final firebaseMessaging = FirebaseMessaging.instance;
+
   Future<void> initNotifications() async {
-    await firebaseMessaging.requestPermission();
+    NotificationSettings settings = await firebaseMessaging.requestPermission();
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('User granted permission');
+    } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+      print('User granted provisional permission');
+    } else {
+      print('User declined or has not accepted permission');
+    }
     final fcmToken = await firebaseMessaging.getToken() ?? "Error: Could not retrieve token!";
     saveTokenToDB(fcmToken);
     _tokenStream = FirebaseMessaging.instance.onTokenRefresh;

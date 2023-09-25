@@ -1,4 +1,4 @@
-import 'package:dental_care_app/pages/create_appointment.dart';
+import 'package:dental_care_app/screens/create_appointment.dart';
 import 'package:flutter/material.dart';
 
 class ButtonNoUpcomingAppointments extends StatelessWidget {

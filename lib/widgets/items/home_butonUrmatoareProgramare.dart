@@ -24,10 +24,11 @@ class _ButonUrmatoareaProgramareState extends State<ButonUrmatoareaProgramare> {
         ),
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 20),
-          height: 100,
+          height: MediaQuery.of(context).size.height * 0.16,
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(10)), color: Color.fromARGB(255, 243, 68, 68)),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
                 children: [

@@ -13,10 +13,8 @@ Future<List<String>> getUserName() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var nume = prefs.getString(pref_keys.userNume);
   var prenume = prefs.getString(pref_keys.userPrenume);
-  nume ??= "undefined";
-  prenume ??= "undefined";
-  user.add(nume);
-  user.add(prenume);
+  user.add(nume ?? "asd");
+  user.add(prenume ?? " asd");
   // print(user);
   return user;
 }

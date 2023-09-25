@@ -1,8 +1,8 @@
-import 'package:dental_care_app/pages/home.dart';
-import 'package:dental_care_app/pages/locatii.dart';
-import 'package:dental_care_app/pages/programari.dart';
-import 'package:dental_care_app/pages/my_account_screen.dart';
-import 'package:dental_care_app/pages/webview.dart';
+import 'package:dental_care_app/screens/home.dart';
+import 'package:dental_care_app/screens/locatii.dart';
+import 'package:dental_care_app/screens/programari.dart';
+import 'package:dental_care_app/screens/my_account_screen.dart';
+import 'package:dental_care_app/screens/webview.dart';
 import 'package:dental_care_app/utils/classes.dart';
 import 'package:flutter/material.dart';
 import '../main.dart';

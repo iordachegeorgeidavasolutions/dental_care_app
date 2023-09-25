@@ -1,13 +1,17 @@
-import 'package:dental_care_app/pages/educatie.dart';
-import 'package:dental_care_app/pages/home.dart';
-import 'package:dental_care_app/pages/locatii.dart';
-import 'package:dental_care_app/pages/programari.dart';
+import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
+import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
+import 'package:dental_care_app/screens/educatie.dart';
+import 'package:dental_care_app/screens/home.dart';
+import 'package:dental_care_app/screens/locatii.dart';
+import 'package:dental_care_app/screens/programari.dart';
 import 'package:dental_care_app/utils/api_firebase.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import './pages/login.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import "./pages/meniu.dart";
+import './screens/login.dart';
+import 'package:permission_handler/permission_handler.dart';
+import "./screens/meniu.dart";
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 // import "./utils/shared_pref_keys.dart" as pref_keys;
@@ -18,12 +22,15 @@ Future<void> main() async {
   await Firebase.initializeApp();
   await FirebaseApi().initNotifications();
   var loggedIn = prefs.getBool('loggedIn');
-
   runApp(
     MaterialApp(
-        localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
-        supportedLocales: const [Locale('en'), Locale('ro')],
-        home: loggedIn == true ? const MyApp() : LoginPage()), // use MaterialApp
+      localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
+      supportedLocales: const [Locale('en'), Locale('ro')],
+      home: loggedIn == true ? const MyApp() : LoginPage(),
+      theme: ThemeData(
+        textTheme: GoogleFonts.openSansTextTheme(),
+      ), // use MaterialApp
+    ),
   );
 }
 
@@ -54,12 +61,27 @@ class MyAppState extends State<MyApp> {
     MeniuScreen(),
   ];
 
-  List<Widget> icons = const [
-    ImageIcon(AssetImage("./assets/images/navbar/home.png")),
-    ImageIcon(AssetImage("./assets/images/navbar/programari.png")),
-    ImageIcon(AssetImage("./assets/images/navbar/contact.png")),
-    ImageIcon(AssetImage("./assets/images/navbar/educatie.png")),
-    ImageIcon(AssetImage("./assets/images/navbar/menu.png")),
+  List<CurvedNavigationBarItem> icons = const [
+    CurvedNavigationBarItem(
+      child: ImageIcon(AssetImage("./assets/images/navbar/home.png")),
+      label: 'Home',
+    ),
+    CurvedNavigationBarItem(
+      child: ImageIcon(AssetImage("./assets/images/navbar/programari.png")),
+      label: 'Programari',
+    ),
+    CurvedNavigationBarItem(
+      child: ImageIcon(AssetImage("./assets/images/navbar/contact.png")),
+      label: 'Contact',
+    ),
+    CurvedNavigationBarItem(
+      child: ImageIcon(AssetImage("./assets/images/navbar/educatie.png")),
+      label: 'Educatie',
+    ),
+    CurvedNavigationBarItem(
+      child: ImageIcon(AssetImage("./assets/images/navbar/menu.png")),
+      label: 'Meniu',
+    ),
   ];
 
   void setPage(index) {
