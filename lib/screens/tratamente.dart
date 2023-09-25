@@ -1,4 +1,4 @@
-import 'package:dental_care_app/pages/register.dart';
+import 'package:dental_care_app/screens/register.dart';
 import 'package:dental_care_app/utils/classes.dart';
 import 'package:flutter/material.dart';
 import '../widgets/items/tratemente_item.dart';

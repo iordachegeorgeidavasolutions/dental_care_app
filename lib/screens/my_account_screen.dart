@@ -1,4 +1,4 @@
-import 'package:dental_care_app/pages/password_reset_pin.dart';
+import 'package:dental_care_app/screens/password_reset_pin.dart';
 import 'package:dental_care_app/utils/functions.dart';
 import '../utils/shared_pref_keys.dart' as pref_keys;
 import 'package:flutter/material.dart';

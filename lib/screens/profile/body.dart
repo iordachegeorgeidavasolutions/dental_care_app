@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:dental_care_app/pages/profile/profile_pic.dart';
+import 'package:dental_care_app/screens/profile/profile_pic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';

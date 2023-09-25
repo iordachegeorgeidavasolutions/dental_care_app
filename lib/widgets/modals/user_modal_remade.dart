@@ -1,13 +1,12 @@
+import 'package:dental_care_app/screens/create_appointment.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../pages/profile/profile.dart';
-import '../../pages/my_account_screen.dart';
+import '../../screens/my_account_screen.dart';
 import '../../utils/shared_pref_keys.dart' as pref_keys;
 import '../../main.dart';
-import '../../pages/home.dart';
-import '../../pages/login.dart';
-import '../../pages/programari.dart';
-import '../../pages/tratamente.dart';
+import '../../screens/login.dart';
+import '../../screens/programari.dart';
+import '../../screens/tratamente.dart';
 import '../../utils/functions.dart';
 import '../items/profile_modal_item.dart';
 
@@ -22,9 +21,9 @@ class _UserModalRemadeState extends State<UserModalRemade> {
   List<String>? getNumePrenumeFuture;
 
   final List profileItemsList = [
-    ["Profilul meu", "./assets/images/profile_modal_images/person-icon.jpg", UserProfileScreen()],
+    ["Profilul meu", "./assets/images/profile_modal_images/person-icon.jpg", CreateAppointmentScreen()],
     ["Programari", "./assets/images/profile_modal_images/programari.png", const ProgramariScreen()],
-    ["Tratamente", "./assets/images/profile_modal_images/syringe.png", const TratamenteScreen()],
+    ["Istoric tratamente", "./assets/images/profile_modal_images/syringe.png", const TratamenteScreen()],
     // ["Sold curent", "./assets/images/profile_modal_images/soldcurent.png"],
     ["Iesi din cont", "./assets/images/profile_modal_images/exiticon.png"],
   ];
@@ -50,7 +49,7 @@ class _UserModalRemadeState extends State<UserModalRemade> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.70,
+      height: MediaQuery.of(context).size.height * 0.7,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(35),
@@ -115,7 +114,13 @@ class _UserModalRemadeState extends State<UserModalRemade> {
             },
           ),
           SizedBox(height: 10),
-          Image.asset('./assets/images/logo-dentocare.png', height: 35),
+          Expanded(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Image.asset('./assets/images/logo-dentocare.png', height: 22),
+            ],
+          )),
         ]),
       ),
     );

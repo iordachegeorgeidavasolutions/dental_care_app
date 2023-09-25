@@ -2,7 +2,7 @@
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:dental_care_app/main.dart';
-import 'package:dental_care_app/pages/password_reset.dart';
+import 'package:dental_care_app/screens/password_reset.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../utils/functions.dart';

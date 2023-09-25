@@ -1,6 +1,6 @@
 import 'package:dental_care_app/data/home_dosarulmeu_data.dart';
 import 'package:dental_care_app/main.dart';
-import 'package:dental_care_app/pages/webview.dart';
+import 'package:dental_care_app/screens/webview.dart';
 import 'package:dental_care_app/widgets/items/dosarulMeu_item.dart';
 import 'package:dental_care_app/widgets/items/home_buttonNoUpcomingAppointments.dart';
 import 'package:dental_care_app/widgets/items/servicii_grid_item.dart';
@@ -24,7 +24,7 @@ class HomePageState extends State<HomePage> {
   bool isVisible = true;
   Future<List<String?>>? getNumePrenumeFuture;
   Programare? ultimaProgramare;
-
+  Future<Programare?>? programareFinala;
   final List serviciiItems = [
     [
       "Implanotologie",
@@ -39,25 +39,19 @@ class HomePageState extends State<HomePage> {
     ["Protetica", "./assets/images/homescreen_servicii/protetica.png", "https://app.dentocare.ro/servicii/protetica/"],
     ["Preventie", "./assets/images/homescreen_servicii/preventie.png", "https://app.dentocare.ro/servicii/preventie/"],
   ];
-  // @override
-  // void initState() {
-  //   super.initState();
 
-  //   getNumePrenumeFuture = getUserName();
-  //   loadData();
+  // void loadUltimaProgramare() async {
+  //   var ultimaProgramare1 = await loadData();
+  //   setState(() {
+  //     ultimaProgramare = ultimaProgramare1;
+  //   });
   // }
-
-  void loadUltimaProgramare() async {
-    var ultimaProgramare1 = await loadData();
-    setState(() {
-      ultimaProgramare = ultimaProgramare1;
-    });
-  }
 
   @override
   void initState() {
     super.initState();
-    loadUltimaProgramare();
+    // loadUltimaProgramare();
+    programareFinala = loadData();
     getNumePrenumeFuture = getUserName();
   }
 
@@ -73,33 +67,106 @@ class HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
                 color: Color.fromARGB(255, 236, 236, 236)),
             child: Column(children: [
-              Visibility(
-                  visible: isVisible,
-                  child: GestureDetector(
-                      onTap: () {
-                        apiCallFunctions.getDetaliiProgramare(ultimaProgramare!.id).then((value) {
-                          showModalBottomSheet(
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
-                            isScrollControlled: true,
-                            context: context,
-                            builder: (context) {
-                              return ultimaProgramare == null
-                                  ? Container()
-                                  : ProgramariModal(
-                                      programare: ultimaProgramare!,
-                                      total: value!,
-                                    );
-                            },
-                          );
-                        });
-                      },
-                      child: ultimaProgramare == null
-                          ? const Center(child: Text(''))
-                          : ButonUrmatoareaProgramare(
-                              numeZiUltimaProg: ultimaProgramare!.inceput,
-                              oraInceputUltimaProg: ultimaProgramare!.inceput))),
+              FutureBuilder(
+                future: programareFinala,
+                builder: (context, snapshot) {
+                  var data = snapshot.data;
+                  // ignore: avoid_print
+                  print(data);
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.connectionState == ConnectionState.done) {
+                    return Visibility(
+                        visible: isVisible,
+                        child: GestureDetector(
+                            onTap: data == null
+                                ? null
+                                : () {
+                                    apiCallFunctions.getDetaliiProgramare(snapshot.data!.id).then((value) {
+                                      showModalBottomSheet(
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
+                                        isScrollControlled: true,
+                                        context: context,
+                                        builder: (context) {
+                                          return snapshot.data == null
+                                              ? Container()
+                                              : ProgramariModal(
+                                                  programare: snapshot.data!,
+                                                  total: value!,
+                                                );
+                                        },
+                                      );
+                                    });
+                                  },
+                            child: snapshot.data == null
+                                ? const Center(child: Text(''))
+                                : ButonUrmatoareaProgramare(
+                                    numeZiUltimaProg: data!.inceput, oraInceputUltimaProg: data.inceput)));
+                  } else
+                    return Container();
+                },
+              ),
               Visibility(visible: !isVisible, child: const ButtonNoUpcomingAppointments()),
-              dosarulMeu(context),
+              SizedBox(height: 20),
+              // dosarulMeu(context),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Stack(children: [
+                  Container(
+                    height: 170,
+                    width: double.infinity,
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white),
+                  ),
+                  Positioned(
+                    left: 20,
+                    top: 20,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('Dosarul meu', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                        Container(
+                          width: 150,
+                          child: ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: dosarulMeuList.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                // onTap: () => MyController.jumpToPage(1),
+                                onTap: () {
+                                  if (index == 0) {
+                                    MyController.jumpToPage(1);
+                                  } else {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(builder: (context) => dosarulMeuList[index].widgetRoute));
+                                  }
+                                },
+                                child: DosarulMeuItem(
+                                  titlu: dosarulMeuList[index].titlu,
+                                  widgetRoute: dosarulMeuList[index].widgetRoute,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    right: 0,
+                    bottom: 0,
+                    child: Image.asset(
+                      './assets/images/dentist.png',
+                      height: 130,
+                      color: Colors.black.withOpacity(0.4),
+                    ),
+                  )
+                ]),
+              ),
+              SizedBox(height: 20),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 22),
                 child: Row(
@@ -108,7 +175,7 @@ class HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               serviciiWidget(),
               const SizedBox(height: 20),
             ]),
@@ -153,27 +220,30 @@ class HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text('Dosarul meu', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                    ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: dosarulMeuList.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          // onTap: () => MyController.jumpToPage(1),
-                          onTap: () {
-                            if (index == 0) {
-                              MyController.jumpToPage(1);
-                            } else {
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute(builder: (context) => dosarulMeuList[index].widgetRoute));
-                            }
-                          },
-                          child: DosarulMeuItem(
-                            titlu: dosarulMeuList[index].titlu,
-                            widgetRoute: dosarulMeuList[index].widgetRoute,
-                          ),
-                        );
-                      },
+                    Container(
+                      width: 150,
+                      child: ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: dosarulMeuList.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            // onTap: () => MyController.jumpToPage(1),
+                            onTap: () {
+                              if (index == 0) {
+                                MyController.jumpToPage(1);
+                              } else {
+                                Navigator.of(context)
+                                    .push(MaterialPageRoute(builder: (context) => dosarulMeuList[index].widgetRoute));
+                              }
+                            },
+                            child: DosarulMeuItem(
+                              titlu: dosarulMeuList[index].titlu,
+                              widgetRoute: dosarulMeuList[index].widgetRoute,
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -185,7 +255,11 @@ class HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Image.asset('./assets/images/dentist.png', height: 130, color: Colors.black.withOpacity(0.4))
+                  Image.asset(
+                    './assets/images/dentist.png',
+                    height: 130,
+                    color: Colors.black.withOpacity(0.4),
+                  )
                 ],
               ),
             )
@@ -273,10 +347,27 @@ class HomePageState extends State<HomePage> {
       });
       return null;
     }
-    // TODO: swap trecute to viitoare
-    //
-    Programare? ultimaProgramareP = programari.viitoare[programari.viitoare.length - 1];
-    return ultimaProgramareP;
+    // Programare? ultimaProgramareP = programari.viitoare.reversed.elementAt(programari.viitoare.length - 1);
+    List<Programare> programariReversed = programari.viitoare.toList();
+    Programare? ultimaProgramareCorecta;
+    List<Programare> programariReversedFiltrat = [];
+    for (var programare in programariReversed) {
+      if (!programare.status.startsWith('Anulat')) {
+        programariReversedFiltrat.add(programare);
+      }
+    }
+    if (programariReversedFiltrat.isEmpty) {
+      print("Lista programari ${programariReversedFiltrat}");
+      setState(() {
+        isVisible = false;
+      });
+      return null;
+    } else {
+      ultimaProgramareCorecta = programariReversedFiltrat.elementAt(0);
+      print('s-a ajuns aici');
+      print(isVisible);
+      return ultimaProgramareCorecta;
+    }
   }
 
   // Container urmatoareaProgramareWidget() {

@@ -1,5 +1,5 @@
 // import 'package:flutter/cupertino.dart';
-import 'package:dental_care_app/pages/home.dart';
+import 'package:dental_care_app/screens/home.dart';
 import 'package:dental_care_app/widgets/dialogs/privacy_dialog.dart';
 
 import '../utils/shared_pref_keys.dart' as pref_keys;

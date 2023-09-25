@@ -1,9 +1,9 @@
-import 'package:dental_care_app/pages/login.dart';
-import 'package:dental_care_app/pages/tratamente.dart';
+import 'package:dental_care_app/screens/login.dart';
+import 'package:dental_care_app/screens/tratamente.dart';
 import "package:flutter/material.dart";
 import '../../main.dart';
-import '../../pages/home.dart';
-import '../../pages/programari.dart';
+import '../../screens/home.dart';
+import '../../screens/programari.dart';
 import '../items/profile_modal_item.dart';
 
 Future<dynamic> userModal(BuildContext context) {

@@ -126,9 +126,9 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                           ? Colors.blue
                           : viitoare[index].status == "Confirmat"
                               ? Colors.green
-                              : viitoare[index].status == "Finalizat"
+                              : viitoare[index].status == "Finalizat" || viitoare[index].status == "Terminat"
                                   ? Colors.yellow
-                                  : viitoare[index].status == "Anulat"
+                                  : viitoare[index].status.startsWith("Anulat")
                                       ? Colors.red
                                       : Colors.grey),
                   title: Text(
@@ -357,8 +357,8 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
     programariTrecute.sort((a, b) => b.inceput.compareTo(a.inceput));
     programariViitoare.sort((a, b) => a.inceput.compareTo(b.inceput));
     Programari? pP = Programari(trecute: programariTrecute, viitoare: programariViitoare);
-    viitoare.addAll(pP.viitoare);
-    trecute.addAll(pP.trecute);
+    viitoare.addAll(pP.viitoare.reversed);
+    trecute.addAll(pP.trecute.reversed);
     return pP;
   }
 }

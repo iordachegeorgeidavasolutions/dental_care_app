@@ -27,7 +27,9 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
 
   bool PoateFiConfirmata() {
     if (widget.programare!.status == Programare.statusConfirmat) return false;
-    if (widget.programare!.inceput.difference(DateTime.now()) > Duration(days: 1)) return false;
+    // if (widget.programare!.inceput.difference(dateNow).inDays > 1) return false;
+    if (DateTime.now().difference(widget.programare!.inceput).inDays > 1) return false;
+    if (widget.programare!.inceput.isBefore(DateTime.now())) return false;
     if (anulatDinApi == "1") return false;
 
     return true;
@@ -37,12 +39,11 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
     if (widget.programare!.status == Programare.statusAnulat) return false;
     if (anulatDinApi == "1") return false;
     if (widget.programare!.status == Programare.statusConfirmat) return false;
+    if (widget.programare!.inceput.isBefore(DateTime.now())) return false;
+    // if (widget.programare!.inceput.difference(DateTime.now()).inDays > 1) return false;
+    if (DateTime.now().difference(widget.programare!.inceput).inDays > 1) return true;
 
     return true;
-  }
-
-  void RefreshMare(Function() fn) {
-    setState(fn);
   }
 
   // void impodobesteMamaBradul() {
@@ -170,7 +171,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Ora:",
+                                "Data:",
                                 style: TextStyle(fontSize: 18),
                               ),
                             ],
@@ -342,7 +343,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                       child: Column(
                         children: [
                           ElevatedButton(
-                            style: !anulabil
+                            style: !confirmabil
                                 ? ElevatedButton.styleFrom(
                                     padding: const EdgeInsets.fromLTRB(40, 15, 40, 15), backgroundColor: Colors.grey)
                                 : ElevatedButton.styleFrom(
@@ -363,7 +364,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                       context: context,
                                       builder: (context) {
                                         return Container(
-                                          height: MediaQuery.of(context).size.height * 0.6,
+                                          height: MediaQuery.of(context).size.height * 0.7,
                                           decoration: const BoxDecoration(
                                             borderRadius: BorderRadius.only(
                                               topLeft: Radius.circular(25),
@@ -411,7 +412,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                                         onPressed: () => {
                                                           print(widget.programare!.id),
                                                           apiCallFunctions.confirmaProgramarea(widget.programare!.id),
-                                                          RefreshMare(() {
+                                                          setState(() {
                                                             widget.programare!.status = Programare.statusConfirmat;
                                                             print(context);
                                                             print(PoateFiConfirmata().toString());
@@ -452,6 +453,10 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                               backgroundColor: const Color.fromARGB(255, 218, 215, 215),
                               // minimumSize: const Size.fromHeight(50), // NEW
                             ),
+                            child: const Text(
+                              'Anuleaza programarea',
+                              style: TextStyle(fontSize: 18, color: Colors.red),
+                            ),
                             onPressed: () {
                               !anulabil
                                   ? null
@@ -461,7 +466,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                       context: context,
                                       builder: (context) {
                                         return Container(
-                                          height: MediaQuery.of(context).size.height * 0.6,
+                                          height: MediaQuery.of(context).size.height * 0.7,
                                           decoration: const BoxDecoration(
                                             borderRadius: BorderRadius.only(
                                               topLeft: Radius.circular(25),
@@ -501,7 +506,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                                         onPressed: () => {
                                                           print(widget.programare!.id),
                                                           apiCallFunctions.anuleazaProgramarea(widget.programare!.id),
-                                                          RefreshMare(() {
+                                                          setState(() {
                                                             widget.programare!.status = Programare.statusAnulat;
                                                           }),
                                                           // hideButtons(),
@@ -538,10 +543,6 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                       },
                                     );
                             },
-                            child: const Text(
-                              'Anuleaza programarea',
-                              style: TextStyle(fontSize: 18, color: Colors.red),
-                            ),
                           ),
                         ],
                       ),

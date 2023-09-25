@@ -1,5 +1,5 @@
-import 'package:dental_care_app/pages/password_reset_pin.dart';
-import 'package:dental_care_app/pages/register.dart';
+import 'package:dental_care_app/screens/password_reset_pin.dart';
+import 'package:dental_care_app/screens/register.dart';
 import 'package:flutter/material.dart';
 import 'package:dental_care_app/utils/api_call_functions.dart';
 import '../utils/functions.dart';

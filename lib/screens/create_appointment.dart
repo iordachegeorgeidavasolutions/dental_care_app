@@ -1,10 +1,8 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
-import 'package:dental_care_app/data/locatii_data.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import '../utils/api_call_functions.dart';
 import '../utils/classes.dart';
-import '../widgets/items/input_field.dart';
 
 class CreateAppointmentScreen extends StatefulWidget {
   const CreateAppointmentScreen({super.key});
@@ -104,6 +102,8 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                       ],
                     ),
                   ),
+                  // DO NOT DELETE
+
                   // Elements from the previous version of this screen, where you could select a Day and a time frame
                   // const SizedBox(height: 40),
                   // const Row(
@@ -191,7 +191,15 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                       minimumSize: const Size.fromHeight(50), // NEW
                     ),
                     onPressed: () {
-                      sendAppointmentRequest();
+                      sendAppointmentRequest().then((value) {
+                        value == null
+                            ? null
+                            : value == "13"
+                                ? Future.delayed(Duration(seconds: 3), () {
+                                    Navigator.of(context).pop();
+                                  })
+                                : null;
+                      });
                     },
                     child: const Text(
                       'Trimite solicitarea',
@@ -206,6 +214,7 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
       ),
     );
   }
+  // DO NOT DELETE
 
   // _getTimeFromUser({required bool isStartTime}) async {
   //   var pickedTime = await _showTimePicker();
@@ -247,10 +256,26 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
     return futureList;
   }
 
-  void sendAppointmentRequest() async {
+  Future<String?> sendAppointmentRequest() async {
     if (controllerDetails.text.isEmpty) {
-      print("error");
-      return;
+      Flushbar(
+        message: "Adaugati cateva detalii!",
+        icon: const Icon(
+          Icons.info_outline,
+          size: 28.0,
+          color: Colors.red,
+        ),
+        borderColor: Colors.red,
+        borderWidth: 2,
+        isDismissible: false,
+        margin: const EdgeInsets.all(6.0),
+        flushbarStyle: FlushbarStyle.FLOATING,
+        flushbarPosition: FlushbarPosition.BOTTOM,
+        borderRadius: BorderRadius.circular(12),
+        duration: const Duration(seconds: 3),
+        leftBarIndicatorColor: Colors.red,
+      ).show(context);
+      return null;
     }
     // } else if (controllerDatePicker.toString().isEmpty) {
     //   print("error 2");
@@ -274,6 +299,28 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
           pIdMembruFamilie: '');
       // ignore: avoid_print
       print(res);
+
+      if (res!.startsWith("13")) {
+        Flushbar(
+          message: "Cerere trimisa cu succes!",
+          icon: const Icon(
+            Icons.info_outline,
+            size: 28.0,
+            color: Colors.green,
+          ),
+          borderColor: Colors.green,
+          borderWidth: 2,
+          isDismissible: false,
+          margin: const EdgeInsets.all(6.0),
+          flushbarStyle: FlushbarStyle.FLOATING,
+          flushbarPosition: FlushbarPosition.BOTTOM,
+          borderRadius: BorderRadius.circular(12),
+          duration: const Duration(seconds: 3),
+          leftBarIndicatorColor: Colors.green,
+        ).show(context);
+        return "13";
+      }
+      return "eroare";
     }
   }
 }

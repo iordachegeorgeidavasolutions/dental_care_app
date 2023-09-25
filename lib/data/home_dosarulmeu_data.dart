@@ -1,5 +1,5 @@
-import 'package:dental_care_app/pages/programari.dart';
-import 'package:dental_care_app/pages/tratamente.dart';
+import 'package:dental_care_app/screens/programari.dart';
+import 'package:dental_care_app/screens/tratamente.dart';
 import '../utils/classes.dart';
 
 List<DosarulMeu> dosarulMeuList = [
