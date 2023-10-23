@@ -19,14 +19,13 @@ class _ButonUrmatoareaProgramareState extends State<ButonUrmatoareaProgramare> {
         const Padding(
           padding: EdgeInsets.fromLTRB(30, 20, 20, 10),
           child: Row(children: [
-            Text('Urmatoarea programare : ', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold))
+            Text('Următoarea programare : ', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold))
           ]),
         ),
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 20),
           height: MediaQuery.of(context).size.height * 0.16,
-          decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)), color: Color.fromARGB(255, 243, 68, 68)),
+          decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)), color: Colors.red[400]),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

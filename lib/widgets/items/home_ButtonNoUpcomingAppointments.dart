@@ -22,8 +22,7 @@ class ButtonNoUpcomingAppointments extends StatelessWidget {
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 20),
             height: 60,
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)), color: Color.fromARGB(255, 243, 68, 68)),
+            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)), color: Colors.red[400]),
             child: const Row(
               children: [
                 Expanded(
