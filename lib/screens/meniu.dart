@@ -4,6 +4,7 @@ import 'package:dental_care_app/screens/programari.dart';
 import 'package:dental_care_app/screens/my_account_screen.dart';
 import 'package:dental_care_app/screens/webview.dart';
 import 'package:dental_care_app/utils/classes.dart';
+import 'package:dental_care_app/widgets/modals/user_modal_remade.dart';
 import 'package:flutter/material.dart';
 import '../main.dart';
 import '../widgets/items/meniu_grid_item.dart';
@@ -40,9 +41,9 @@ List<String> links = [
 class _MeniuScreenState extends State<MeniuScreen> {
   final List items = [
     ["Oferte", "./assets/images/meniu/oferte.png"],
-    ["Lista preturi", "./assets/images/meniu/listapreturi.png"],
-    ["Locatii", "./assets/images/meniu/locatii.png"],
-    ["Educatie", "./assets/images/meniu/educatie.png"],
+    ["Listă preturi", "./assets/images/meniu/listapreturi.png"],
+    ["Locații", "./assets/images/meniu/locatii.png"],
+    ["Educație", "./assets/images/meniu/educatie.png"],
     ["Contul meu", "./assets/images/meniu/contulmeu.png"],
   ];
 
@@ -106,7 +107,13 @@ Row logoTitle(BuildContext context) {
         ),
         InkWell(
             onTap: () {
-              userModal(context);
+              showModalBottomSheet(
+                  isScrollControlled: true,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
+                  context: context,
+                  builder: (context) {
+                    return const UserModalRemade();
+                  });
             },
             child: Image.asset('./assets/images/person-icon.jpg', height: 40)),
         const SizedBox(
