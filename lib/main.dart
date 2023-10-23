@@ -10,17 +10,27 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import './screens/login.dart';
-import 'package:permission_handler/permission_handler.dart';
 import "./screens/meniu.dart";
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
-// import "./utils/shared_pref_keys.dart" as pref_keys;
 
-Future<void> main() async {
+// void _handleMessage(RemoteMessage message) {
+//   if (message.data['tip'] == '0') {
+//     navigatorKey.currentState?.push(MaterialPageRoute(builder: (context) {
+//       return ProgramariScreen();
+//     }));
+//   } else
+//     print('sui');
+// }
+
+// import "./utils/shared_pref_keys.dart" as pref_keys;
+final navigatorKey = GlobalKey<NavigatorState>();
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await Firebase.initializeApp();
   await FirebaseApi().initNotifications();
+  // FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
   var loggedIn = prefs.getBool('loggedIn');
   runApp(
     MaterialApp(
@@ -50,8 +60,30 @@ class MyAppState extends State<MyApp> {
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   int pageIndex = 0;
 
-  // HomePage? tab1;
-  // final ProgramariScreen tab2 = ProgramariScreen();
+  // void _handleMessage(RemoteMessage message) {
+  //   if (message.data['tip'] == '0') {
+  //     navigatorKey.currentState?.push(MaterialPageRoute(builder: (context) {
+  //       return ProgramariScreen();
+  //     }));
+  //   } else {
+  //     print('alo?');
+  //   }
+  // }
+
+  // Future<void> setupInteractedMessage() async {
+  //   // Get any messages which caused the application to open from
+  //   // a terminated state.
+  //   RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+
+  //   // If the message also contains a data property with a "type" of "chat",
+  //   // navigate to a chat screen
+  //   if (initialMessage != null) {
+  //     _handleMessage(initialMessage);
+  //   }
+
+  //   // Also handle any interaction when the app is in the background via a
+  //   // Stream listener
+  // }
 
   final List<Widget> pages = [
     const HomePage(),
@@ -68,7 +100,7 @@ class MyAppState extends State<MyApp> {
     ),
     CurvedNavigationBarItem(
       child: ImageIcon(AssetImage("./assets/images/navbar/programari.png")),
-      label: 'Programari',
+      label: 'Programări',
     ),
     CurvedNavigationBarItem(
       child: ImageIcon(AssetImage("./assets/images/navbar/contact.png")),
@@ -76,7 +108,7 @@ class MyAppState extends State<MyApp> {
     ),
     CurvedNavigationBarItem(
       child: ImageIcon(AssetImage("./assets/images/navbar/educatie.png")),
-      label: 'Educatie',
+      label: 'Educație',
     ),
     CurvedNavigationBarItem(
       child: ImageIcon(AssetImage("./assets/images/navbar/menu.png")),
@@ -91,14 +123,16 @@ class MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    // (setPage);
     super.initState();
+    // setupInteractedMessage();
+    // FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
   }
 
   // This widget is the root of your application
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: navigatorKey,
         bottomNavigationBar: curvedNavigation(),
         body: PageView(
           physics: const NeverScrollableScrollPhysics(),
@@ -129,7 +163,7 @@ class MyAppState extends State<MyApp> {
       buttonBackgroundColor: Colors.white,
       color: Colors.white,
       items: icons,
-      height: 60,
+      height: 65,
       index: pageIndex,
     );
   }
