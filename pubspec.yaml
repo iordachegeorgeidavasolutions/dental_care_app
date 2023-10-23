@@ -35,9 +35,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   firebase_core: ^2.13.0
-  awesome_card: ^1.1.7
   url_launcher: ^6.1.11
-  webview_flutter: ^4.2.2
   flutter_inappwebview:
     git:
       url: https://github.com/vixez/flutter_inappwebview.git
@@ -50,14 +48,12 @@ dependencies:
   http: ^1.0.0
   xml: ^6.3.0
   shared_preferences: ^2.1.2
-  introduction_screen: ^3.1.9
   flutter_localizations:
     sdk: flutter  
   flutter_markdown: ^0.6.17
   date_picker_timeline: ^1.2.5
   flutter_svg: ^2.0.7
   flutter_otp_text_field: ^1.1.1
-  image_picker: ^1.0.2
   path_provider: ^2.1.0
   flutter_local_notifications: ^15.1.0+1
   firebase_messaging: ^14.6.6
@@ -65,7 +61,6 @@ dependencies:
   another_flushbar: ^1.12.30
   curved_labeled_navigation_bar: ^2.0.2
   google_fonts: ^6.1.0
-  permission_handler: ^11.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
