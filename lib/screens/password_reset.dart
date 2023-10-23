@@ -46,7 +46,7 @@ class _PasswordResetState extends State<PasswordReset> {
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
                     child: const Text(
-                      "Inapoi",
+                      "Înapoi",
                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400, color: Colors.black),
                     ),
                   )
