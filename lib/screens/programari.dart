@@ -1,4 +1,5 @@
 // ignore_for_file: avoid_print
+import 'package:dental_care_app/screens/create_appointment.dart';
 import 'package:dental_care_app/utils/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -120,26 +121,30 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                         });
                   });
                 },
-                child: ListTile(
-                  leading: Icon(Icons.circle,
-                      color: viitoare[index].status == "Programat"
-                          ? Colors.blue
-                          : viitoare[index].status == "Confirmat"
-                              ? Colors.green
-                              : viitoare[index].status == "Finalizat" || viitoare[index].status == "Terminat"
-                                  ? Colors.yellow
-                                  : viitoare[index].status.startsWith("Anulat")
-                                      ? Colors.red
-                                      : Colors.grey),
-                  title: Text(
-                    DateFormat('EEEE, d.M.yyyy', 'ro').format(viitoare[index].inceput).capitalizeFirst(),
-                    style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.black87),
-                  ),
-                  trailing: const Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: Colors.black,
-                  ),
-                ),
+                child: viitoare.isEmpty
+                    ? const Center(
+                        child: Text("Nu aveti programari viitoare"),
+                      )
+                    : ListTile(
+                        leading: Icon(Icons.circle,
+                            color: viitoare[index].status == "Programat"
+                                ? Colors.blue
+                                : viitoare[index].status == "Confirmat"
+                                    ? Colors.green
+                                    : viitoare[index].status == "Finalizat" || viitoare[index].status == "Terminat"
+                                        ? Colors.yellow
+                                        : viitoare[index].status.startsWith("Anulat")
+                                            ? Colors.red
+                                            : Colors.grey),
+                        title: Text(
+                          DateFormat('EEEE, d.M.yyyy', 'ro').format(viitoare[index].inceput).capitalizeFirst(),
+                          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.black87),
+                        ),
+                        trailing: const Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: Colors.black,
+                        ),
+                      ),
               ),
             ),
           );
@@ -148,57 +153,84 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
     );
   }
 
-  Padding istoricList() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: ListView.builder(
-        itemCount: trecute.length,
-        physics: const ScrollPhysics(),
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
+  Widget istoricList() {
+    return trecute.length == 0
+        ? Column(
+            children: [
+              SizedBox(
+                height: 200,
               ),
-              child: InkWell(
-                onTap: () {
-                  setState(() {
-                    _selectedIndex = index;
-                  });
-                  apiCallFunctions.getDetaliiProgramare(trecute[_selectedIndex].id).then((value) {
-                    showModalBottomSheet(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (context) {
-                          return ProgramariModal(
-                            total: value!,
-                            programare: trecute[_selectedIndex],
-                          );
-                        });
-                  });
-                },
-                child: ListTile(
-                  leading: Image.asset('./assets/images/programari.png', height: 25),
-                  title: Text(
-                    DateFormat('EEEE, d.M.yyyy', 'ro').format(trecute[index].inceput).capitalizeFirst(),
-                    style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.black87),
-                  ),
-                  trailing: const Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: Colors.black,
-                  ),
+              Text(
+                "Nu aveti programari viitoare",
+                style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 20),
+              GestureDetector(
+                onTap: () =>
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateAppointmentScreen())),
+                child: Container(
+                  height: 50,
+                  width: 200,
+                  color: Colors.red[400],
+                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                    Icon(Icons.add, color: Colors.white),
+                    Text('Solicita programare  ',
+                        style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                  ]),
                 ),
-              ),
+              )
+            ],
+          )
+        : Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: ListView.builder(
+              itemCount: trecute.length,
+              physics: const ScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          _selectedIndex = index;
+                        });
+                        apiCallFunctions.getDetaliiProgramare(trecute[_selectedIndex].id).then((value) {
+                          showModalBottomSheet(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (context) {
+                                return ProgramariModal(
+                                  total: value!,
+                                  programare: trecute[_selectedIndex],
+                                );
+                              });
+                        });
+                      },
+                      child: ListTile(
+                        leading: Image.asset('./assets/images/programari.png', height: 25),
+                        title: Text(
+                          DateFormat('EEEE, d.M.yyyy', 'ro').format(trecute[index].inceput).capitalizeFirst(),
+                          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.black87),
+                        ),
+                        trailing: const Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
           );
-        },
-      ),
-    );
   }
 
   Row switchWidget() {
@@ -207,7 +239,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
         ToggleSwitch(
           initialLabelIndex: initialLabelIndex,
           minWidth: 110,
-          activeBgColor: const [Colors.red],
+          activeBgColor: [Colors.red[400]!],
           inactiveBgColor: Colors.white,
           totalSwitches: 2,
           labels: const ['Istoric', 'Viitor'],
@@ -359,6 +391,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
     Programari? pP = Programari(trecute: programariTrecute, viitoare: programariViitoare);
     viitoare.addAll(pP.viitoare.reversed);
     trecute.addAll(pP.trecute.reversed);
+    print(" ASta e ${trecute.length}");
     return pP;
   }
 }
