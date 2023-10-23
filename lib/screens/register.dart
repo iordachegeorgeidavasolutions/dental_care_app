@@ -1,7 +1,6 @@
 // import 'package:flutter/cupertino.dart';
-import 'package:dental_care_app/screens/home.dart';
+// import 'package:dental_care_app/screens/home.dart';
 import 'package:dental_care_app/widgets/dialogs/privacy_dialog.dart';
-
 import '../utils/shared_pref_keys.dart' as pref_keys;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,6 @@ class RegisterScreen extends StatefulWidget {
 ApiCallFunctions apiCallFunctions = ApiCallFunctions();
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  String? mtoken = " ";
   final registerKey = GlobalKey<FormState>();
 
   final controllerNume = TextEditingController();
@@ -38,14 +36,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final FocusNode focusNodePassConfirm = FocusNode();
   final FocusNode focusNodeBirthdate = FocusNode();
 
-  DateTime? dataNasterii;
-
   bool isHidden = true;
+
   @override
-  void initState() {
-    super.initState();
-    // requestPermission();
-    // getToken();
+  void dispose() {
+    controllerNume.dispose();
+    controllerPrenume.dispose();
+    controllerEmail.dispose();
+    controllerTelefon.dispose();
+    controllerPass.dispose();
+    controllerPassConfirm.dispose();
+    controllerBirthdate.dispose();
+    super.dispose();
   }
 
   @override
@@ -77,7 +79,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 20),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
+                  backgroundColor: Colors.red[400],
                   minimumSize: const Size.fromHeight(50),
                 ),
                 onPressed: () {
