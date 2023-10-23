@@ -26,3 +26,7 @@ const String userTotalPuncteNivelSuperior = 'userTotalPuncteNivelSuperior';
 const String idSediuUser = 'idSediuUser';
 const String permiteIntroducereaDeProgramari = 'permiteIntroducereaDeProgramari';
 const String fcmToken = 'fcmToken';
+const String pPrimesteNotificari = 'pPrimesteNotificari';
+const String judet = 'judet';
+const String localitate = 'localitate';
+const String strada = 'strada';
