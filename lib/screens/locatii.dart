@@ -53,7 +53,7 @@ class _LocatiiScreenState extends State<LocatiiScreen> {
           SizedBox(
             height: 20,
           ),
-          Text('Locatii', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
+          Text('Locații', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
         ]),
       ],
     );
