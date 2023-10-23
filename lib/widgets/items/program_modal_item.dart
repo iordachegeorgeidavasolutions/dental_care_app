@@ -171,7 +171,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Data:",
+                                "Dată:",
                                 style: TextStyle(fontSize: 18),
                               ),
                             ],
@@ -205,7 +205,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Ora:",
+                                "Oră:",
                                 style: TextStyle(fontSize: 18),
                               ),
                             ],
@@ -235,7 +235,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Locatie:",
+                                "Locație:",
                                 style: TextStyle(fontSize: 18),
                               ),
                             ],
@@ -352,7 +352,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                     // minimumSize: const Size.fromHeight(50), // NEW
                                   ),
                             child: const Text(
-                              'Confirma programarea',
+                              'Confirmă programarea',
                               style: TextStyle(fontSize: 18),
                             ),
                             onPressed: () {
@@ -384,7 +384,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                                 const SizedBox(height: 20),
                                                 const Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                                                   Text(
-                                                      "Prin apasarea butonului 'Confirm', confirmati ca ca veti ajunge la programarea stabilita.",
+                                                      "Prin apăsarea butonului 'Confirm', confirmați că veți ajunge la programarea stabilită.",
                                                       maxLines: 4,
                                                       overflow: TextOverflow.ellipsis,
                                                       textAlign: TextAlign.center,
@@ -392,7 +392,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                                 ]),
                                                 const SizedBox(height: 20),
                                                 const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                                                  Text("Va multumim!", style: TextStyle(fontSize: 18)),
+                                                  Text("Vă mulțumim!", style: TextStyle(fontSize: 18)),
                                                 ]),
                                                 const SizedBox(height: 60),
                                                 IntrinsicWidth(
@@ -406,7 +406,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                                         ),
                                                         style: ElevatedButton.styleFrom(
                                                           padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
-                                                          backgroundColor: Colors.red,
+                                                          backgroundColor: Colors.red[400],
                                                           // minimumSize: const Size.fromHeight(50), // NEW
                                                         ),
                                                         onPressed: () => {
@@ -454,7 +454,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                               // minimumSize: const Size.fromHeight(50), // NEW
                             ),
                             child: const Text(
-                              'Anuleaza programarea',
+                              'Anulează programarea',
                               style: TextStyle(fontSize: 18, color: Colors.red),
                             ),
                             onPressed: () {
@@ -486,7 +486,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                                 const SizedBox(height: 20),
                                                 const Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                                                   Text(
-                                                      "Doriti anularea programarii. Trebuie avut in vedere faptul ca timpul si locurile sunt limitate si astfel este posibil sa nu gasiti un interval orar disponibil in perioada imediat urmatoare.",
+                                                      "Doriți anularea programării. Trebuie avut în vedere faptul că timpul și locurile sunt limitate și astfel este posibil să nu gasiți un interval orar disponibil în perioada imediat urmatoare.",
                                                       maxLines: 4,
                                                       overflow: TextOverflow.ellipsis,
                                                       textAlign: TextAlign.center,
@@ -529,7 +529,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                                           Navigator.pop(context),
                                                         },
                                                         child: const Text(
-                                                          'Nu Anulez',
+                                                          'Nu anulez',
                                                           style: TextStyle(fontSize: 24, color: Colors.red),
                                                         ),
                                                       ),

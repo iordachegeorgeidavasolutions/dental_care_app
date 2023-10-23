@@ -9,7 +9,7 @@ class LocatiiModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.9,
+      height: MediaQuery.of(context).size.height * 0.6,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(35),
@@ -62,7 +62,7 @@ class LocatiiModal extends StatelessWidget {
                   )
                 ]),
                 const SizedBox(height: 20),
-                const Row(children: [Text('Adresa', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20))]),
+                const Row(children: [Text('Adresă', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20))]),
                 const SizedBox(height: 10),
                 Row(children: [
                   Expanded(

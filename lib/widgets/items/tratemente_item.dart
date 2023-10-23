@@ -40,9 +40,11 @@ class TratamenteItem extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                procedure,
-                style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w400),
+              Expanded(
+                child: Text(
+                  procedure,
+                  style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w400),
+                ),
               ),
               Text(
                 price,
