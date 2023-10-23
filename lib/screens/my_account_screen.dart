@@ -1,5 +1,6 @@
 import 'package:dental_care_app/screens/password_reset_pin.dart';
 import 'package:dental_care_app/utils/functions.dart';
+import 'package:intl/intl.dart';
 import '../utils/shared_pref_keys.dart' as pref_keys;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,8 +16,9 @@ class UserProfileScreen extends StatefulWidget {
 ApiCallFunctions apiCallFunctions = ApiCallFunctions();
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
+  bool dateChosen = false;
   bool verificationOk = false;
-
+  final adressKey = GlobalKey<FormState>();
   final registerKey = GlobalKey<FormState>();
   final controllerNume = TextEditingController();
   final controllerPrenume = TextEditingController();
@@ -25,7 +27,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   final controllerPass = TextEditingController();
   final controllerPassConfirm = TextEditingController();
   final controllerBirthdate = TextEditingController();
+  final controllerJudet = TextEditingController();
+  final controllerLocalitate = TextEditingController();
 
+  final FocusNode focusNodeLocalitate = FocusNode();
   final FocusNode focusNodeNume = FocusNode();
   final FocusNode focusNodePrenume = FocusNode();
   final FocusNode focusNodeEmail = FocusNode();
@@ -34,7 +39,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   final FocusNode focusNodePassConfirm = FocusNode();
   final FocusNode focusNodeBirthdate = FocusNode();
   DateTime? dataNasterii;
-
+  String hintLocalitate = '';
+  String hintJudet = '';
   String hintNume = '';
   String hintPrenume = '';
   String hintEmail = '';
@@ -42,6 +48,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   String hintDataNastere = '';
   String hintParola = '';
   bool isHidden = true;
+
   @override
   void initState() {
     super.initState();
@@ -64,7 +71,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   onPressed: () => Navigator.pop(context)),
               GestureDetector(
                   onTap: () => Navigator.pop(context),
-                  child: const Text("Inapoi",
+                  child: const Text("Înapoi",
                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600, color: Colors.black)))
             ]),
             const SizedBox(height: 30),
@@ -85,26 +92,93 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
+                      backgroundColor: Colors.red[400],
                       minimumSize: const Size.fromHeight(50),
                     ),
                     onPressed: () {
-                      final isValidForm = registerKey.currentState!.validate();
-                      if (isValidForm) {
+                      // Scenario 1: User selected date and wants to change only the date
+                      if (controllerEmail.text.isEmpty && controllerTelefon.text.isEmpty && dateChosen) {
+                        changeAddressDetails();
+                      } else if (controllerEmail.text.isNotEmpty && controllerTelefon.text.isNotEmpty && dateChosen) {
+                        // Scenario 2: User selected date and wants to change the date and the contact details
                         changeUserData();
+                        changeAddressDetails();
+                      } else if (controllerEmail.text.isNotEmpty && controllerTelefon.text.isNotEmpty && !dateChosen) {
+                        // Scenario 3: User wants to change only the contact details
+                        changeUserData();
+                      } else if (controllerEmail.text.isEmpty && controllerTelefon.text.isEmpty && !dateChosen) {
+                        // Scenario 4: User wants to change nothing
+                        showSnackbar(context, "Nu ai schimbat nimic!");
                       }
                     },
                     child: const Text(
-                      'Schimba datele',
+                      'Schimbă datele',
                       style: TextStyle(fontSize: 24),
                     ),
                   ),
+                  SizedBox(height: 20),
+                  const Row(
+                    children: [Text("Adresa mea", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30))],
+                  ),
+                  SizedBox(height: 20),
+                  adressFields(),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red[400],
+                      minimumSize: const Size.fromHeight(50),
+                    ),
+                    onPressed: () {
+                      if (controllerJudet.text.isNotEmpty || controllerLocalitate.text.isNotEmpty) {
+                        changeAddressDetails();
+                      }
+                    },
+                    child: const Text(
+                      'Adauga datele',
+                      style: TextStyle(fontSize: 24),
+                    ),
+                  ),
+                  SizedBox(height: 20),
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Form adressFields() {
+    return Form(
+      key: adressKey,
+      child: Column(children: [
+        TextFormField(
+            controller: controllerJudet,
+            autocorrect: false,
+            onFieldSubmitted: (String s) {
+              focusNodeLocalitate.requestFocus();
+            },
+            decoration: InputDecoration(
+                suffixIcon: Icon(Icons.edit),
+                hintText: hintJudet,
+                enabledBorder:
+                    const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
+                filled: true,
+                fillColor: Colors.white)),
+        const SizedBox(height: 3),
+        TextFormField(
+            focusNode: focusNodeLocalitate,
+            controller: controllerLocalitate,
+            autocorrect: false,
+            decoration: InputDecoration(
+                suffixIcon: Icon(Icons.edit),
+                hintText: hintLocalitate,
+                enabledBorder:
+                    const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
+                filled: true,
+                fillColor: Colors.white)),
+        const SizedBox(height: 3),
+      ]),
     );
   }
 
@@ -172,11 +246,21 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 fillColor: Colors.white)),
         const SizedBox(height: 3),
         TextFormField(
+            onTap: () async {
+              DateTime? date = await showDatePicker(
+                  context: context, initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime(2024));
+              controllerBirthdate.text = DateFormat('ddMMyyyy').format(date!).toString();
+              setState(() {
+                dateChosen = true;
+                hintDataNastere = controllerBirthdate.text;
+              });
+            },
             focusNode: focusNodeBirthdate,
             autocorrect: false,
-            readOnly: true,
+            readOnly: false,
             decoration: InputDecoration(
-                hintText: hintDataNastere,
+                suffixIcon: Icon(Icons.edit),
+                hintText: formatDate(hintDataNastere),
                 enabledBorder:
                     const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
                 filled: true,
@@ -186,16 +270,64 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 
+  String formatDate(String dateString) {
+    // Check if the input string has the correct length
+    if (dateString.length != 8) {
+      return 'Invalid date format';
+    }
+
+    // Parse the received date string
+    String year = dateString.substring(4, 8);
+    String month = dateString.substring(2, 4);
+    String day = dateString.substring(0, 2);
+
+    // Format the date into "dd-MM-yyyy" format
+    String formattedDate = '$day-$month-$year';
+    return formattedDate;
+  }
+
   void loadUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
+      hintLocalitate = prefs.getString(pref_keys.localitate) ?? "Localitate";
+      hintJudet = prefs.getString(pref_keys.judet) ?? "Judet";
       hintNume = prefs.getString(pref_keys.userNume)!;
       hintPrenume = prefs.getString(pref_keys.userPrenume)!;
       hintDataNastere = prefs.getString(pref_keys.userDDN)!;
       hintTelefon = prefs.getString(pref_keys.userTelefon)!;
       hintEmail = prefs.getString(pref_keys.userEmail)!;
-      hintParola = prefs.getString(pref_keys.userPassMD5)!;
     });
+  }
+
+  changeAddressDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? res = await apiCallFunctions.schimbaDatelePersonale(
+        pDataDeNastereDDMMYYYY: controllerBirthdate.text.isEmpty ? hintDataNastere : controllerBirthdate.text,
+        judet: controllerJudet.text.isEmpty ? hintJudet : controllerJudet.text,
+        localitate: controllerLocalitate.text.isEmpty ? hintLocalitate : controllerLocalitate.text);
+    print(res);
+    if (res == null) {
+      showSnackbar(
+        context,
+        "Eroare schimbare date contact!",
+      );
+      return;
+    } else if (res.startsWith('66')) {
+      showSnackbar(context, "Date gresite");
+      return;
+    } else if (res.startsWith('13')) {
+      showSnackbar(context, "Date corecte - cerere trimisa!");
+      if (dateChosen) {
+        return;
+      } else if (controllerJudet.text.isNotEmpty && controllerLocalitate.text.isNotEmpty) {
+        prefs.setString(pref_keys.judet, controllerJudet.text);
+        prefs.setString(pref_keys.judet, controllerLocalitate.text);
+      } else if (controllerJudet.text.isEmpty) {
+        prefs.setString(pref_keys.localitate, controllerLocalitate.text);
+      } else {
+        prefs.setString(pref_keys.judet, controllerJudet.text);
+      }
+    }
   }
 
   changeUserData() async {
