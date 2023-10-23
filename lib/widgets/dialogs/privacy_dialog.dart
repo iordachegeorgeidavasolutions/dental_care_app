@@ -29,9 +29,9 @@ class PrivacyDialog extends StatelessWidget {
           style: TextButton.styleFrom(
               // backgroundColor: Colors.black,
               ),
-          child: const Text(
-            'Am luat la cunostiinta',
-            style: TextStyle(color: Colors.red),
+          child: Text(
+            'Am luat la cunostiință',
+            style: TextStyle(color: Colors.red[400]),
           ),
         ),
       ]),
