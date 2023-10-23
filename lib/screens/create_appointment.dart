@@ -57,7 +57,7 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                   onPressed: () => Navigator.pop(context)),
               GestureDetector(
                   onTap: () => Navigator.pop(context),
-                  child: const Text("Inapoi",
+                  child: const Text("Înapoi",
                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600, color: Colors.black)))
             ]),
             const SizedBox(height: 20),
@@ -187,7 +187,7 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
+                      backgroundColor: Colors.red[400],
                       minimumSize: const Size.fromHeight(50), // NEW
                     ),
                     onPressed: () {
@@ -260,12 +260,12 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
     if (controllerDetails.text.isEmpty) {
       Flushbar(
         message: "Adaugati cateva detalii!",
-        icon: const Icon(
+        icon: Icon(
           Icons.info_outline,
           size: 28.0,
-          color: Colors.red,
+          color: Colors.red[400],
         ),
-        borderColor: Colors.red,
+        borderColor: Colors.red[400],
         borderWidth: 2,
         isDismissible: false,
         margin: const EdgeInsets.all(6.0),
@@ -273,7 +273,7 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
         flushbarPosition: FlushbarPosition.BOTTOM,
         borderRadius: BorderRadius.circular(12),
         duration: const Duration(seconds: 3),
-        leftBarIndicatorColor: Colors.red,
+        leftBarIndicatorColor: Colors.red[400],
       ).show(context);
       return null;
     }
