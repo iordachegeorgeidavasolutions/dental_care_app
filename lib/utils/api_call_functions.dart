@@ -49,6 +49,49 @@ class ApiCallFunctions {
     return res;
   }
 
+  Future<List<LinieFisaTratament>?> getListaLiniiFisaTratamentDeFacut() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map<String, String> params = {
+      'pAdresaMail': prefs.getString(pref_keys.userEmail)!,
+      'pParolaMD5': prefs.getString(pref_keys.userPassMD5)!,
+    };
+
+    String? res =
+        await apiCall.apeleazaMetodaString(pNumeMetoda: 'GetListaLiniiFisaTratamentDeFacut', pParametrii: params);
+
+    List<LinieFisaTratament> interventii = <LinieFisaTratament>[];
+    if (res == null) {
+      return null;
+    }
+    if (res.contains('*\$*')) {
+      List<String> interventiiRaw = res.split('*\$*');
+      interventiiRaw.removeWhere((v) => v.isEmpty);
+
+      for (var interv in interventiiRaw) {
+        List<String> list = interv.split('\$#\$');
+
+        DateTime dateTime = DateTime.utc(
+            int.parse(list[6].substring(0, 4)), int.parse(list[6].substring(4, 6)), int.parse(list[6].substring(6, 8)));
+
+        String data = DateFormat('dd.MM.yyyy').format(dateTime);
+
+        interventii.add(LinieFisaTratament(
+            tipObiect: list[0],
+            idObiect: list[1],
+            numeMedic: list[2],
+            denumireInterventie: list[3],
+            dinti: list[4],
+            observatii: list[5],
+            dataDateTime: dateTime,
+            dataString: data,
+            pret: list[7],
+            culoare: Color(int.parse(list[8])),
+            valoareInitiala: list[9]));
+      }
+    }
+    return interventii;
+  }
+
   Future<List<Sediu>> getListaSedii() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // final String idUser = prefs.getString(pref_keys.userIdAjustareCurenta)!;
@@ -121,13 +164,34 @@ class ApiCallFunctions {
     return res;
   }
 
+  Future<String?> schimbaDatelePersonale({
+    required String pDataDeNastereDDMMYYYY,
+    required String judet,
+    required String localitate,
+  }) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final Map<String, String> param = {
+      'pAdresaMail': prefs.getString(pref_keys.userEmail)!,
+      'pParola': prefs.getString(pref_keys.userPassMD5)!,
+      'pNume': prefs.getString(pref_keys.userNume)!,
+      'pPrenume': prefs.getString(pref_keys.userPrenume)!,
+      'pDataDeNastereDDMMYYYY': pDataDeNastereDDMMYYYY,
+      'pIdJudet': judet,
+      'pIdLocalitate': localitate,
+    };
+    String? res = await apiCall.apeleazaMetodaString(pNumeMetoda: 'SchimbaDatelePersonale', pParametrii: param);
+    return res;
+  }
+
   Future<String?> updateDeviceID({
     required String pAdresaEmail,
+    required String pPrimesteNotificari,
     required String pParolaMD5,
     required String pFirebaseGoogleDeviceID,
   }) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final Map<String, String> param = {
+      'pPrimesteNotificari': pPrimesteNotificari,
       'pAdresaEmail': pAdresaEmail,
       'pParolaMD5': pParolaMD5,
       'pFirebaseGoogleDeviceID': prefs.getString(pref_keys.fcmToken)!,
