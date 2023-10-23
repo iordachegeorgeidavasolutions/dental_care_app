@@ -11,6 +11,7 @@ import '../utils/api_call_functions.dart';
 import '../utils/classes.dart';
 import '../widgets/items/home_butonUrmatoareProgramare.dart';
 import '../utils/functions.dart';
+
 //asd
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -32,12 +33,18 @@ class HomePageState extends State<HomePage> {
       "https://app.dentocare.ro/servicii/implantologie/",
     ],
     [
-      "Ortodontie",
+      "Ortodonție",
       "./assets/images/homescreen_servicii/ortodontie.png",
       "https://app.dentocare.ro/servicii/ortodontie/"
     ],
-    ["Protetica", "./assets/images/homescreen_servicii/protetica.png", "https://app.dentocare.ro/servicii/protetica/"],
-    ["Preventie", "./assets/images/homescreen_servicii/preventie.png", "https://app.dentocare.ro/servicii/preventie/"],
+    ["Protetică", "./assets/images/homescreen_servicii/protetica.png", "https://app.dentocare.ro/servicii/protetica/"],
+    ["Prevenție", "./assets/images/homescreen_servicii/preventie.png", "https://app.dentocare.ro/servicii/preventie/"],
+    ["Estetică", "./assets/images/homescreen_servicii/estetica.png", "https://app.dentocare.ro/servicii/estetica/"],
+    [
+      "Toate serviciile",
+      "./assets/images/homescreen_servicii/toate serviciile V1.png",
+      "https://app.dentocare.ro/servicii/"
+    ],
   ];
 
   // void loadUltimaProgramare() async {
@@ -79,31 +86,33 @@ class HomePageState extends State<HomePage> {
                     );
                   } else if (snapshot.connectionState == ConnectionState.done) {
                     return Visibility(
-                        visible: isVisible,
-                        child: GestureDetector(
-                            onTap: data == null
-                                ? null
-                                : () {
-                                    apiCallFunctions.getDetaliiProgramare(snapshot.data!.id).then((value) {
-                                      showModalBottomSheet(
-                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
-                                        isScrollControlled: true,
-                                        context: context,
-                                        builder: (context) {
-                                          return snapshot.data == null
-                                              ? Container()
-                                              : ProgramariModal(
-                                                  programare: snapshot.data!,
-                                                  total: value!,
-                                                );
-                                        },
-                                      );
-                                    });
-                                  },
-                            child: snapshot.data == null
-                                ? const Center(child: Text(''))
-                                : ButonUrmatoareaProgramare(
-                                    numeZiUltimaProg: data!.inceput, oraInceputUltimaProg: data.inceput)));
+                      visible: isVisible,
+                      child: GestureDetector(
+                        onTap: data == null
+                            ? null
+                            : () {
+                                apiCallFunctions.getDetaliiProgramare(snapshot.data!.id).then((value) {
+                                  showModalBottomSheet(
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
+                                    isScrollControlled: true,
+                                    context: context,
+                                    builder: (context) {
+                                      return snapshot.data == null
+                                          ? Container()
+                                          : ProgramariModal(
+                                              programare: snapshot.data!,
+                                              total: value!,
+                                            );
+                                    },
+                                  );
+                                });
+                              },
+                        child: snapshot.data == null
+                            ? const Center(child: Text(''))
+                            : ButonUrmatoareaProgramare(
+                                numeZiUltimaProg: data!.inceput, oraInceputUltimaProg: data.inceput),
+                      ),
+                    );
                   } else
                     return Container();
                 },
@@ -357,15 +366,15 @@ class HomePageState extends State<HomePage> {
       }
     }
     if (programariReversedFiltrat.isEmpty) {
-      print("Lista programari ${programariReversedFiltrat}");
+      // print("Lista programari ${programariReversedFiltrat}");
       setState(() {
         isVisible = false;
       });
       return null;
     } else {
       ultimaProgramareCorecta = programariReversedFiltrat.elementAt(0);
-      print('s-a ajuns aici');
-      print(isVisible);
+      // print('s-a ajuns aici');
+      // print(isVisible);
       return ultimaProgramareCorecta;
     }
   }
