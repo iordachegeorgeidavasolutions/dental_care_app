@@ -24,6 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   final loginKey = GlobalKey<FormState>();
   bool isHidden = true;
   bool loginPhoneOrEmail = false;
+
   final controllerEmail = TextEditingController();
   final controllerPass = TextEditingController();
 
@@ -75,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
+                  backgroundColor: Colors.red[400],
                   minimumSize: const Size.fromHeight(50), // NEW
                 ),
                 onPressed: () {
@@ -140,14 +141,14 @@ class _LoginPageState extends State<LoginPage> {
             },
             controller: controllerEmail,
             keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(8.0)),
                 borderSide: BorderSide.none,
               ),
               focusedBorder:
                   OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8.0)), borderSide: BorderSide.none),
-              hoverColor: Colors.red,
+              hoverColor: Colors.red[400],
               filled: true,
               fillColor: Colors.white,
               hintText: "E-mail sau telefon",
@@ -211,7 +212,6 @@ class _LoginPageState extends State<LoginPage> {
     String mail = controllerEmail.text;
     String pass = controllerPass.text;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    print(prefs.getString(pref_keys.fcmToken));
     // final token = await FirebaseMessaging.instance.getToken() ?? '';
 
     String? res = await apiCallFunctions.loginByPhone(
@@ -224,7 +224,7 @@ class _LoginPageState extends State<LoginPage> {
     if (res == null) {
       showSnackbar(
         context,
-        "Date de login gresite!",
+        "Eroare server!",
       );
       return;
       // } else if (res.startsWith('161')) {
