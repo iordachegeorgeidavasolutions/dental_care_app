@@ -83,7 +83,7 @@ Dreptul la portabilitatea datelor;
 Dreptul de opoziție;
 Dreptul de a retrage consimțământul în orice moment;
 Dreptul de a depune o plângere la autoritatea de supraveghere competentă.
-Orice persoană vizată înregistrată la DentoCare poate solicita exercitarea acestor drepturi printr- un mesaj scris la adresa office@dentocare.ro sau printr-o scrisoare expediată pe adresa biroului nostru din Str. Pomarla nr. 3, bl. b21, sc. 3, et. 5, ap. 81, sector 4, Bucuresti.
+Orice persoană vizată înregistrată la DentoCare poate solicita exercitarea acestor drepturi printr- un mesaj scris la adresa office@dentocare.ro sau printr-o scrisoare expediată pe adresa biroului nostru din Str. Pomarla nr. 3, bl. b21, sc. 3, et. 5, ap. 81, sector 4, București.
 
 INFORMAȚII DESPRE MĂSURILE DE SECURITATE A PRELUCRĂRII
 
