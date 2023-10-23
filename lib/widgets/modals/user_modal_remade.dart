@@ -1,4 +1,5 @@
 import 'package:dental_care_app/screens/create_appointment.dart';
+import 'package:dental_care_app/screens/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../screens/my_account_screen.dart';
@@ -21,11 +22,11 @@ class _UserModalRemadeState extends State<UserModalRemade> {
   List<String>? getNumePrenumeFuture;
 
   final List profileItemsList = [
-    ["Profilul meu", "./assets/images/profile_modal_images/person-icon.jpg", CreateAppointmentScreen()],
-    ["Programari", "./assets/images/profile_modal_images/programari.png", const ProgramariScreen()],
-    ["Istoric tratamente", "./assets/images/profile_modal_images/syringe.png", const TratamenteScreen()],
+    ["Profilul meu", "./assets/images/profile_modal_images/person-icon.jpg", UserProfileScreen()],
+    ["Programări", "./assets/images/profile_modal_images/programari.png", const ProgramariScreen()],
+    ["Tratamente", "./assets/images/profile_modal_images/syringe.png", const TratamenteScreen()],
     // ["Sold curent", "./assets/images/profile_modal_images/soldcurent.png"],
-    ["Iesi din cont", "./assets/images/profile_modal_images/exiticon.png"],
+    ["Ieși din cont", "./assets/images/profile_modal_images/exiticon.png"],
   ];
 
   void asd() async {
