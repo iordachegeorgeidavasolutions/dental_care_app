@@ -486,7 +486,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                                 const SizedBox(height: 20),
                                                 const Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                                                   Text(
-                                                      "Doriți anularea programării. Trebuie avut în vedere faptul că timpul și locurile sunt limitate și astfel este posibil să nu gasiți un interval orar disponibil în perioada imediat urmatoare.",
+                                                      "Doriți anularea programării. Trebuie avut în vedere faptul că timpul și locurile sunt limitate și astfel este posibil să nu gasiți un interval orar disponibil în perioada imediat următoare.",
                                                       maxLines: 4,
                                                       overflow: TextOverflow.ellipsis,
                                                       textAlign: TextAlign.center,

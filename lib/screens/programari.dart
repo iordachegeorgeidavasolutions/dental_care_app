@@ -123,7 +123,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                 },
                 child: viitoare.isEmpty
                     ? const Center(
-                        child: Text("Nu aveti programari viitoare"),
+                        child: Text("Nu aveți programări viitoare"),
                       )
                     : ListTile(
                         leading: Icon(Icons.circle,
@@ -161,7 +161,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                 height: 200,
               ),
               Text(
-                "Nu aveti programari viitoare",
+                "Nu aveți programări viitoare",
                 style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 20),
@@ -169,12 +169,15 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                 onTap: () =>
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateAppointmentScreen())),
                 child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.red[400],
+                  ),
                   height: 50,
                   width: 200,
-                  color: Colors.red[400],
                   child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
                     Icon(Icons.add, color: Colors.white),
-                    Text('Solicita programare  ',
+                    Text('Solicită programare  ',
                         style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                   ]),
                 ),

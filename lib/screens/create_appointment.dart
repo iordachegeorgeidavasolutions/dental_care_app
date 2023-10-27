@@ -63,7 +63,7 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
             const SizedBox(height: 20),
             const Center(
                 child: Text(
-              "Solicita o programare",
+              "Solicită o programare",
               style: TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.w500),
             )),
             const SizedBox(height: 20),

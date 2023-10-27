@@ -5,7 +5,6 @@ import 'package:dental_care_app/screens/home.dart';
 import 'package:dental_care_app/screens/locatii.dart';
 import 'package:dental_care_app/screens/programari.dart';
 import 'package:dental_care_app/utils/api_firebase.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -96,7 +95,7 @@ class MyAppState extends State<MyApp> {
   List<CurvedNavigationBarItem> icons = const [
     CurvedNavigationBarItem(
       child: ImageIcon(AssetImage("./assets/images/navbar/home.png")),
-      label: 'Home',
+      label: 'Acasă',
     ),
     CurvedNavigationBarItem(
       child: ImageIcon(AssetImage("./assets/images/navbar/programari.png")),

@@ -26,7 +26,7 @@ class _EducatieScreenState extends State<EducatieScreen> {
       ));
 
   late PullToRefreshController pullToRefreshController;
-  String url = "www.dentocare.ro";
+  String url = "https://www.dentocare.ro";
   double progress = 0;
   final urlController = TextEditingController();
 
@@ -70,6 +70,7 @@ class _EducatieScreenState extends State<EducatieScreen> {
       //     webViewController?.loadUrl(urlRequest: URLRequest(url: url));
       //   },
       // ),
+      navigationButtons(),
       Expanded(
         child: Stack(
           children: [
@@ -139,29 +140,71 @@ class _EducatieScreenState extends State<EducatieScreen> {
           ],
         ),
       ),
-      ButtonBar(
-        alignment: MainAxisAlignment.center,
-        children: <Widget>[
-          ElevatedButton(
-            child: Icon(Icons.arrow_back),
+
+      // ButtonBar(
+      //   alignment: MainAxisAlignment.center,
+      //   children: <Widget>[
+      //     ElevatedButton(
+      //       child: Icon(Icons.arrow_back),
+      //       onPressed: () {
+      //         webViewController?.goBack();
+      //       },
+      //     ),
+      //     ElevatedButton(
+      //       child: Icon(Icons.arrow_forward),
+      //       onPressed: () {
+      //         webViewController?.goForward();
+      //       },
+      //     ),
+      //     ElevatedButton(
+      //       child: Icon(Icons.refresh),
+      //       onPressed: () {
+      //         webViewController?.reload();
+      //       },
+      //     ),
+      //   ],
+      // ),
+    ])));
+  }
+
+  Container navigationButtons() {
+    return Container(
+      width: double.infinity,
+      height: 50,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          )),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+        IconButton(
             onPressed: () {
               webViewController?.goBack();
             },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            )),
+        IconButton(
+          onPressed: () {
+            webViewController?.goForward();
+          },
+          icon: Icon(
+            Icons.arrow_forward_ios,
+            color: Colors.black,
           ),
-          ElevatedButton(
-            child: Icon(Icons.arrow_forward),
-            onPressed: () {
-              webViewController?.goForward();
-            },
+        ),
+        IconButton(
+          onPressed: () {
+            webViewController?.reload();
+          },
+          icon: Icon(
+            Icons.refresh,
+            color: Colors.black,
           ),
-          ElevatedButton(
-            child: Icon(Icons.refresh),
-            onPressed: () {
-              webViewController?.reload();
-            },
-          ),
-        ],
-      ),
-    ])));
+        ),
+      ]),
+    );
   }
 }

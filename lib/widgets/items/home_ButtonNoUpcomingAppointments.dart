@@ -32,7 +32,7 @@ class ButtonNoUpcomingAppointments extends StatelessWidget {
                       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                         Row(children: [
                           SizedBox(width: 8),
-                          Text('Solicita o programare',
+                          Text('Solicită o programare',
                               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white)),
                         ])
                       ])),
