@@ -134,7 +134,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       }
                     },
                     child: const Text(
-                      'Adauga datele',
+                      'Adaugă datele',
                       style: TextStyle(fontSize: 24),
                     ),
                   ),
@@ -273,7 +273,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   String formatDate(String dateString) {
     // Check if the input string has the correct length
     if (dateString.length != 8) {
-      return 'Invalid date format';
+      //return 'Invalid date format'; //old Andrei Bădescu
+      return 'Format dată invalid';
     }
 
     // Parse the received date string
@@ -282,7 +283,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     String day = dateString.substring(0, 2);
 
     // Format the date into "dd-MM-yyyy" format
-    String formattedDate = '$day-$month-$year';
+    //String formattedDate = '$day-$month-$year';
+    String formattedDate = '$day/$month/$year';
     return formattedDate;
   }
 
@@ -313,10 +315,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       );
       return;
     } else if (res.startsWith('66')) {
-      showSnackbar(context, "Date gresite");
+      showSnackbar(context, "Date greșite");
       return;
     } else if (res.startsWith('13')) {
-      showSnackbar(context, "Date corecte - cerere trimisa!");
+      showSnackbar(context, "Date corecte - cerere trimisă!");
       if (dateChosen) {
         return;
       } else if (controllerJudet.text.isNotEmpty && controllerLocalitate.text.isNotEmpty) {
@@ -345,10 +347,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       );
       return;
     } else if (res.startsWith('66')) {
-      showSnackbar(context, "Date gresite");
+      showSnackbar(context, "Date greșite");
       return;
     } else if (res.startsWith('13')) {
-      showSnackbar(context, "Date corecte - cerere trimisa!");
+      showSnackbar(context, "Date corecte - cerere trimisă!");
       setState(
         () {
           verificationOk = true;

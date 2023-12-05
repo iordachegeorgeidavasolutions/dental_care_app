@@ -263,7 +263,10 @@ class ApiCallFunctions {
             anulata: l[5],
             inceput: date,
             sfarsit: dateSf,
-            id: l[6]);
+            id: l[6],
+            hasFeedback: l[7],
+            idMedic: l[8],
+            locatie: l[9]);
         programariViitoare.add(p);
       }
 
@@ -295,7 +298,10 @@ class ApiCallFunctions {
             status: l[4],
             anulata: l[5],
             inceput: date,
-            sfarsit: dateSf);
+            sfarsit: dateSf,
+            hasFeedback: l[7],
+            idMedic: l[8],
+            locatie: l[9]);
         programariTrecute.add(p);
       }
     }
@@ -389,7 +395,8 @@ class ApiCallFunctions {
       'pIdProgramare': pIdProgramare,
     };
     String? lmao = await apiCall.apeleazaMetodaString(pNumeMetoda: 'GetDetaliiProgramare', pParametrii: params);
-    print(lmao);
+    
+    //print('Rezultat getDetaliiProgramare '+ pIdProgramare);
     if (lmao == null) {
       return null;
     } else {
@@ -500,4 +507,111 @@ class ApiCallFunctions {
 
     return data;
   }
+
+  Future<List<MembruFamilie>> getListaFamilie() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final Map<String, String> param = {
+      'pAdresaMail': prefs.getString(pref_keys.userEmail)!,
+      'pParolaMD5': prefs.getString(pref_keys.userPassMD5)!,
+    };
+    String? data = await apiCall.apeleazaMetodaString(pNumeMetoda: 'GetListaFamilie', pParametrii: param);
+
+    List<MembruFamilie> familie = <MembruFamilie>[];
+    if (data == null) {
+      return [];
+    }
+    if (data.contains('*\$*')) {
+      List<String> l = data.split('*\$*');
+      l.removeWhere((element) => element.isEmpty);
+      for (var element in l) {
+        List<String> parts = element.split('\$#\$');
+
+        MembruFamilie s = MembruFamilie(id: parts[0], nume: parts[1], prenume: parts[2]);
+        familie.add(s);
+      }
+    }
+
+    return familie;
+  }
+
+  Future<List<LinieFisaTratament>?> getListaLiniiFisaTratamentRealizateMembruFamilie(
+      MembruFamilie membruFamilie) async {
+    Map<String, String> params = {'pIdMembru': membruFamilie.id};
+
+    String? res = await apiCall.apeleazaMetodaString(
+        pNumeMetoda: 'GetListaLiniiFisaTratamentRealizatePeMembruFamilie', pParametrii: params);
+
+    List<LinieFisaTratament> interventii = <LinieFisaTratament>[];
+    if (res == null) {
+      return null;
+    }
+    if (res.contains('*\$*')) {
+      List<String> interventiiRaw = res.split('*\$*');
+      interventiiRaw.removeWhere((v) => v.isEmpty);
+
+      for (var interv in interventiiRaw) {
+        List<String> list = interv.split('\$#\$');
+
+        DateTime dateTime = DateTime.utc(
+            int.parse(list[6].substring(0, 4)), int.parse(list[6].substring(4, 6)), int.parse(list[6].substring(6, 8)));
+
+        String data = DateFormat('dd.MM.yyyy').format(dateTime);
+
+        interventii.add(LinieFisaTratament(
+            tipObiect: list[0],
+            idObiect: list[1],
+            numeMedic: list[2],
+            denumireInterventie: list[3],
+            dinti: list[4],
+            observatii: list[5],
+            dataDateTime: dateTime,
+            dataString: data,
+            pret: list[7],
+            culoare: Color(int.parse(list[8])),
+            valoareInitiala: list[9]));
+      }
+    }
+    return interventii;
+  }
+
+  Future<List<LinieFisaTratament>?> getListaLiniiFisaTratamentDeFacutPeMembruFamilie(
+      MembruFamilie membruFamilie) async {
+    Map<String, String> params = {'pIdMembru': membruFamilie.id};
+
+    String? res = await apiCall.apeleazaMetodaString(
+        pNumeMetoda: 'GetListaLiniiFisaTratamentDeFacutPeMembruFamilie', pParametrii: params);
+
+    List<LinieFisaTratament> interventii = <LinieFisaTratament>[];
+    if (res == null) {
+      return null;
+    }
+    if (res.contains('*\$*')) {
+      List<String> interventiiRaw = res.split('*\$*');
+      interventiiRaw.removeWhere((v) => v.isEmpty);
+
+      for (var interv in interventiiRaw) {
+        List<String> list = interv.split('\$#\$');
+
+        DateTime dateTime = DateTime.utc(
+            int.parse(list[6].substring(0, 4)), int.parse(list[6].substring(4, 6)), int.parse(list[6].substring(6, 8)));
+
+        String data = DateFormat('dd.MM.yyyy').format(dateTime);
+
+        interventii.add(LinieFisaTratament(
+          tipObiect: list[0],
+          idObiect: list[1],
+          numeMedic: list[2],
+          denumireInterventie: list[3],
+          dinti: list[4],
+          observatii: list[5],
+          dataDateTime: dateTime,
+          dataString: data,
+          pret: list[7],
+          culoare: Color(int.parse(list[8])),
+          valoareInitiala: list[9]));
+      }
+    }
+    return interventii;
+  }
+
 }

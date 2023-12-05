@@ -4,7 +4,6 @@ import 'package:dental_care_app/screens/educatie.dart';
 import 'package:dental_care_app/screens/home.dart';
 import 'package:dental_care_app/screens/locatii.dart';
 import 'package:dental_care_app/screens/programari.dart';
-import 'package:dental_care_app/utils/classes.dart';
 import 'package:dental_care_app/utils/api_firebase.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -87,8 +86,7 @@ class MyAppState extends State<MyApp> {
 
   final List<Widget> pages = [
     const HomePage(),
-    const ProgramariScreen(),
-    //const ListaProgramariEuCopii(), //old IGV
+    //const ProgramariScreen(), //old Andrei Bădescu
     const LocatiiScreen(),
     EducatieScreen(),
     MeniuScreen(),
@@ -125,7 +123,6 @@ class MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    loadDataCopii();
     // setupInteractedMessage();
     // FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
   }
@@ -146,9 +143,7 @@ class MyAppState extends State<MyApp> {
           },
           children: <Widget>[
             HomePage(),
-            //ListaProgramariEuCopii(), //old IGV
-            //ProgramariScreen(idCopil:'-1'), //old IGV
-            ProgramariScreen(),
+            //ProgramariScreen(),
             LocatiiScreen(),
             EducatieScreen(),
             MeniuScreen(),
@@ -170,12 +165,5 @@ class MyAppState extends State<MyApp> {
       height: 65,
       index: pageIndex,
     );
-  }
-
-  void loadDataCopii() async {
-    Shared.familie.clear();
-    List<MembruFamilie> f = await apiCallFunctions.getListaFamilie();
-    Shared.familie.addAll(f);
-    print('Lista copii length este ${f.length}');
   }
 }

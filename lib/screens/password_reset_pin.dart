@@ -57,13 +57,14 @@ class _PasswordResetPinState extends State<PasswordResetPin> {
             ),
             RichText(
                 text: const TextSpan(
-                    text: 'Verificare OTP',
+                    //text: 'Verificare OTP', //old Andrei Bădescu
+                    text: 'Cod de securitate',
                     style: TextStyle(color: Colors.black, fontSize: 35, fontWeight: FontWeight.bold))),
             const SizedBox(height: 25),
             RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                    text: 'Introduceti codul de 4 cifre trimis la:\n',
+                    text: 'Introduceți codul de 4 cifre trimis la:\n',
                     style: const TextStyle(color: Colors.black, fontSize: 18),
                     children: [
                       TextSpan(
@@ -178,7 +179,7 @@ class _PasswordResetPinState extends State<PasswordResetPin> {
                     minimumSize: const Size.fromHeight(50), // NEW
                   ),
                   child: const Text(
-                    'Verifica codul',
+                    'Verifică codul',
                     style: TextStyle(fontSize: 22),
                   ),
                   onPressed: widget.resetEmailOrPhoneNumber
@@ -188,11 +189,12 @@ class _PasswordResetPinState extends State<PasswordResetPin> {
                           Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
                         }
-                      : () {
-                          verifyPinResetPassword();
+                      : () async {
+                          await verifyPinResetPassword();
                           print(controllerOTP);
-                          Navigator.of(context).pushAndRemoveUntil(
+                          /*Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+                          */    
                         }),
             ),
           ],
@@ -204,7 +206,20 @@ class _PasswordResetPinState extends State<PasswordResetPin> {
   verifyPinResetPassword() async {
     String? res = await apiCallFunctions.reseteazaParolaValidarePIN(
         pAdresaMail: widget.email, pParolaNoua: widget.password, pPINDinMail: controllerOTP);
-    print(res);
+
+    if (res!.startsWith('13')) {
+      
+      showSuccesAlertDialog(context);
+      print('Rezultat: $res');
+
+    }
+
+    else {
+      
+      showErrorAlertDialog(context);
+      print('Rezultat: $res');
+
+    }  
   }
 
   verifyPinResetEmailOrPhone() async {
@@ -212,4 +227,82 @@ class _PasswordResetPinState extends State<PasswordResetPin> {
         pAdresaMail: widget.email, pParola: widget.password, pPINDinMail: controllerOTP);
     print(res);
   }
+}
+
+showSuccesAlertDialog(BuildContext context) {
+
+  // set up the buttons
+  Widget logInButton = TextButton(
+    child: Text("Intră în cont"),
+    onPressed:  () {
+      //Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context)
+              .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+        //});
+    },
+  );
+  Widget cancelButton = TextButton(
+    child: Text("Cancel"),
+    onPressed:  () {
+      Navigator.of(context).pop();
+    },
+  );
+  /*
+  Widget launchButton = TextButton(
+    child: Text("Launch missile"),
+    onPressed:  () {},
+  );
+  */
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Succes"),
+    content: Text("Parola modificată cu succes"),
+    actions: [
+      logInButton,
+      cancelButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+showErrorAlertDialog(BuildContext context) {
+
+  Widget okButton = TextButton(
+    child: Text("Ok"),
+    onPressed:  () {
+      Navigator.of(context).pop();
+    },
+  );
+  /*
+  Widget launchButton = TextButton(
+    child: Text("Launch missile"),
+    onPressed:  () {},
+  );
+  */
+
+  // set up the AlertDialog
+  AlertDialog alertError = AlertDialog(
+    title: Text("Eroare"),
+    content: Text("Codul introdus este incorect. Încearcă din nou."),
+    actions: [
+      //logInButton,
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alertError;
+    },
+  );
 }

@@ -84,7 +84,7 @@ class LocatiiModal extends StatelessWidget {
                       ),
                       onPressed: () => MapsLauncher.launchQuery(locatiiList[selectedIndex].maps),
                       child: const Text(
-                        'Harta',
+                        'Hartă',
                         style: TextStyle(fontSize: 24),
                       ),
                     ),

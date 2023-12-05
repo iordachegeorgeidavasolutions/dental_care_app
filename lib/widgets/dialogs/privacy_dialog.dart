@@ -30,7 +30,7 @@ class PrivacyDialog extends StatelessWidget {
               // backgroundColor: Colors.black,
               ),
           child: Text(
-            'Am luat la cunostiință',
+            'Am luat la cunoștință',
             style: TextStyle(color: Colors.red[400]),
           ),
         ),

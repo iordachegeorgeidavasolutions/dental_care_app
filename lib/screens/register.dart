@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/api_call_functions.dart';
+import 'package:another_flushbar/flushbar.dart';
+import './login.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -50,6 +52,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +73,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const Row(
                 children: [
                   Text(
-                    "Inregistrare",
+                    "Înregistrare",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                   )
                 ],
@@ -91,7 +95,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   }
                 },
                 child: const Text(
-                  'Creeaza cont',
+                  'Creează cont',
                   style: TextStyle(fontSize: 24),
                 ),
               ),
@@ -106,7 +110,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                   children: [
                     TextSpan(
-                        text: 'Conecteaza-te aici!',
+                        text: 'Conectează-te aici!',
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             Navigator.pop(context);
@@ -119,11 +123,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                    text: 'Prin crearea unui cont, sunteti de acord cu \n',
+                    text: 'Prin crearea unui cont, sunteți de acord cu \n',
                     style: const TextStyle(fontSize: 15, color: Colors.black),
                     children: [
                       TextSpan(
-                          text: "Termenii & Conditiile",
+                          text: "Termenii & Condițiile",
                           style: const TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.bold),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
@@ -138,7 +142,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         text: " si ",
                       ),
                       TextSpan(
-                          text: "Politica de confidentialitate!",
+                          text: "Politica de confidențialitate!",
                           style: const TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.bold),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
@@ -173,14 +177,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
             },
             validator: (value) {
               if (value!.isEmpty || value.length < 3 || RegExp(r'\d').hasMatch(value)) {
-                return "Enter a valid username";
+                //return "Enter a valid username"; //old Andrei Bădescu
+                return "Introdu un utilizator valid";
               } else {
                 return null;
               }
             },
             decoration: const InputDecoration(
                 hintText: 'Prenume',
-                enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))
+                  ),
                 filled: true,
                 fillColor: Colors.white)),
         const SizedBox(height: 3),
@@ -193,7 +200,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             },
             validator: (value) {
               if (value!.isEmpty || value.length < 3 || RegExp(r'^[0-9]+$').hasMatch(value)) {
-                return "Enter a valid username";
+                //return "Enter a valid username"; //old Andrei Bădescu
+                return "Introdu un utilizator valid";
               } else {
                 return null;
               }
@@ -214,7 +222,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             },
             validator: (value) {
               if (value!.isEmpty || !RegExp(r'.+@.+\.+').hasMatch(value)) {
-                return "Enter a valid Email Address";
+                //return "Enter a valid Email Address"; //old Andrei Bădescu
+                return "Introduceți o adresă de Email validă";
+
               } else {
                 return null;
               }
@@ -232,7 +242,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             autocorrect: false,
             validator: (value) {
               if (value!.isEmpty || !RegExp(r'^[0-9]+$').hasMatch(value)) {
-                return "Introduceti un numar de telefon valid";
+                return "Introduceți un număr de telefon valid";
               } else {
                 return null;
               }
@@ -251,20 +261,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
             onTap: () async {
               DateTime? date = await showDatePicker(
                   context: context, initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime(2024));
-              controllerBirthdate.text = DateFormat('yyyyMMdd').format(date!).toString();
+              //controllerBirthdate.text = DateFormat('yyyyMMdd').format(date!).toString(); // old Andrei Bădescu
+              controllerBirthdate.text = DateFormat('dd/MM/yyyy').format(date!).toString(); // old Andrei Bădescu
             },
             onFieldSubmitted: (String s) {
               focusNodePass.requestFocus();
             },
             validator: (value) {
               if (value!.isEmpty) {
-                return "Alegeti o data de nastere!";
+                return "Alegeți o dată de naștere!";
               } else {
                 return null;
               }
             },
             decoration: const InputDecoration(
-                hintText: 'Data de nastere',
+                hintText: 'Data de naștere',
                 enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
                 filled: true,
                 fillColor: Colors.white)),
@@ -280,9 +291,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
             validator: (value) {
               confirmPassCheck = value;
               if (value!.isEmpty) {
-                return "Please enter a password";
+                //return "Please enter a password"; //old Andrei Bădescu
+                return "Introduceți o parolă";
               } else if (value.length < 6) {
-                return "Password must be atleast 6 characters long";
+                //return "Password must be atleast 6 characters long"; //old Andrei Bădescu
+                return "Parola trebuie să aibă cel puțin 6 caractere";
               } else {
                 return null;
               }
@@ -307,7 +320,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             },
             validator: (value) {
               if (value!.isEmpty) {
-                return "Please enter a password";
+                //return "Please enter a password"; //old Andrei Bădescu
+                return "Introduceți o parolă";
               }
               if (value != confirmPassCheck) {
                 return "Parolele nu se potrivesc!";
@@ -327,6 +341,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ]),
     );
   }
+
+
+
 
   void register(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -353,14 +370,75 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (res.startsWith('13\$#\$')) {
       prefs.setString(pref_keys.userEmail, controllerEmail.text);
       print("success");
+
+      if (context.mounted) {
+        Flushbar(
+          message: "Register încheiat cu succes!", //old Andrei Bădescu
+          //message: Shared.limba.textMesajSuccessfullRegister, //cu dictionar
+          icon: const Icon(
+            Icons.info_outline,
+            size: 28.0,
+            color: Colors.green,
+          ),
+          borderColor: Colors.green,
+          borderWidth: 2,
+          isDismissible: false,
+          margin: const EdgeInsets.all(6.0),
+          flushbarStyle: FlushbarStyle.FLOATING,
+          flushbarPosition: FlushbarPosition.BOTTOM,
+          borderRadius: BorderRadius.circular(12),
+          duration: const Duration(seconds: 3),
+          leftBarIndicatorColor: Colors.green,
+        ).show(context);
+      }
+
       Navigator.pop(context);
     }
     if (res.startsWith('66\$#\$')) {
+      Flushbar(
+        message: "Date greșite, verificați cu atenție datele introduse și încercați încă o dată!", //old Andrei Bădescu
+        //message: Shared.limba.textMesajDateGresiteRegister, IGV cu dictionar
+        icon: const Icon(
+          Icons.info_outline,
+          size: 28.0,
+          color: Colors.red,
+        ),
+        borderColor: Colors.red,
+        borderWidth: 2,
+        isDismissible: false,
+        margin: const EdgeInsets.all(6.0),
+        flushbarStyle: FlushbarStyle.FLOATING,
+        flushbarPosition: FlushbarPosition.BOTTOM,
+        borderRadius: BorderRadius.circular(12),
+        duration: Duration(seconds: 3),
+        leftBarIndicatorColor: Colors.red,
+      ).show(context);
       print("dategresite");
       return;
     }
 
-    if (res.startsWith('132\$#\$')) {
+    if (res.startsWith('132')) {
+      showAlertDialog(context);
+      /*
+      Flushbar(
+        message: "Un pacient cu datele introduse este deja înregistrat!", //old Andrei Bădescu
+        //message: Shared.limba.textMesajPacientDejaExistentRegister,
+        icon: const Icon(
+          Icons.info_outline,
+          size: 28.0,
+          color: Colors.red,
+        ),
+        borderColor: Colors.red,
+        borderWidth: 2,
+        isDismissible: false,
+        margin: const EdgeInsets.all(6.0),
+        flushbarStyle: FlushbarStyle.FLOATING,
+        flushbarPosition: FlushbarPosition.BOTTOM,
+        borderRadius: BorderRadius.circular(12),
+        duration: Duration(seconds: 3),
+        leftBarIndicatorColor: Colors.red,
+      ).show(context);
+      */
       print("register error");
       return;
     }
@@ -372,4 +450,48 @@ class _RegisterScreenState extends State<RegisterScreen> {
       isHidden = !isHidden;
     });
   }
+}
+
+showAlertDialog(BuildContext context) {
+
+  // set up the buttons
+  Widget logInButton = TextButton(
+    child: Text("Log in"),
+    onPressed:  () {
+      //Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context)
+              .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+        //});
+    },
+  );
+  Widget cancelButton = TextButton(
+    child: Text("Cancel"),
+    onPressed:  () {
+      Navigator.of(context).pop();
+    },
+  );
+  /*
+  Widget launchButton = TextButton(
+    child: Text("Launch missile"),
+    onPressed:  () {},
+  );
+  */
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Eroare"),
+    content: Text("Există deja un cont creat cu numărul acesta de telefon sau email, parcurgeți pașii de recuperare parolă în ecranul de login"),
+    actions: [
+      logInButton,
+      cancelButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

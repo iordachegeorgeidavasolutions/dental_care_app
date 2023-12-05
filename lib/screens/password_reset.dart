@@ -22,6 +22,8 @@ class _PasswordResetState extends State<PasswordReset> {
   final FocusNode focusNodeEmail = FocusNode();
   final FocusNode focusNodePassword = FocusNode();
 
+  bool asteaptaLansareTrimiteCerereResetare = false;
+
   void passVisibiltyToggle() {
     setState(() {
       isHidden = !isHidden;
@@ -66,7 +68,7 @@ class _PasswordResetState extends State<PasswordReset> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "Reseteaza parola!",
+                    "Resetează parola!",
                     style: TextStyle(color: Colors.black, fontSize: 30),
                   ),
                 ],
@@ -74,6 +76,8 @@ class _PasswordResetState extends State<PasswordReset> {
             ),
             const SizedBox(height: 20),
             // Text Fields
+            asteaptaLansareTrimiteCerereResetare?
+            SizedBox():
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 23),
               child: loginForm(),
@@ -81,7 +85,13 @@ class _PasswordResetState extends State<PasswordReset> {
             const SizedBox(height: 25),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: ElevatedButton(
+              child:
+              asteaptaLansareTrimiteCerereResetare? 
+              const Text(
+                'Se procesează cererea',
+                style: TextStyle(fontSize: 24),
+              ):
+              ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
                   minimumSize: const Size.fromHeight(50), // NEW
@@ -89,6 +99,9 @@ class _PasswordResetState extends State<PasswordReset> {
                 onPressed: () {
                   final isValidForm = loginKey.currentState!.validate();
                   if (isValidForm) {
+                    setState(() {
+                      asteaptaLansareTrimiteCerereResetare = true;
+                    });
                     resetPassword();
                   }
                 },
@@ -130,7 +143,8 @@ class _PasswordResetState extends State<PasswordReset> {
             ),
             validator: (value) {
               if (value!.isEmpty || !RegExp(r'.+@.+\.+').hasMatch(value)) {
-                return "Enter a valid Email Address";
+                //return "Enter a valid Email Address"; //old Andrei Bădescu
+                return "Introduceți o adresă de Email validă";
               } else {
                 return null;
               }
@@ -147,7 +161,7 @@ class _PasswordResetState extends State<PasswordReset> {
                 suffixIcon: IconButton(
                     onPressed: passVisibiltyToggle,
                     icon: isHidden ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off)),
-                hintText: "Parola noua",
+                hintText: "Parolă nouă",
                 border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
                   borderSide: BorderSide.none,
@@ -160,9 +174,11 @@ class _PasswordResetState extends State<PasswordReset> {
                 fillColor: Colors.white),
             validator: (value) {
               if (value!.isEmpty) {
-                return "Please Enter New Password";
+                //return "Please Enter New Password"; //old Andrei Bădescu
+                return "Introduceți o parolă nouă";
               } else if (value.length < 6) {
-                return "Password must be atleast 6 characters long";
+                //return "Password must be atleast 6 characters long"; //old Andrei Bădescu
+                return "Parola trebuie să aibă cel puțin 6 caractere";
               } else {
                 return null;
               }
@@ -176,18 +192,21 @@ class _PasswordResetState extends State<PasswordReset> {
   resetPassword() async {
     String? res =
         await apiCallFunctions.reseteazaParola(pAdresaMail: controllerEmail.text, pParolaNoua: controllerPass.text);
+    setState(() {
+      asteaptaLansareTrimiteCerereResetare = false;
+    });
     print(res);
     if (res == null) {
       showSnackbar(
         context,
-        "E-mail gresit!",
+        "E-mail greșit!",
       );
       return;
     } else if (res.startsWith('66')) {
-      showSnackbar(context, "E-mail gresit!");
+      showSnackbar(context, "E-mail greșit!");
       return;
     } else if (res.startsWith('13')) {
-      showSnackbar(context, "E-mail corect - cerere trimisa!");
+      showSnackbar(context, "E-mail corect - cerere trimisă!");
       setState(() {
         verificationOk = true;
         if (verificationOk) {

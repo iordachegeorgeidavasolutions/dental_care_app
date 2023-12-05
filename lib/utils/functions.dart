@@ -21,7 +21,9 @@ Future<List<String>> getUserName() async {
 
 void showSnackbar(BuildContext context, String text) {
   final snackBar = SnackBar(
-    content: Text(text),
+    content: Text(text, style: TextStyle(color: Colors.black,),),
+    
+    backgroundColor: Color.fromARGB(255,200,200,200),
     duration: Duration(seconds: 5),
   );
   ScaffoldMessenger.of(context).showSnackBar(snackBar);

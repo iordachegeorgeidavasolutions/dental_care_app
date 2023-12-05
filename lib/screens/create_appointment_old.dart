@@ -1,10 +1,8 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
-//import 'package:dental_care_app/screens/home.dart';
 import 'package:flutter/material.dart';
 import '../utils/api_call_functions.dart';
 import '../utils/classes.dart';
-import '../main.dart';
 
 class CreateAppointmentScreen extends StatefulWidget {
   const CreateAppointmentScreen({super.key});
@@ -27,17 +25,10 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
   List<Sediu>? listaSedii;
   List<String>? listaNumeSedii;
 
-  bool solicitareNetrimisa = true;
-  bool butonTrimiteSolicitare = true;
-
   @override
   void initState() {
-
     super.initState();
     loadData();
-    solicitareNetrimisa = true;
-    butonTrimiteSolicitare = true;
-
   }
 
   loadData() async {
@@ -45,10 +36,8 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
     List<String> ss = createOfficeNameList(s);
     print(s);
     setState(() {
-
       listaSedii = s;
       listaNumeSedii = ss;
-
     });
   }
 
@@ -116,7 +105,7 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                               });
                             },
                           ),
-                        ),
+                        ),  
                       ],
                     ),
                   ),
@@ -203,71 +192,27 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                         fillColor: Colors.white),
                   ),
                   const SizedBox(height: 20),
-                  solicitareNetrimisa && butonTrimiteSolicitare?
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red[400],
                       minimumSize: const Size.fromHeight(50), // NEW
                     ),
                     onPressed: () {
-
-                      setState(() {
-                      
-                        butonTrimiteSolicitare = false;
-                        solicitareNetrimisa = true;  
-                      
-                      });
-                      
                       sendAppointmentRequest().then((value) {
-                        
                         value == null
                             ? null
-                            : value == "13" ? 
-                                solicitareNetrimisa = false
-                                : solicitareNetrimisa = true;
-                              if(solicitareNetrimisa == false)
-                              {
-                                showSuccesAlertDialog(context);
-                              }  
-                              else if (solicitareNetrimisa == true)
-                              {
-                                showErrorAlertDialog(context);
-                              }
-                              //Navigator.of(context).pop():
-                                
-                                /*Future.delayed(Duration(seconds: 3), () {
+                            : value == "13"
+                                ? Future.delayed(Duration(seconds: 3), () {
                                     Navigator.of(context).pop();
-                                  });
-                                */  
-                                  
-                                //null;  
+                                  })
+                                : null;
                       });
                     },
                     child: const Text(
                       'Trimite solicitarea',
                       style: TextStyle(fontSize: 24),
                     ),
-                  ):
-                  /*!butonTrimiteSolicitare && !solicitareNetrimisa? 
-                  SizedBox(
-                    child: const Text(
-                      'Solicitarea a fost trimisa cu succes',
-                      style: TextStyle(fontSize: 24),
-                    ),):
-                  !butonTrimiteSolicitare && solicitareNetrimisa? 
-                  */
-                  SizedBox(
-                    child: const Text(
-                      'Solicitarea se adaugă',
-                      style: TextStyle(fontSize: 24),
-                    ),),
-                  /*  :
-                  SizedBox(
-                    child: const Text(
-                      'A apărut o eroare la adăugarea solicitării',
-                      style: TextStyle(fontSize: 24),
-                    ),),
-                  */
+                  ),
                 ],
               ),
             ),
@@ -363,7 +308,7 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
       print(res);
 
       if (res!.startsWith("13")) {
-        /*Flushbar(
+        Flushbar(
           message: "Cerere trimisă cu succes!",
           icon: const Icon(
             Icons.info_outline,
@@ -380,104 +325,9 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
           duration: const Duration(seconds: 3),
           leftBarIndicatorColor: Colors.green,
         ).show(context);
-        */
-
-        setState(() {
-          solicitareNetrimisa = false;
-          butonTrimiteSolicitare = false;  
-        });
         return "13";
-
       }
-
-      setState(() {
-        solicitareNetrimisa = true;
-        butonTrimiteSolicitare = true;
-      });
-
       return "eroare";
-
     }
-  } 
-}
-
-showSuccesAlertDialog(BuildContext context) {
-
-  // set up the buttons
-  Widget logInButton = TextButton(
-    child: Text("OK"),
-    onPressed:  () {
-      //Future.delayed(Duration(seconds: 1), () {
-          Navigator.of(context)
-              .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (route) => false);
-        //});
-    },
-  );
-  Widget cancelButton = TextButton(
-    child: Text("Cancel"),
-    onPressed:  () {
-      //Navigator.of(context).pop();
-      Navigator.of(context)
-              .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (route) => false);
-    },
-  );
-  /*
-  Widget launchButton = TextButton(
-    child: Text("Launch missile"),
-    onPressed:  () {},
-  );
-  */
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("Succes"),
-    content: Text("Solicitarea de programare a fost trimsă cu succes!"),
-    actions: [
-      logInButton,
-      cancelButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
-
-
-showErrorAlertDialog(BuildContext context) {
-
-  Widget okButton = TextButton(
-    child: Text("Ok"),
-    onPressed:  () {
-      Navigator.of(context).pop();
-    },
-  );
-  /*
-  Widget launchButton = TextButton(
-    child: Text("Launch missile"),
-    onPressed:  () {},
-  );
-  */
-
-  // set up the AlertDialog
-  AlertDialog alertError = AlertDialog(
-    title: Text("Eroare"),
-    content: Text("A apărut o eroare la adăugarea programării"),
-    actions: [
-      //logInButton,
-      okButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alertError;
-    },
-  );
+  }
 }

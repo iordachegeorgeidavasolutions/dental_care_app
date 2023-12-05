@@ -61,6 +61,9 @@ class DetaliiProgramare {
 }
 
 class Programare {
+  final String locatie;
+  final String idMedic;
+  String hasFeedback;
   final String id;
   final DateTime inceput, sfarsit;
   final String medic, categorie;
@@ -80,7 +83,10 @@ class Programare {
       required this.status,
       required this.idPacient,
       required this.nume,
-      required this.prenume});
+      required this.prenume,
+      required this.locatie,
+      required this.idMedic,
+      required this.hasFeedback,});
 }
 
 class LinieFisaTratament {
@@ -125,4 +131,22 @@ class MembruFamilie {
   final String id, nume, prenume;
 
   MembruFamilie({required this.id, required this.nume, required this.prenume});
+}
+
+class Shared {
+  
+  static GlobalKey<NavigatorState> sharedNavigatorKey = GlobalKey<NavigatorState>();
+  // static String flavor = '';
+  static String FCMtoken = '';
+  static String idMembruFamilieConectat = '_';
+  static String sediuPacient = '';
+  //static List<Medic> medici = <Medic>[];
+  //static List<MedicSlotLiber> mediciFiltrati = <MedicSlotLiber>[];
+  //static List<CategorieProgramare> categorii = <CategorieProgramare>[];
+  static List<MembruFamilie> familie = <MembruFamilie>[];
+  static List<Sediu> sedii = <Sediu>[];
+  static String idPacientAsociat = '0';
+
+  //static GenericLanguage limba = LanguageEN();
+
 }

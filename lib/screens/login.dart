@@ -86,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                   }
                 },
                 child: const Text(
-                  'Intra in cont',
+                  'Intră în cont',
                   style: TextStyle(fontSize: 24),
                 ),
               ),
@@ -155,7 +155,8 @@ class _LoginPageState extends State<LoginPage> {
             ),
             validator: (value) {
               if (value!.isEmpty || !RegExp(r'.+@.+\.+').hasMatch(value) && !RegExp(r'^-?[0-9]+$').hasMatch(value)) {
-                return "Enter a valid Email Address or Password";
+                //return "Enter a valid Email Address or Password"; //old Andrei Bădescu
+                return "Introduceți o adresă de e-mail sau telefon valide"; //old Andrei Bădescu
               } else {
                 if (RegExp(r'.+@.+\.+').hasMatch(value)) {
                   setState(() {
@@ -182,7 +183,7 @@ class _LoginPageState extends State<LoginPage> {
                 suffixIcon: IconButton(
                     onPressed: passVisibiltyToggle,
                     icon: isHidden ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off)),
-                hintText: "Parola noua",
+                hintText: "Parolă",
                 border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
                   borderSide: BorderSide.none,
@@ -195,9 +196,12 @@ class _LoginPageState extends State<LoginPage> {
                 fillColor: Colors.white),
             validator: (value) {
               if (value!.isEmpty) {
-                return "Please Enter New Password";
+                //return "Please Enter New Password"; //old Andrei Bădescu
+                return "Introduceți o parolă nouă";
               } else if (value.length < 6) {
-                return "Password must be atleast 6 characters long";
+                //return "Password must be atleast 6 characters long"; //old Andrei Bădescu
+                return "Parola trebuie să aibă cel puțin 6 caractere";
+
               } else {
                 return null;
               }
@@ -235,7 +239,8 @@ class _LoginPageState extends State<LoginPage> {
       // return;
     } else if (res.startsWith('66')) {
       Flushbar(
-        message: "Date gresite, verifica cu atentie datele introduse si incearca inca o data!",
+        //message: "Date greșite, verifică cu atenție datele introduse și încearcă încă o dată!", //old Andrei Bădescu
+        message: 'Mail-ul sau parola au fost introduse greșit, încearcă iar.',
         icon: const Icon(
           Icons.info_outline,
           size: 28.0,
@@ -254,8 +259,10 @@ class _LoginPageState extends State<LoginPage> {
       return;
     } else if (res.contains('\$#\$')) {
       // ignore: use_build_context_synchronously
+      //old Andrei Bădescu
+      /*
       Flushbar(
-        message: "Login incheiat cu succes!",
+        message: "Login încheiat cu succes!",
         icon: const Icon(
           Icons.info_outline,
           size: 28.0,
@@ -271,6 +278,8 @@ class _LoginPageState extends State<LoginPage> {
         duration: const Duration(seconds: 3),
         leftBarIndicatorColor: Colors.green,
       ).show(context);
+      */
+
       // showsnackbar(context, "Succes!");
       List<String> info = res.split('\$#\$');
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -323,7 +332,7 @@ class _LoginPageState extends State<LoginPage> {
     if (res == null) {
       showSnackbar(
         context,
-        "Date de login gresite!",
+        "Date de login greșite!",
       );
       return;
       // } else if (res.startsWith('161')) {
@@ -334,7 +343,8 @@ class _LoginPageState extends State<LoginPage> {
       // return;
     } else if (res.startsWith('66')) {
       Flushbar(
-        message: "Date gresite, verifica cu atentie datele introduse si incearca inca o data!",
+        //message: "Date greșite, verifică cu atenție datele introduse și încearcă încă o dată!",
+        message: 'Mail-ul sau parola au fost introduse greșit, încearcă iar.',
         icon: const Icon(
           Icons.info_outline,
           size: 28.0,
@@ -353,8 +363,9 @@ class _LoginPageState extends State<LoginPage> {
       return;
     } else if (res.contains('\$#\$')) {
       // ignore: use_build_context_synchronously
-      Flushbar(
-        message: "Login incheiat cu succes!",
+      //old Andrei Bădescu
+      /*Flushbar(
+        message: "Login încheiat cu succes!",
         icon: const Icon(
           Icons.info_outline,
           size: 28.0,
@@ -370,6 +381,7 @@ class _LoginPageState extends State<LoginPage> {
         duration: const Duration(seconds: 3),
         leftBarIndicatorColor: Colors.green,
       ).show(context);
+      */
       // showsnackbar(context, "Succes!");
       List<String> info = res.split('\$#\$');
       SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -1,6 +1,5 @@
 import 'package:dental_care_app/screens/home.dart';
 import 'package:dental_care_app/screens/locatii.dart';
-import 'package:dental_care_app/screens/lista_programari_eu_copii.dart';
 import 'package:dental_care_app/screens/programari.dart';
 import 'package:dental_care_app/screens/my_account_screen.dart';
 import 'package:dental_care_app/screens/webview.dart';
@@ -34,8 +33,8 @@ List<String> links = [
   'https://dentocare.ro/promotii/',
   'https://dentocare.ro/preturi/',
   'https://www.facebook.com',
-  'https://app.dentocare.ro',
   'https://dentocare.ro/informatii-utile/',
+  'https://app.dentocare.ro'
   // more links
 ];
 
@@ -45,15 +44,14 @@ class _MeniuScreenState extends State<MeniuScreen> {
     ["Listă prețuri", "./assets/images/meniu/listapreturi.png"],
     ["Locații", "./assets/images/meniu/locatii.png"],
     ["Educație", "./assets/images/meniu/educatie.png"],
-    ["Informatii", "./assets/images/meniu/contulmeu.png"],
     ["Contul meu", "./assets/images/meniu/contulmeu.png"],
-    
   ];
 
   final List<Widget> _screens = [
     const Placeholder(),
     const HomePage(),
-    const ListaProgramariEuCopii(),
+    const ProgramariScreen(),
+    //const ProgramariScreen(idCopil:'1'), //old George Valentin Iordache
     const LocatiiScreen(),
     const LocatiiScreen(),
   ];
@@ -87,23 +85,8 @@ class _MeniuScreenState extends State<MeniuScreen> {
                                       context,
                                       MaterialPageRoute(builder: (context) => WebScreen(url: links[index])),
                                     )
-                              : index == 4
-                                  ? Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => WebScreen(url: links[index])),
-                                    )      
-                                  : 
-                                  showModalBottomSheet(
-                                    isScrollControlled: true,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
-                                    context: context,
-                                    builder: (context) {
-                                      return const UserModalRemade();
-                                    }
-                                  );
-                                  /*Navigator.push(
+                                  : Navigator.push(
                                       context, MaterialPageRoute(builder: (context) => UserProfileScreen()));
-                                  */    
                 },
                 child: MeniuGridItem(nume: items[index][0], image: items[index][1]),
               );
@@ -124,17 +107,16 @@ Row logoTitle(BuildContext context) {
           height: 20,
         ),
         InkWell(
-          onTap: () {
-            showModalBottomSheet(
-                isScrollControlled: true,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
-                context: context,
-                builder: (context) {
-                  return const UserModalRemade();
-                });
-          },
-          child: Image.asset('./assets/images/person-icon.jpg', height: 40)
-        ),
+            onTap: () {
+              showModalBottomSheet(
+                  isScrollControlled: true,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
+                  context: context,
+                  builder: (context) {
+                    return const UserModalRemade();
+                  });
+            },
+            child: Image.asset('./assets/images/person-icon.jpg', height: 40)),
         const SizedBox(
           height: 20,
         ),

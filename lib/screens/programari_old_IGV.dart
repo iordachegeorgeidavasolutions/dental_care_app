@@ -14,14 +14,14 @@ import '../utils/shared_pref_keys.dart' as pref_keys;
 
 class ProgramariScreen extends StatefulWidget {
 
-  const ProgramariScreen({super.key,});
+  final String idCopil;
+  const ProgramariScreen({super.key, required this.idCopil,});
 
   @override
   State<ProgramariScreen> createState() => _ProgramariScreenState();
 }
 
 class _ProgramariScreenState extends State<ProgramariScreen> {
-  
   ApiCallFunctions apiCallFunctions = ApiCallFunctions();
   Future<Programari?>? programari;
   Future<Programari?>? programariCopil;
@@ -34,18 +34,6 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
   List<Programare> viitoareCopil = <Programare>[];
   List<Programare> trecuteCopil = <Programare>[];
   ApiCall apiCall = ApiCall();
-
-  String idCopil = '-1';
-
-  String? userNume = '';
-  String? userPrenume = '';
-  String? userIdPacientAsociat = '';
-
-  static List<MembruFamilie> listaInitialaMembri = <MembruFamilie>[MembruFamilie(id: '-1', nume: 'Progrămarile', prenume: ' mele')];
-
-  MembruFamilie? _selectedMembru;
-
-  bool afiseazaDropDownFamilie = Shared.familie.length > 0? true : false;
 
 /*
   int currentIndexprogramariToggle = 0;
@@ -62,18 +50,9 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
 
   bool areCopii = false;
 
-  void loadUserData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      userNume = prefs.getString(pref_keys.userNume);
-      userPrenume = prefs.getString(pref_keys.userPrenume);
-      userIdPacientAsociat = prefs.getString(pref_keys.userIdPacientAsociat);
-    });
-  }
-
   Future refresh() async {
     setState(() {
-      if (idCopil == '-1')
+      if (widget.idCopil == '-1')
       {
         programari = getListaProgramari();
       }
@@ -87,40 +66,29 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
   @override
   void initState() {
     super.initState();
-    
-    setState(() {
 
-      loadUserData();
+    setState(() {
+      
       isSelectedTrecute = true;
       isSelectedViitoare = false;
-      //listaInitialaMembri = [MembruFamilie(id: '-1', nume: userNume!, prenume: userPrenume!), ...listaInitialaMembri];
-      listaInitialaMembri = <MembruFamilie>[MembruFamilie(id: '-1', nume: 'Progrămarile', prenume: ' mele')];
-      listaInitialaMembri.addAll(Shared.familie);
 
     });
 
-    print('Lista initială membri: ${listaInitialaMembri.length} ');
-
     //programari = getListaProgramari();
-    if (idCopil == '-1')
+    if (widget.idCopil == '-1')
     {
-
       programari = getListaProgramari();
-
     }
-    else 
-    {
+    else {
 
       areCopii = true;  
       programariCopil = getListaProgramariCopil();
 
     }
-
   }
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       // appBar: AppBar(leading: Icon(icon)),
       backgroundColor: const Color.fromARGB(255, 236, 236, 236),
@@ -140,37 +108,6 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                     switchWidget(),
                   ],
                 ),
-                afiseazaDropDownFamilie?
-                DropdownButton(
-                  hint: Text('Alege un membru al familiei'), // Not necessary for Option 1
-                  value: _selectedMembru,
-                  onChanged: (newValue) {
-                    setState(() {
-
-                      _selectedMembru = newValue;
-                      if (_selectedMembru!.id != '-1')
-                      {
-                        areCopii = true;  
-                        idCopil = _selectedMembru!.id;
-                        programariCopil = getListaProgramariCopil();
-                      }
-                      else {
-                        areCopii = false;
-                        idCopil = '-1';
-                        programari = getListaProgramari();
-                      }
-                    });
-                  },
-                  items: 
-                  //Shared.familie.map((membru) {
-                  listaInitialaMembri.map((membru){  
-                    return DropdownMenuItem(
-                      child: new Text(membru.nume.capitalizeFirst() + ' ' + membru.prenume.capitalizeFirst()),
-                      value: membru,
-                    );
-                  }).toList(),
-                ):
-                SizedBox(),
                 const SizedBox(height: 15),
                 FutureBuilder(
                   future: areCopii? programariCopil: programari,
@@ -803,13 +740,13 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
     //if(Shared.limba.textLimba == 'ro')
     //{
     // final String idUser = prefs.getString(pref_keys.userIdInregistrare)!;
-    param = {
-      'pIdMembru':  idCopil.toString(),
-      'pAdresaMail': prefs.getString(pref_keys.userEmail)!,
-      'pParolaMD5': prefs.getString(pref_keys.userPassMD5)!,
-      //'pIdLimba': '0', //Andrei Bădescu
-      'pIdLimba': '',//George Valentin Iordache
-    };
+      param = {
+        'pIdMembru': widget.idCopil.toString(),
+        'pAdresaMail': prefs.getString(pref_keys.userEmail)!,
+        'pParolaMD5': prefs.getString(pref_keys.userPassMD5)!,
+        //'pIdLimba': '0', //Andrei Bădescu
+        'pIdLimba': '',//George Valentin Iordache
+      };
     //}
     /*
     else
@@ -1008,6 +945,6 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
     //print(" Programări trecute: ${trecute.length} : ${trecuteCopil.length}");
     //print(" Programări viitoare: ${viitoare.length} : ${viitoareCopil.length}");
     return pP;
-
+    
   }
 }

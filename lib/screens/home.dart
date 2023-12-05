@@ -28,7 +28,7 @@ class HomePageState extends State<HomePage> {
   Future<Programare?>? programareFinala;
   final List serviciiItems = [
     [
-      "Implanotologie",
+      "Implantologie",
       "./assets/images/homescreen_servicii/implantologie.png",
       "https://app.dentocare.ro/servicii/implantologie/",
     ],
@@ -149,6 +149,7 @@ class HomePageState extends State<HomePage> {
                                   if (index == 0) {
                                     MyController.jumpToPage(1);
                                   } else {
+                                    print('Home dosarul meu list: ${dosarulMeuList[index].widgetRoute}');
                                     Navigator.of(context).push(
                                         MaterialPageRoute(builder: (context) => dosarulMeuList[index].widgetRoute));
                                   }
@@ -314,7 +315,7 @@ class HomePageState extends State<HomePage> {
                   data.isEmpty
                       ? const Text("Data not found")
                       : Text(
-                          '${data[0]} ${data[1]}',
+                          '${data[0]!.capitalizeFirst()} ${data[1]!.capitalizeFirst()}',
                           style: const TextStyle(fontSize: 26),
                         )
                 ],

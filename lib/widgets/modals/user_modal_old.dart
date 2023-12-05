@@ -1,4 +1,3 @@
-import 'package:dental_care_app/screens/lista_programari_eu_copii.dart';
 import 'package:dental_care_app/screens/lista_tratamente_eu_copii.dart';
 import 'package:dental_care_app/screens/login.dart';
 import 'package:dental_care_app/screens/tratamente.dart';
@@ -12,9 +11,9 @@ Future<dynamic> userModal(BuildContext context) {
   final List profileItemsList = [
     ["Profilul meu", "./assets/images/profile_modal_images/person-icon.jpg", const HomePage()],
     ["Programari", "./assets/images/profile_modal_images/programari.png", const ProgramariScreen()],
-    //["Programari", "./assets/images/profile_modal_images/programari.png", const ListaProgramariEuCopii()],
-    //["Programari", "./assets/images/profile_modal_images/programari.png", const ProgramariScreen(idCopil: '-1')], //old George Valentin Iordache
-    //["Tratamente", "./assets/images/profile_modal_images/syringe.png", const ListaTratamenteEuCopii()],
+    //["Programari", "./assets/images/profile_modal_images/programari.png", const ProgramariScreen(idCopil:'-1')], old George Valentin Iordache
+    //["Tratamente", "./assets/images/profile_modal_images/syringe.png", const TratamenteScreen()], //old Andrei Bădescu
+    //["Tratamente", "./assets/images/profile_modal_images/syringe.png", const ListaTratamenteEuCopii()], //old IGV
     ["Tratamente", "./assets/images/profile_modal_images/syringe.png", const TratamenteScreen()],
     // ["Sold curent", "./assets/images/profile_modal_images/soldcurent.png"],
     ["Iesi din cont", "./assets/images/profile_modal_images/exiticon.png"],

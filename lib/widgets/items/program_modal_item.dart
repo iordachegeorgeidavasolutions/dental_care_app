@@ -22,15 +22,22 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
   bool get confirmabil => PoateFiConfirmata();
   bool get anulabil => PoateFiAnulata();
 
+  bool programareAnulata = false;
+
 // TODO: Ideea e asa: Vor sa poti anula oricand si sa poti confirma doar daca mai sunt 24H sau mai putin, dup care sunt greyed out.
 // Daca este in trecut, nici nu ar trebui sa ai butoanele tbh
 
   bool PoateFiConfirmata() {
+    //print('Început programare: ${widget.programare!.inceput}');
     if (widget.programare!.status == Programare.statusConfirmat) return false;
     // if (widget.programare!.inceput.difference(dateNow).inDays > 1) return false;
-    if (DateTime.now().difference(widget.programare!.inceput).inDays > 1) return false;
+    if (widget.programare!.inceput.difference(DateTime.now()).inDays > 2) 
+    {
+      return false;
+    }  
     if (widget.programare!.inceput.isBefore(DateTime.now())) return false;
     if (anulatDinApi == "1") return false;
+
 
     return true;
   }
@@ -78,6 +85,12 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
   @override
   void initState() {
     super.initState();
+    setState(() {
+
+      status = widget.programare!.status;
+      status == 'Anulat'? programareAnulata = true: programareAnulata = false;
+
+    });
   }
 
   @override
@@ -342,6 +355,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                       visible: confirmabil || anulabil,
                       child: Column(
                         children: [
+                          programareAnulata == false ? 
                           ElevatedButton(
                             style: !confirmabil
                                 ? ElevatedButton.styleFrom(
@@ -356,8 +370,65 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                               style: TextStyle(fontSize: 18),
                             ),
                             onPressed: () {
+                              
                               !confirmabil
-                                  ? null
+                                  ? 
+                                  showModalBottomSheet(
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                                      isScrollControlled: true,
+                                      context: context,
+                                      builder: (context) {
+                                        return Container(
+                                          height: MediaQuery.of(context).size.height * 0.7,
+                                          decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(25),
+                                              topRight: Radius.circular(25),
+                                            ),
+                                            color: Colors.white,
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(20),
+                                            child: Column(
+                                              children: [
+                                                const SizedBox(height: 40),
+                                                const Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                                                  Text(
+                                                    "Puteți confirma programările cu maxim 48h înainte",
+                                                    maxLines: 4,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(fontSize: 18))
+                                                ]),
+                                                const SizedBox(height: 20),
+                                                const Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center, 
+                                                  children: [
+                                                  Text("Vă mulțumim!", style: TextStyle(fontSize: 18)),
+                                                ]),
+                                                const SizedBox(height: 60),
+                                                ElevatedButton(
+                                                  child: const Text(
+                                                    'Cancel',
+                                                    style: TextStyle(fontSize: 20),
+                                                  ),
+                                                  style: ElevatedButton.styleFrom(
+                                                    padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+                                                    backgroundColor: Colors.red[400],
+                                                    // minimumSize: const Size.fromHeight(50), // NEW
+                                                  ),
+                                                  onPressed: () => {
+                                                    print(widget.programare!.id),
+                                                    //apiCallFunctions.confirmaProgramarea(widget.programare!.id),
+                                                    Navigator.pop(context),
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    )
                                   : showModalBottomSheet(
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                                       isScrollControlled: true,
@@ -411,7 +482,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                                         ),
                                                         onPressed: () => {
                                                           print(widget.programare!.id),
-                                                          apiCallFunctions.confirmaProgramarea(widget.programare!.id),
+                                                          //apiCallFunctions.confirmaProgramarea(widget.programare!.id),
                                                           setState(() {
                                                             widget.programare!.status = Programare.statusConfirmat;
                                                             print(context);
@@ -445,8 +516,10 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                       },
                                     );
                             },
-                          ),
-                          const SizedBox(height: 10),
+                          ): 
+                          SizedBox(),
+                          programareAnulata == false ? const SizedBox(height: 10) : const SizedBox(),
+                          programareAnulata == false ? 
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
@@ -480,7 +553,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                               children: [
                                                 const SizedBox(height: 40),
                                                 const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                                                  Text("Atentie!",
+                                                  Text("Atenție!",
                                                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                                                 ]),
                                                 const SizedBox(height: 20),
@@ -507,6 +580,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                                           print(widget.programare!.id),
                                                           apiCallFunctions.anuleazaProgramarea(widget.programare!.id),
                                                           setState(() {
+                                                            programareAnulata = true;
                                                             widget.programare!.status = Programare.statusAnulat;
                                                           }),
                                                           // hideButtons(),
@@ -543,7 +617,8 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                       },
                                     );
                             },
-                          ),
+                          ): 
+                          SizedBox(),
                         ],
                       ),
                     )
