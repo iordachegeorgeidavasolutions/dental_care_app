@@ -8,7 +8,11 @@ import '../../utils/api_call_functions.dart';
 class ProgramModalItem extends StatefulWidget {
   final String total;
   final Programare? programare;
-  ProgramModalItem({super.key, required this.programare, required this.total});
+
+  final Function(Programare) callbackStatusProgramare;
+
+  ProgramModalItem({super.key, required this.programare, required this.total, required this.callbackStatusProgramare});
+  
 
   @override
   State<ProgramModalItem> createState() => _ProgramModalItemState();
@@ -483,8 +487,12 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                                         onPressed: () => {
                                                           print(widget.programare!.id),
                                                           //apiCallFunctions.confirmaProgramarea(widget.programare!.id),
+
+
                                                           setState(() {
+                                                            
                                                             widget.programare!.status = Programare.statusConfirmat;
+                                                            widget.callbackStatusProgramare(widget.programare!);
                                                             print(context);
                                                             print(PoateFiConfirmata().toString());
                                                             print(widget.programare!.status);
@@ -582,6 +590,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                                           setState(() {
                                                             programareAnulata = true;
                                                             widget.programare!.status = Programare.statusAnulat;
+                                                            widget.callbackStatusProgramare(widget.programare!);
                                                           }),
                                                           // hideButtons(),
                                                           Navigator.pop(context),

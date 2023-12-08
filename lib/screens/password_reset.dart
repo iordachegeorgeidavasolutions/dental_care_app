@@ -96,13 +96,16 @@ class _PasswordResetState extends State<PasswordReset> {
                   backgroundColor: Colors.red,
                   minimumSize: const Size.fromHeight(50), // NEW
                 ),
-                onPressed: () {
+                onPressed: () async {
                   final isValidForm = loginKey.currentState!.validate();
                   if (isValidForm) {
                     setState(() {
                       asteaptaLansareTrimiteCerereResetare = true;
+                      
                     });
-                    resetPassword();
+
+                    await resetPassword();
+
                   }
                 },
                 child: const Text(
@@ -195,7 +198,7 @@ class _PasswordResetState extends State<PasswordReset> {
     setState(() {
       asteaptaLansareTrimiteCerereResetare = false;
     });
-    print(res);
+    print('Rezultat: $res');
     if (res == null) {
       showSnackbar(
         context,
@@ -211,11 +214,12 @@ class _PasswordResetState extends State<PasswordReset> {
         verificationOk = true;
         if (verificationOk) {
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => PasswordResetPin(
-                    resetEmailOrPhoneNumber: false,
-                    password: controllerPass.text,
-                    email: controllerEmail.text,
-                  )));
+            builder: (context) => PasswordResetPin(
+              resetEmailOrPhoneNumber: false,
+              password: controllerPass.text,
+              email: controllerEmail.text,
+            ))
+          );
         }
       });
 

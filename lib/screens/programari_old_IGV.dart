@@ -50,6 +50,14 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
 
   bool areCopii = false;
 
+  Programare? anulatConfirmat;
+  
+  void _changeAnulatConfirmat(Programare newValueAnulatConfirmat) {
+    setState(() {
+      anulatConfirmat = newValueAnulatConfirmat;
+    });
+  }
+
   Future refresh() async {
     setState(() {
       if (widget.idCopil == '-1')
@@ -169,6 +177,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                             return ProgramariModal(
                               total: value!,
                               programare: areCopii? viitoareCopil[index] : viitoare[index],//viitoare[_selectedIndex],
+                              callbackStatusProgramare: _changeAnulatConfirmat,
                             );
                           });
                       });
@@ -335,6 +344,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                                   return ProgramariModal(
                                     total: value!,
                                     programare: trecuteCopil[_selectedIndex],
+                                    callbackStatusProgramare: _changeAnulatConfirmat,
                                   );
                                 });
                           });
@@ -439,6 +449,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                                   return ProgramariModal(
                                     total: value!,
                                     programare: trecute[_selectedIndex],
+                                    callbackStatusProgramare: _changeAnulatConfirmat,
                                   );
                                 });
                           });

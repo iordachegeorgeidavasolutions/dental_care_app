@@ -47,6 +47,10 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
 
   bool afiseazaDropDownFamilie = Shared.familie.length > 0? true : false;
 
+  Programare? anulatConfirmat;
+
+  
+
 /*
   int currentIndexprogramariToggle = 0;
   int currentIndexprogramariCopilToggle = 0;
@@ -61,6 +65,12 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
 */
 
   bool areCopii = false;
+
+  void _changeAnulatConfirmat(Programare newValueAnulatConfirmat) {
+    setState(() {
+      anulatConfirmat = newValueAnulatConfirmat;
+    });
+  }
 
   void loadUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -221,6 +231,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                       setState(() {
         
                         _selectedIndex = index;
+                        anulatConfirmat = areCopii? viitoareCopil[index] : viitoare[index];
         
                       });
                       apiCallFunctions.getDetaliiProgramare(areCopii? viitoareCopil[index].id : viitoare[index].id).then((value) {
@@ -231,7 +242,8 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                           builder: (context) {
                             return ProgramariModal(
                               total: value!,
-                              programare: areCopii? viitoareCopil[index] : viitoare[index],//viitoare[_selectedIndex],
+                              programare: areCopii? viitoareCopil[index] : viitoare[index],
+                              callbackStatusProgramare: _changeAnulatConfirmat,//viitoare[_selectedIndex],
                             );
                           });
                       });
@@ -240,19 +252,21 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                             child: Text("Nu aveți programări viitoare"),
                           )
                         : (areCopii && viitoareCopil.isNotEmpty)? ListTile(
-                            leading: Icon(Icons.circle,
+                          leading: Image.asset('./assets/images/programari.png', height: 25),
+                            /*leading: Icon(Icons.circle,
                               color: viitoareCopil[index].status == "Programat" || viitoareCopil[index].status == "În curs"
                                   ? Colors.blue
-                                  : viitoareCopil[index].status == "Confirmat" || viitoareCopil[index].status == "Sosit"
+                                  : viitoareCopil[index].status == "Confirmat" || viitoareCopil[index].status == "Sosit" || (anulatConfirmat != null && anulatConfirmat!.status == 'Confirmat' && viitoareCopil[index].id == anulatConfirmat!.id)
                                       ? Colors.green
                                       : viitoareCopil[index].status == "Finalizat" || viitoareCopil[index].status == "Terminat"
                                           ? Colors.yellow
                                           : viitoareCopil[index].status == "Anulat" || viitoareCopil[index].status == "Anulat de medic"
                                            || viitoareCopil[index].status == "Anulat telefonic de pacient" || viitoareCopil[index].status == "Întârziere laborator"
                                            || viitoareCopil[index].status == "De reconfirmat" || viitoareCopil[index].status == "Cât mai curând"
-                                           || viitoareCopil[index].status == "Urgență"
+                                           || viitoareCopil[index].status == "Urgență" || (anulatConfirmat != null && anulatConfirmat!.status == 'Anulat' && viitoareCopil[index].id == anulatConfirmat!.id)
                                               ? Colors.red
                                               : Colors.grey),
+                            */
                             title: Text(
                               DateFormat('EEEE, d.M.yyyy', 'ro').format(viitoareCopil[index].inceput).capitalizeFirst(),
                               style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.black87),
@@ -267,19 +281,22 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                           )
                           :
                           ListTile(
+                            /*
                             leading: Icon(Icons.circle,
                                 color: viitoare[index].status == "Programat" || viitoare[index].status == "În curs"
                                   ? Colors.blue
-                                  : viitoare[index].status == "Confirmat" || viitoare[index].status == "Sosit"
+                                  : viitoare[index].status == "Confirmat" || viitoare[index].status == "Sosit" || (anulatConfirmat != null && anulatConfirmat!.status == 'Confirmat' && viitoare[index].id == anulatConfirmat!.id)
                                       ? Colors.green
                                       : viitoare[index].status == "Finalizat" || viitoare[index].status == "Terminat"
                                           ? Colors.yellow
                                           : viitoare[index].status == "Anulat" || viitoare[index].status == "Anulat de medic"
                                            || viitoare[index].status == "Anulat telefonic de pacient" || viitoare[index].status == "Întârziere laborator"
                                            || viitoare[index].status == "De reconfirmat" || viitoare[index].status == "Cât mai curând"
-                                           || viitoare[index].status == "Urgență"
+                                           || viitoare[index].status == "Urgență" || (anulatConfirmat != null && anulatConfirmat!.status == 'Anulat' && viitoare[index].id == anulatConfirmat!.id)
                                               ? Colors.red
                                               : Colors.grey),
+                            */
+                            leading: Image.asset('./assets/images/programari.png', height: 25),
                             title: Text(
                               DateFormat('EEEE, d.M.yyyy', 'ro').format(viitoare[index].inceput).capitalizeFirst(),
                               style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.black87),
@@ -308,8 +325,21 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
-                  onTap: () =>
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateAppointmentScreen())),
+                  /*onTap: () =>
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateAppointmentScreen())),//old Andrei Bădescu
+                  */
+                  onTap: () {
+                    showModalBottomSheet(
+                      isScrollControlled: true,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
+                      context: context,
+                      builder: (context) {
+                        //return const UserModalRemade(); //de jos Andrei Bădescu
+                        return const CreateAppointmentScreen();
+                        //return const ProgramariScreen();
+                      }
+                    );
+                  },
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -346,8 +376,20 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
           ),
           SizedBox(height: 20),
           GestureDetector(
-            onTap: () =>
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateAppointmentScreen())),
+            /*onTap: () =>
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateAppointmentScreen())), //old Andrei Bădescu
+            */
+            onTap: () {
+              showModalBottomSheet(
+                isScrollControlled: true,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
+                context: context,
+                builder: (context) {
+                  //return const UserModalRemade(); //de jos Andrei Bădescu
+                  return const CreateAppointmentScreen();
+                }
+              );
+            },
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -398,6 +440,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                                   return ProgramariModal(
                                     total: value!,
                                     programare: trecuteCopil[_selectedIndex],
+                                    callbackStatusProgramare: _changeAnulatConfirmat,
                                   );
                                 });
                           });
@@ -453,8 +496,20 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
               ),
               SizedBox(height: 20),
               GestureDetector(
-                onTap: () =>
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateAppointmentScreen())),
+                /*onTap: () =>
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateAppointmentScreen())), //old Andrei Bădescu
+                */
+                onTap: () {
+                  showModalBottomSheet(
+                    isScrollControlled: true,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
+                    context: context,
+                    builder: (context) {
+                      //return const UserModalRemade(); //de jos Andrei Bădescu
+                      return const CreateAppointmentScreen();
+                    }
+                  );
+                },
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
@@ -502,6 +557,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                                   return ProgramariModal(
                                     total: value!,
                                     programare: trecute[_selectedIndex],
+                                    callbackStatusProgramare: _changeAnulatConfirmat,
                                   );
                                 });
                           });

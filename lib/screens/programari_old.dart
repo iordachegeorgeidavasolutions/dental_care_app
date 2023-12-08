@@ -43,6 +43,14 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
   bool programariCopilCompleteToggle = false;
   bool programariCopilViitoareToggle = false;
 
+  Programare? anulatConfirmat;
+  
+  void _changeAnulatConfirmat(Programare newValueAnulatConfirmat) {
+    setState(() {
+      anulatConfirmat = newValueAnulatConfirmat;
+    });
+  }
+
   Future refresh() async {
     setState(() {
       programari = getListaProgramari();
@@ -132,6 +140,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                           return ProgramariModal(
                             total: value!,
                             programare: viitoare[_selectedIndex],
+                            callbackStatusProgramare: _changeAnulatConfirmat,
                           );
                         });
                   });
@@ -228,6 +237,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                                 return ProgramariModal(
                                   total: value!,
                                   programare: trecute[_selectedIndex],
+                                  callbackStatusProgramare: _changeAnulatConfirmat,
                                 );
                               });
                         });

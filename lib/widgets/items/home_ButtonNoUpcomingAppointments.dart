@@ -15,9 +15,23 @@ class ButtonNoUpcomingAppointments extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
+
+            
+            showModalBottomSheet(
+              isScrollControlled: true,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
+              context: context,
+              builder: (context) {
+                //return const UserModalRemade(); //de jos Andrei Bădescu
+                return const CreateAppointmentScreen();
+                //return const ProgramariScreen();
+              }
+            );
+            //solicită o programare    
+            /*Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => const CreateAppointmentScreen(),
             ));
+            */
           },
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 20),

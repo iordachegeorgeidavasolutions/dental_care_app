@@ -1,6 +1,7 @@
 import 'package:dental_care_app/data/home_dosarulmeu_data.dart';
 import 'package:dental_care_app/main.dart';
 import 'package:dental_care_app/screens/webview.dart';
+import 'package:dental_care_app/screens/programari.dart';
 import 'package:dental_care_app/widgets/items/dosarulMeu_item.dart';
 import 'package:dental_care_app/widgets/items/home_buttonNoUpcomingAppointments.dart';
 import 'package:dental_care_app/widgets/items/servicii_grid_item.dart';
@@ -54,6 +55,14 @@ class HomePageState extends State<HomePage> {
   //   });
   // }
 
+  Programare? anulatConfirmat;
+
+  void _changeAnulatConfirmat(Programare newValueAnulatConfirmat) {
+    setState(() {
+      anulatConfirmat = newValueAnulatConfirmat;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -102,6 +111,7 @@ class HomePageState extends State<HomePage> {
                                           : ProgramariModal(
                                               programare: snapshot.data!,
                                               total: value!,
+                                              callbackStatusProgramare: _changeAnulatConfirmat,
                                             );
                                     },
                                   );
@@ -306,7 +316,8 @@ class HomePageState extends State<HomePage> {
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
                             context: context,
                             builder: (context) {
-                              return const UserModalRemade();
+                              return const UserModalRemade(); //de jos Andrei Bădescu
+                              //return const ProgramariScreen();
                             });
                       },
                       child: Image.asset('./assets/images/person-icon.jpg', height: 40)),

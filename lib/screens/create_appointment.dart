@@ -54,10 +54,18 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: AppBar(title: Text("Solicita o programare"), backgroundColor: Colors.black, centerTitle: true),
-      // backgroundColor: Colors.white,
-      body: SingleChildScrollView(
+    return //SingleChildScrollView(
+      Container(
+      height: MediaQuery.of(context).size.height * 0.7,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(35),
+          topRight: Radius.circular(35),
+        ),
+        color: Colors.white,
+      ),
+      child: Padding(
+      padding: const EdgeInsets.all(30),
         child: Column(
           children: [
             const SizedBox(height: 20),
@@ -79,35 +87,50 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
             )),
             const SizedBox(height: 20),
             Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: const Color.fromARGB(255, 236, 236, 236),
+              ), 
               width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.symmetric(horizontal: 15),
               // height: MediaQuery.of(context).size.height,
-              decoration: const BoxDecoration(
+              /*decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50)),
                 color: Color.fromARGB(255, 236, 236, 236),
               ),
+              */
               child: Column(
                 children: [
+                  const Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                          Text("Sediul dorit:", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
+                        ]),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          //padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                           decoration: BoxDecoration(
                               color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                          width: MediaQuery.of(context).size.width*0.77,
                           child: DropdownButton<String>(
+                            isExpanded: true,
                             value: selectedItem,
                             style: const TextStyle(color: Colors.black, fontSize: 18),
                             underline: SizedBox(),
-                            hint: const Text("Alegeți o locație"),
+                            hint: const Align(
+                              alignment: Alignment.center,
+                              child:Text("Alegeți o locație"),
+                            ),
                             items: listaNumeSedii == null
                                 ? []
                                 : listaNumeSedii!.map((String value) {
                                     return DropdownMenuItem<String>(
                                       value: value,
-                                      child: Text(value),
+                                      child: Center(
+                                        child: Text(value),
+                                      ),  
                                     );
                                   }).toList(),
                             onChanged: (value) {
@@ -182,7 +205,7 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                   // ),
                   const SizedBox(height: 20),
                   const Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                    Text("Adăugați detalii", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 22))
+                    Text("Adăugați detalii:", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
                   ]),
                   const SizedBox(height: 10),
                   TextField(
@@ -320,6 +343,8 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
 
   Future<String?> sendAppointmentRequest() async {
     if (controllerDetails.text.isEmpty) {
+      solicitareNetrimisa = true;
+      butonTrimiteSolicitare = true;
       Flushbar(
         message: "Adăugați câteva detalii!",
         icon: Icon(
