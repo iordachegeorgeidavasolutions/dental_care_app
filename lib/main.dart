@@ -102,6 +102,7 @@ class MyAppState extends State<MyApp> {
     CurvedNavigationBarItem(
       child: ImageIcon(AssetImage("./assets/images/navbar/programari.png")),
       label: 'Programări',
+      labelStyle: TextStyle(fontSize: 13),
     ),
     CurvedNavigationBarItem(
       child: ImageIcon(AssetImage("./assets/images/navbar/contact.png")),
@@ -167,7 +168,7 @@ class MyAppState extends State<MyApp> {
       buttonBackgroundColor: Colors.white,
       color: Colors.white,
       items: icons,
-      height: 65,
+      height: 60,
       index: pageIndex,
     );
   }

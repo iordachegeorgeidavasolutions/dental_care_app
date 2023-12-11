@@ -88,7 +88,7 @@ class HomePageState extends State<HomePage> {
                 builder: (context, snapshot) {
                   var data = snapshot.data;
                   // ignore: avoid_print
-                  print(data);
+                  print('Nume Prenume $data');
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
                       child: CircularProgressIndicator(),
@@ -134,7 +134,7 @@ class HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Stack(children: [
                   Container(
-                    height: 170,
+                    height: 180,
                     width: double.infinity,
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white),
                   ),
@@ -227,7 +227,7 @@ class HomePageState extends State<HomePage> {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Container(
-        height: 170,
+        height: 180,
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white),
         child: Row(
           children: [
@@ -295,7 +295,10 @@ class HomePageState extends State<HomePage> {
       builder: (context, snapshot) {
         var data = snapshot.data;
         // ignore: avoid_print
-        print(data);
+        
+        
+        print('Nume Prenume $data');
+        //print(data);
         if (data == null) {
           return const Center(
             child: CircularProgressIndicator(),
