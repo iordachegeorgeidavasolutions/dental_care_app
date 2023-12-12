@@ -31,11 +31,11 @@ List<Function> meniuGridItemFunctions = [
 ];
 
 List<String> links = [
-  'https://dentocare.ro/promotii/',
-  'https://dentocare.ro/preturi/',
+  'https://app.dentocare.ro/oferte',
+  'https://app.dentocare.ro/lista-preturi',
   'https://www.facebook.com',
   'https://app.dentocare.ro',
-  'https://dentocare.ro/informatii-utile/',
+  'https://app.dentocare.ro/info',
   // more links
 ];
 

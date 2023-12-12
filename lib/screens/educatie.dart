@@ -26,7 +26,9 @@ class _EducatieScreenState extends State<EducatieScreen> {
       ));
 
   late PullToRefreshController pullToRefreshController;
-  String url = "https://www.dentocare.ro";
+  //String url = "https://www.dentocare.ro"; //old Andrei Bădescu
+  String url = "https://app.dentocare.ro";
+  
   double progress = 0;
   final urlController = TextEditingController();
 
@@ -76,7 +78,8 @@ class _EducatieScreenState extends State<EducatieScreen> {
           children: [
             InAppWebView(
               key: webViewKey,
-              initialUrlRequest: URLRequest(url: Uri.parse("https://www.dentocare.ro")),
+              //initialUrlRequest: URLRequest(url: Uri.parse("https://www.dentocare.ro")), //old Andrei Bădescu
+              initialUrlRequest: URLRequest(url: Uri.parse('https://app.dentocare.ro')),
               initialOptions: options,
               pullToRefreshController: pullToRefreshController,
               onWebViewCreated: (controller) {

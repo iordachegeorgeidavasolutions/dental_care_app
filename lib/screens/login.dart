@@ -77,7 +77,11 @@ class _LoginPageState extends State<LoginPage> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red[400],
-                  minimumSize: const Size.fromHeight(50), // NEW
+                  minimumSize: const Size.fromHeight(50), 
+                  shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10), // <-- Radius
+                  ),
+                  // NEW
                 ),
                 onPressed: () {
                   final isValidForm = loginKey.currentState!.validate();
@@ -87,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                 },
                 child: const Text(
                   'Intră în cont',
-                  style: TextStyle(fontSize: 24),
+                  style: TextStyle(fontSize: 24, color: Colors.white),
                 ),
               ),
             ),

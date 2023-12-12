@@ -39,25 +39,24 @@ class _ListaProgramariEuCopiiState extends State<ListaProgramariEuCopii> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-
-                    Column(
-                      children:[
-                        ElevatedButton(onPressed: (){
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProgramariScreen()));
-                        }, child: Text('Programarile mele')),
-                        for(int i = 0; i < Shared.familie.length; i++)
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ElevatedButton(
-                                onPressed: (){
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProgramariScreen()));
-                              }, 
-                                child: Text('Programarile lui ${Shared.familie[i].nume.capitalizeFirst()} ${Shared.familie[i].prenume.capitalizeFirst()}')),
-                            ],
-                          ),
-                        ],
-                    )  
+                  Column(
+                    children:[
+                      ElevatedButton(onPressed: (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProgramariScreen()));
+                      }, child: Text('Programarile mele')),
+                      for(int i = 0; i < Shared.familie.length; i++)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: (){
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProgramariScreen()));
+                            }, 
+                              child: Text('Programarile lui ${Shared.familie[i].nume.capitalizeFirst()} ${Shared.familie[i].prenume.capitalizeFirst()}')),
+                          ],
+                        ),
+                      ],
+                  ),
                 ],
               ),
             ],

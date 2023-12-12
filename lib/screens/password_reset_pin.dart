@@ -176,11 +176,14 @@ class _PasswordResetPinState extends State<PasswordResetPin> {
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
-                    minimumSize: const Size.fromHeight(50), // NEW
+                    minimumSize: const Size.fromHeight(50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10), // <-- Radius
+                    ), // NEW
                   ),
                   child: const Text(
                     'Verifică codul',
-                    style: TextStyle(fontSize: 22),
+                    style: TextStyle(fontSize: 22, color: Colors.white),
                   ),
                   onPressed: widget.resetEmailOrPhoneNumber
                       ? () {
@@ -197,6 +200,7 @@ class _PasswordResetPinState extends State<PasswordResetPin> {
                           */    
                         }),
             ),
+            SizedBox(height:30),
           ],
         ),
       )),

@@ -94,7 +94,10 @@ class _PasswordResetState extends State<PasswordReset> {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
-                  minimumSize: const Size.fromHeight(50), // NEW
+                  minimumSize: const Size.fromHeight(50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10), // <-- Radius
+                  ), // NEW
                 ),
                 onPressed: () async {
                   final isValidForm = loginKey.currentState!.validate();
@@ -110,7 +113,7 @@ class _PasswordResetState extends State<PasswordReset> {
                 },
                 child: const Text(
                   'Trimite cererea de resetare',
-                  style: TextStyle(fontSize: 24),
+                  style: TextStyle(fontSize: 24, color: Colors.white),
                 ),
               ),
             ),

@@ -230,7 +230,10 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red[400],
-                      minimumSize: const Size.fromHeight(50), // NEW
+                      minimumSize: const Size.fromHeight(50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10), // <-- Radius
+                      ), // NEW
                     ),
                     onPressed: () {
 
@@ -268,7 +271,7 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                     },
                     child: const Text(
                       'Trimite solicitarea',
-                      style: TextStyle(fontSize: 24),
+                      style: TextStyle(fontSize: 24, color: Colors.white),
                     ),
                   ):
                   /*!butonTrimiteSolicitare && !solicitareNetrimisa? 

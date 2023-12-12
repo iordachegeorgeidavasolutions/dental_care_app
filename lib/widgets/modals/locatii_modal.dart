@@ -80,12 +80,15 @@ class LocatiiModal extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                         backgroundColor: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10), // <-- Radius
+                        ),
                         // minimumSize: const Size.fromHeight(50), // NEW
                       ),
                       onPressed: () => MapsLauncher.launchQuery(locatiiList[selectedIndex].maps),
                       child: const Text(
                         'Hartă',
-                        style: TextStyle(fontSize: 24),
+                        style: TextStyle(fontSize: 24, color: Colors.white),
                       ),
                     ),
                   ],

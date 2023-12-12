@@ -25,7 +25,7 @@ void showSnackbar(BuildContext context, String text) {
     content: Text(text, textAlign: TextAlign.center, style: TextStyle(color: Colors.black,),),
     
     backgroundColor: Color.fromARGB(255,200,200,200),
-    duration: Duration(seconds: 5),
+    duration: Duration(seconds: 2),
   );
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }

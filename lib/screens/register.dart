@@ -40,6 +40,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   bool isHidden = true;
 
+  String birthdate = '';
+
+  bool afiseazaButonCreazaCont = true;
+
+  @override
+  void initState() {
+    super.initState();
+    
+    setState(() {
+
+      afiseazaButonCreazaCont = true;
+
+    });
+  }
   @override
   void dispose() {
     controllerNume.dispose();
@@ -81,22 +95,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 15),
               registrationFields(),
               const SizedBox(height: 20),
-              ElevatedButton(
+              if (afiseazaButonCreazaCont) ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red[400],
                   minimumSize: const Size.fromHeight(50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10), // <-- Radius
+                  ),
                 ),
                 onPressed: () {
                   final isValidForm = registerKey.currentState!.validate();
                   if (isValidForm) {
                     // requestPermission();
                     // getToken();
+                    
+                    setState(() {
+                      afiseazaButonCreazaCont = false;
+                    });
                     register(context);
                   }
                 },
                 child: const Text(
                   'Creează cont',
-                  style: TextStyle(fontSize: 24),
+                  style: TextStyle(fontSize: 24, color: Colors.white),
                 ),
               ),
               const SizedBox(height: 15),
@@ -185,6 +206,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             },
             decoration: const InputDecoration(
                 hintText: 'Prenume',
+                border: InputBorder.none,
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))
                   ),
@@ -208,6 +230,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             },
             decoration: const InputDecoration(
                 hintText: 'Nume',
+                border: InputBorder.none,
                 enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
                 filled: true,
                 fillColor: Colors.white)),
@@ -231,6 +254,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             },
             decoration: const InputDecoration(
                 hintText: 'E-mail',
+                border: InputBorder.none,
                 enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
                 filled: true,
                 fillColor: Colors.white)),
@@ -249,6 +273,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             },
             decoration: const InputDecoration(
                 hintText: 'Telefon mobil',
+                border: InputBorder.none,
                 enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
                 filled: true,
                 fillColor: Colors.white)),
@@ -260,9 +285,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
             // onTap: () => chooseBirthdate(context),
             onTap: () async {
               DateTime? date = await showDatePicker(
-                  context: context, initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime(2024));
+                context: context, initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime(2024),
+                builder: (context, child) {
+                  return Theme(
+                    data: Theme.of(context).copyWith(
+                      
+                      splashColor: Color.fromARGB(255,200,200,200), //Colors.red,
+                      colorScheme: ColorScheme.light(
+                        surface: Colors.white,
+                        primary: Colors.red, // // <-- SEE HERE
+                        //onSurface: Colors.white,  // <-- SEE HERE
+                      ),
+                      textButtonTheme: TextButtonThemeData(
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.black, // button text color
+                        ),
+                      ),
+                    ),
+                    child: child!,
+                  );
+                },
+              ); 
               //controllerBirthdate.text = DateFormat('yyyyMMdd').format(date!).toString(); // old Andrei Bădescu
               controllerBirthdate.text = DateFormat('dd/MM/yyyy').format(date!).toString(); // old Andrei Bădescu
+              birthdate = DateFormat('yyyyMMdd').format(date).toString();
             },
             onFieldSubmitted: (String s) {
               focusNodePass.requestFocus();
@@ -276,6 +322,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             },
             decoration: const InputDecoration(
                 hintText: 'Data de naștere',
+                border: InputBorder.none,
                 enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
                 filled: true,
                 fillColor: Colors.white)),
@@ -305,6 +352,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     onPressed: passVisibiltyToggle,
                     icon: isHidden ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off)),
                 hintText: 'Parola',
+                border: InputBorder.none,
                 enabledBorder:
                     const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
                 filled: true,
@@ -334,6 +382,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     onPressed: passVisibiltyToggle,
                     icon: isHidden ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off)),
                 hintText: 'Parola',
+                border: InputBorder.none,
                 enabledBorder:
                     const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
                 filled: true,
@@ -342,16 +391,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-
-
-
   void register(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? res = await apiCallFunctions.register(
       pNume: controllerNume.text,
       pPrenume: controllerPrenume.text,
       pTelefonMobil: controllerTelefon.text,
-      pDataDeNastereYYYYMMDD: controllerBirthdate.text,
+      pDataDeNastereYYYYMMDD: birthdate,
       pAdresaMail: controllerEmail.text.trim(),
       pParola: controllerPass.text,
       pFirebaseGoogleDeviceID: prefs.getString(pref_keys.fcmToken) ?? "FCM Token not available in Shared Preferences",
@@ -371,7 +417,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       prefs.setString(pref_keys.userEmail, controllerEmail.text);
       print("success");
 
+      setState(() {
+        afiseazaButonCreazaCont = false;
+      });
+
       if (context.mounted) {
+
+        
         Flushbar(
           message: "Register încheiat cu succes!", //old Andrei Bădescu
           //message: Shared.limba.textMesajSuccessfullRegister, //cu dictionar
@@ -392,9 +444,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ).show(context);
       }
 
-      Navigator.pop(context);
+      Future.delayed(Duration(seconds: 5), () {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+      });
+      //Navigator.pop(context);
     }
     if (res.startsWith('66\$#\$')) {
+      
+      setState(() {
+        afiseazaButonCreazaCont = true;
+      });
+
       Flushbar(
         message: "Date greșite, verificați cu atenție datele introduse și încercați încă o dată!", //old Andrei Bădescu
         //message: Shared.limba.textMesajDateGresiteRegister, IGV cu dictionar
@@ -418,6 +479,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
 
     if (res.startsWith('132')) {
+      
+      setState(() {
+        afiseazaButonCreazaCont = true;
+      });
+      
       showAlertDialog(context);
       /*
       Flushbar(

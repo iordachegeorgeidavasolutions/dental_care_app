@@ -94,15 +94,18 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red[400],
                       minimumSize: const Size.fromHeight(50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10), // <-- Radius
+                      ), 
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       // Scenario 1: User selected date and wants to change only the date
                       if (controllerEmail.text.isEmpty && controllerTelefon.text.isEmpty && dateChosen) {
-                        changeAddressDetails();
+                        await changeAddressDetails();
                       } else if (controllerEmail.text.isNotEmpty && controllerTelefon.text.isNotEmpty && dateChosen) {
                         // Scenario 2: User selected date and wants to change the date and the contact details
-                        changeUserData();
-                        changeAddressDetails();
+                        await changeUserData();
+                        await changeAddressDetails();
                       } else if (controllerEmail.text.isNotEmpty && controllerTelefon.text.isNotEmpty && !dateChosen) {
                         // Scenario 3: User wants to change only the contact details
                         changeUserData();
@@ -113,7 +116,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     },
                     child: const Text(
                       'Schimbă datele',
-                      style: TextStyle(fontSize: 24),
+                      style: TextStyle(fontSize: 24, color:Colors.white),
                     ),
                   ),
                   SizedBox(height: 20),
@@ -127,6 +130,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red[400],
                       minimumSize: const Size.fromHeight(50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10), // <-- Radius
+                      ),
                     ),
                     onPressed: () {
                       if (controllerJudet.text.isNotEmpty || controllerLocalitate.text.isNotEmpty) {
@@ -135,7 +141,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     },
                     child: const Text(
                       'Adaugă datele',
-                      style: TextStyle(fontSize: 24),
+                      style: TextStyle(fontSize: 24, color: Colors.white),
                     ),
                   ),
                   SizedBox(height: 20),
@@ -248,7 +254,28 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         TextFormField(
             onTap: () async {
               DateTime? date = await showDatePicker(
-                  context: context, initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime(2024));
+                context: context, initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime(2024),
+                builder: (context, child) {
+                return Theme(
+
+                  data: Theme.of(context).copyWith(
+                    
+                    splashColor: Color.fromARGB(255,200,200,200), //Colors.red,
+                    colorScheme: ColorScheme.light(
+                      surface: Colors.white,
+                      primary: Colors.red, // // <-- SEE HERE
+                      //onSurface: Colors.white, // <-- SEE HERE
+                    ),
+                    textButtonTheme: TextButtonThemeData(
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.black, // button text color
+                      ),
+                    ),
+                  ),
+                  child: child!,
+                  );
+                },
+              );
               controllerBirthdate.text = DateFormat('ddMMyyyy').format(date!).toString();
               setState(() {
                 dateChosen = true;
@@ -353,20 +380,22 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       showSnackbar(context, "Date corecte - cerere trimisă!");
       setState(
         () {
+
           verificationOk = true;
-          if (verificationOk) {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => PasswordResetPin(
-                  resetEmailOrPhoneNumber: true,
-                  email: hintEmail,
-                  password: hintParola,
-                ),
-              ),
-            );
-          }
+          
         },
       );
+      if (verificationOk) {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => PasswordResetPin(
+              resetEmailOrPhoneNumber: true,
+              email: hintEmail,
+              password: hintParola,
+            ),
+          ),
+        );
+      }
     }
   }
 }
