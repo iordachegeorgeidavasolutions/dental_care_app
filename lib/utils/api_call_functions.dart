@@ -614,4 +614,57 @@ class ApiCallFunctions {
     return interventii;
   }
 
+  
+  Future<List<Judet>> getListaJudete() async {
+    String? data = await apiCall.apeleazaMetodaString(
+        pNumeMetoda: 'GetListaJudete');
+
+    List<Judet> judete = <Judet>[];
+
+    if (data == null) {
+      return [];
+    }
+
+    if (data.contains('*\$*')) {
+      List<String> l = data.split('*\$*');
+      l.removeWhere((element) => element.isEmpty);
+      for (var element in l) {
+        List<String> parts = element.split('\$#\$');
+
+        Judet z = Judet(
+          id: parts[0],
+          denumire: parts[1],
+        );
+        judete.add(z);
+      }
+    }
+    return judete;
+  }
+
+  Future<List<Localitate>> getListaLocalitati(String pIdJudet) async {
+    final Map<String, String> param = {
+      'pIdJudet': pIdJudet,
+    };
+    String? data =
+        await apiCall.apeleazaMetodaString(pNumeMetoda: 'GetListaLocalitati', pParametrii: param);
+
+    List<Localitate> localitati = <Localitate>[];
+
+    if (data == null) {
+      return [];
+    }
+
+    if (data.contains('*\$*')) {
+      List<String> l = data.split('*\$*');
+      l.removeWhere((element) => element.isEmpty);
+      for (var element in l) {
+        List<String> parts = element.split('\$#\$');
+
+        Localitate y = Localitate(id: parts[0], denumire: parts[1]);
+        localitati.add(y);
+      }
+    }
+    return localitati;
+  }
+
 }

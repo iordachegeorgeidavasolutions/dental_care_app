@@ -1,5 +1,6 @@
 import 'package:dental_care_app/screens/password_reset_pin.dart';
 import 'package:dental_care_app/utils/functions.dart';
+import 'package:dental_care_app/utils/classes.dart';
 import 'package:intl/intl.dart';
 import '../utils/shared_pref_keys.dart' as pref_keys;
 import 'package:flutter/material.dart';
@@ -38,7 +39,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   final FocusNode focusNodePass = FocusNode();
   final FocusNode focusNodePassConfirm = FocusNode();
   final FocusNode focusNodeBirthdate = FocusNode();
-  DateTime? dataNasterii;
+  DateTime dataNasterii = DateTime.now();
   String hintLocalitate = '';
   String hintJudet = '';
   String hintNume = '';
@@ -48,6 +49,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   String hintDataNastere = '';
   String hintParola = '';
   bool isHidden = true;
+
+  String judet = '';
+  String idJudetRez = '';
+  String localitate = '';
+  String idLocalitateRez = '';
 
   @override
   void initState() {
@@ -99,8 +105,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       ), 
                     ),
                     onPressed: () async {
+
+                      final isValidForm = registerKey.currentState!.validate();
+                      //if (isValidForm) {
+                      print('My Account Screen isValidForm: $isValidForm');
+                      //}
                       // Scenario 1: User selected date and wants to change only the date
                       if (controllerEmail.text.isEmpty && controllerTelefon.text.isEmpty && dateChosen) {
+
                         await changeAddressDetails();
                       } else if (controllerEmail.text.isNotEmpty && controllerTelefon.text.isNotEmpty && dateChosen) {
                         // Scenario 2: User selected date and wants to change the date and the contact details
@@ -193,7 +205,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       key: registerKey,
       child: Column(children: [
         TextFormField(
-            readOnly: true,
+            readOnly: false,
             focusNode: focusNodePrenume,
             controller: controllerNume,
             autocorrect: false,
@@ -201,30 +213,65 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               focusNodeNume.requestFocus();
             },
             decoration: InputDecoration(
-                hintText: hintPrenume,
-                enabledBorder:
-                    const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
-                filled: true,
-                fillColor: Colors.white)),
+              hintText: hintPrenume,
+              enabledBorder:
+                  const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
+              filled: true,
+              fillColor: Colors.white),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  //return "Enter a valid Email Address or Password"; //old Andrei Bădescu
+                  return "Introduceți un nume!"; //old Andrei Bădescu
+                }
+                return null;
+              /*if (value!.isEmpty || !RegExp(r'.+@.+\.+').hasMatch(value) && !RegExp(r'^-?[0-9]+$').hasMatch(value)) {
+                //return "Enter a valid Email Address or Password"; //old Andrei Bădescu
+                return "Introduceți o adresă de e-mail sau telefon valide"; //old Andrei Bădescu
+              } else {
+                if (RegExp(r'.+@.+\.+').hasMatch(value)) {
+                  setState(() {
+                    loginPhoneOrEmail = false;
+                  });
+                  return null;
+                } else if (RegExp(r'^-?[0-9]+$').hasMatch(value)) {
+                  setState(() {
+                    loginPhoneOrEmail = true;
+                  });
+                  return null;
+                } else {
+                  return null;
+                }
+              }*/
+            },
+        ),
         const SizedBox(height: 3),
         TextFormField(
-            readOnly: true,
-            focusNode: focusNodeNume,
-            controller: controllerPrenume,
-            autocorrect: false,
-            onFieldSubmitted: (String s) {
-              focusNodeEmail.requestFocus();
-            },
-            decoration: InputDecoration(
-                hintText: hintNume,
-                enabledBorder:
-                    const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
-                filled: true,
-                fillColor: Colors.white)),
+          readOnly: false,
+          focusNode: focusNodeNume,
+          controller: controllerPrenume,
+          autocorrect: false,
+          onFieldSubmitted: (String s) {
+            focusNodeEmail.requestFocus();
+          },
+          decoration: InputDecoration(
+            hintText: hintNume,
+            enabledBorder:
+                const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
+            filled: true,
+            fillColor: Colors.white),
+          validator: (value) {
+            if (value!.isEmpty) {
+              //return "Enter a valid Email Address or Password"; //old Andrei Bădescu
+              return "Introduceți un prenume!"; //old Andrei Bădescu
+            }
+            return null;
+          }
+        ),
         const SizedBox(height: 3),
         TextFormField(
             focusNode: focusNodeEmail,
             controller: controllerEmail,
+            readOnly: false,
             autocorrect: false,
             keyboardType: TextInputType.emailAddress,
             onFieldSubmitted: (String s) {
@@ -236,20 +283,43 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 enabledBorder:
                     const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
                 filled: true,
-                fillColor: Colors.white)),
+                fillColor: Colors.white),
+            /*validator: (value) {
+              String emailPattern = r'.+@.+\.+';
+              RegExp emailRegExp = RegExp(emailPattern);
+              if (value!.isEmpty || !emailRegExp.hasMatch(value)) {
+                return "Introduceți o adresă de Email corectă";
+              } else {
+                return null;
+              }
+            },*/
+          ),
         const SizedBox(height: 3),
         TextFormField(
-            focusNode: focusNodeTelefon,
-            keyboardType: TextInputType.number,
-            controller: controllerTelefon,
-            autocorrect: false,
-            decoration: InputDecoration(
-                suffixIcon: Icon(Icons.edit),
-                hintText: hintTelefon,
-                enabledBorder:
-                    const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
-                filled: true,
-                fillColor: Colors.white)),
+          focusNode: focusNodeTelefon,
+          keyboardType: TextInputType.number,
+          controller: controllerTelefon,
+          autocorrect: false,
+          decoration: InputDecoration(
+            suffixIcon: Icon(Icons.edit),
+            hintText: hintTelefon,
+            enabledBorder:
+                const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
+            filled: true,
+            fillColor: Colors.white
+          ),
+          validator: (value) {
+            String phonePattern = r'(^(?:[+0]4)?[0-9]{10}$)';
+            RegExp phoneRegExp = RegExp(phonePattern);
+            if (value!.isEmpty || (!(value.length != 10) && !(value.length != 12))) {
+              return '"Introduceti un număr de telefon corect"';
+            }
+            else if (!phoneRegExp.hasMatch(value)) {
+              return 'Introduceți un număr de mobil corect';
+            }
+            return null;
+          },
+        ),
         const SizedBox(height: 3),
         TextFormField(
             onTap: () async {
@@ -276,22 +346,38 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   );
                 },
               );
-              controllerBirthdate.text = DateFormat('ddMMyyyy').format(date!).toString();
+              
               setState(() {
+                
+                controllerBirthdate.text = DateFormat('dd/MM/yyyy').format(date!).toString();
+                dataNasterii = date;
                 dateChosen = true;
                 hintDataNastere = controllerBirthdate.text;
+
               });
+
             },
+            controller: controllerBirthdate,
             focusNode: focusNodeBirthdate,
             autocorrect: false,
             readOnly: false,
             decoration: InputDecoration(
-                suffixIcon: Icon(Icons.edit),
-                hintText: formatDate(hintDataNastere),
-                enabledBorder:
-                    const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
-                filled: true,
-                fillColor: Colors.white)),
+              suffixIcon: Icon(Icons.edit),
+              hintText: formatDate(hintDataNastere),
+              enabledBorder:
+                  const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
+              filled: true,
+              fillColor: Colors.white
+            ),
+            validator: (value) {
+              value = controllerBirthdate.text;
+              if (value.isEmpty) {
+                //return "Enter a valid Email Address or Password"; //old Andrei Bădescu
+                return "Introduceți o dată de naștere!"; //old Andrei Bădescu
+              }
+              return null;
+            }
+          ),  
         const SizedBox(height: 3),
       ]),
     );
@@ -317,9 +403,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   void loadUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    List<Judet> z = await apiCallFunctions.getListaJudete();
+
     setState(() {
+
       hintLocalitate = prefs.getString(pref_keys.localitate) ?? "Localitate";
-      hintJudet = prefs.getString(pref_keys.judet) ?? "Judet";
+      hintJudet = prefs.getString(pref_keys.judet) ?? "1";
       hintNume = prefs.getString(pref_keys.userNume)!;
       hintPrenume = prefs.getString(pref_keys.userPrenume)!;
       hintDataNastere = prefs.getString(pref_keys.userDDN)!;
@@ -330,11 +420,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   changeAddressDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    String dataNastere = DateFormat('ddMMyyyy').format(dataNasterii!).toString();
     String? res = await apiCallFunctions.schimbaDatelePersonale(
-        pDataDeNastereDDMMYYYY: controllerBirthdate.text.isEmpty ? hintDataNastere : controllerBirthdate.text,
+        //pDataDeNastereDDMMYYYY: controllerBirthdate.text.isEmpty ? hintDataNastere : controllerBirthdate.text, //old Andrei Bădescu
+        pDataDeNastereDDMMYYYY: dataNastere,
         judet: controllerJudet.text.isEmpty ? hintJudet : controllerJudet.text,
         localitate: controllerLocalitate.text.isEmpty ? hintLocalitate : controllerLocalitate.text);
-    print(res);
+
+    print('changeAddressDetails rezultat: $res');
+
     if (res == null) {
       showSnackbar(
         context,
@@ -360,13 +454,23 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   }
 
   changeUserData() async {
+
+    
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    print('changeUserData rezultat: pNouaAdresaDeEmail: ${controllerEmail.text.isEmpty ? hintEmail : controllerEmail.text} pNoulTelefon: ${controllerTelefon.text.isEmpty ? hintTelefon : controllerTelefon.text}, ${prefs.getString(pref_keys.userEmail)}, ${prefs.getString(pref_keys.userPassMD5)!}');
+
     String? res = await apiCallFunctions.schimbaDateleDeContact(
       pNouaAdresaDeEmail: controllerEmail.text.isEmpty ? hintEmail : controllerEmail.text,
       pNoulTelefon: controllerTelefon.text.isEmpty ? hintTelefon : controllerTelefon.text,
-      pAdresaDeEmail: hintEmail,
-      pParola: hintParola,
+      pAdresaDeEmail: prefs.getString(pref_keys.userEmail)!,
+      pParola: prefs.getString(pref_keys.userPassMD5)!,
     );
-    print(res);
+    //print(res);
+
+    print('changeUserData rezultat: $res');
+
+
     if (res == null) {
       showSnackbar(
         context,

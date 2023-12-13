@@ -146,7 +146,22 @@ class Shared {
   static List<MembruFamilie> familie = <MembruFamilie>[];
   static List<Sediu> sedii = <Sediu>[];
   static String idPacientAsociat = '0';
+  
+  static List<Judet> judete = <Judet>[];
+  static List<Localitate> localitati = <Localitate>[];
 
   //static GenericLanguage limba = LanguageEN();
 
+}
+
+class Judet {
+  final String id, denumire;
+
+  Judet({required this.id, required this.denumire,});
+}
+
+class Localitate {
+  final String id, denumire;
+
+  Localitate({required this.id, required this.denumire,});
 }

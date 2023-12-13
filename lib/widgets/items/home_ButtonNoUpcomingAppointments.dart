@@ -11,7 +11,7 @@ class ButtonNoUpcomingAppointments extends StatelessWidget {
         const Padding(
           padding: EdgeInsets.fromLTRB(30, 20, 20, 10),
           child: Row(
-              children: [Text('Următoarea programare :', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold))]),
+              children: [Text('Următoarea programare:', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold))]),
         ),
         GestureDetector(
           onTap: () {

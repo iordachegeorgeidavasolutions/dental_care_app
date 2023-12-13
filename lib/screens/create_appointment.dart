@@ -87,6 +87,7 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
             )),
             const SizedBox(height: 20),
             Container(
+              height: MediaQuery.of(context).size.height*0.463,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: const Color.fromARGB(255, 236, 236, 236),
@@ -101,6 +102,7 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
               */
               child: Column(
                 children: [
+                  SizedBox(height: 20),
                   const Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                           Text("Sediul dorit:", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
                         ]),

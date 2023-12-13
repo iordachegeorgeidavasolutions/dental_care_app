@@ -229,10 +229,10 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                   child: InkWell(
                     onTap: () {
                       setState(() {
-        
+
                         _selectedIndex = index;
                         anulatConfirmat = areCopii? viitoareCopil[index] : viitoare[index];
-        
+
                       });
                       apiCallFunctions.getDetaliiProgramare(areCopii? viitoareCopil[index].id : viitoare[index].id).then((value) {
                         showModalBottomSheet(
@@ -314,12 +314,13 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
         ),
         SizedBox(height: 20),
 
+        (viitoare.isNotEmpty)? 
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              height:400
+              height:MediaQuery.of(context).size.height * 0.465
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -353,6 +354,60 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                           style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                     ]),
                   ),
+                ),
+              ],
+            ),
+          ],
+        ):
+        !areCopii? Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.287,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.red[400],
+                  ),
+                  height: 50,
+                  width: 200,
+                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                    Icon(Icons.add, color: Colors.white),
+                    Text('Solicită programare',
+                        style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                  ]),
+                ),
+              ],
+            ),
+          ],
+        ):
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.46,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.red[400],
+                  ),
+                  height: 50,
+                  width: 200,
+                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                    Icon(Icons.add, color: Colors.white),
+                    Text('Solicită programare',
+                        style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                  ]),
                 ),
               ],
             ),
@@ -494,7 +549,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                 "Nu aveți programări trecute",
                 style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: MediaQuery.of(context).size.height*0.0227),
               GestureDetector(
                 /*onTap: () =>
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateAppointmentScreen())), //old Andrei Bădescu
@@ -519,7 +574,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                   width: 200,
                   child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
                     Icon(Icons.add, color: Colors.white),
-                    Text('Solicită programare  ',
+                    Text('Solicită programare',
                         style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                   ]),
                 ),

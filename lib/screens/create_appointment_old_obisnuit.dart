@@ -425,7 +425,7 @@ showSuccesAlertDialog(BuildContext context) {
         //});
     },
   );
-  Widget cancelButton = TextButton(
+  /*Widget cancelButton = TextButton(
     child: Text("Cancel"),
     onPressed:  () {
       //Navigator.of(context).pop();
@@ -433,6 +433,7 @@ showSuccesAlertDialog(BuildContext context) {
               .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (route) => false);
     },
   );
+  */ //old George Valentin Iordache
   /*
   Widget launchButton = TextButton(
     child: Text("Launch missile"),
@@ -446,7 +447,7 @@ showSuccesAlertDialog(BuildContext context) {
     content: Text("Solicitarea de programare a fost trimsă cu succes!"),
     actions: [
       logInButton,
-      cancelButton,
+      //cancelButton,
     ],
   );
 

@@ -19,7 +19,7 @@ class _ButonUrmatoareaProgramareState extends State<ButonUrmatoareaProgramare> {
         const Padding(
           padding: EdgeInsets.fromLTRB(30, 20, 20, 10),
           child: Row(children: [
-            Text('Următoarea programare : ', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold))
+            Text('Următoarea programare: ', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold))
           ]),
         ),
         Container(
