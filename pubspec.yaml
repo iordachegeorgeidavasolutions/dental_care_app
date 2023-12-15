@@ -61,6 +61,7 @@ dependencies:
   another_flushbar: ^1.12.30
   curved_labeled_navigation_bar: ^2.0.2
   google_fonts: ^6.1.0
+  dropdown_button2: ^2.3.9
 dev_dependencies:
   flutter_test:
     sdk: flutter

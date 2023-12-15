@@ -6,6 +6,8 @@ import '../utils/shared_pref_keys.dart' as pref_keys;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/api_call_functions.dart';
+import '../screens/edit_judet.dart';
+import '../screens/edit_localitate.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
@@ -31,6 +33,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   final controllerJudet = TextEditingController();
   final controllerLocalitate = TextEditingController();
 
+  final FocusNode focusNodeJudet = FocusNode();
   final FocusNode focusNodeLocalitate = FocusNode();
   final FocusNode focusNodeNume = FocusNode();
   final FocusNode focusNodePrenume = FocusNode();
@@ -48,6 +51,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   String hintTelefon = '';
   String hintDataNastere = '';
   String hintParola = '';
+  
+  String emailVechi = '';
+  String telefonVechi = '';
+  
+  String dataDeNastereVeche = '';
+
   bool isHidden = true;
 
   String judet = '';
@@ -120,7 +129,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         await changeAddressDetails();
                       } else if (controllerEmail.text.isNotEmpty && controllerTelefon.text.isNotEmpty && !dateChosen) {
                         // Scenario 3: User wants to change only the contact details
-                        changeUserData();
+                        await changeUserData();
                       } else if (controllerEmail.text.isEmpty && controllerTelefon.text.isEmpty && !dateChosen) {
                         // Scenario 4: User wants to change nothing
                         showSnackbar(context, "Nu ai schimbat nimic!");
@@ -171,13 +180,54 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       key: adressKey,
       child: Column(children: [
         TextFormField(
+            focusNode: focusNodeJudet,
             controller: controllerJudet,
             autocorrect: false,
+            readOnly: true,
             onFieldSubmitted: (String s) {
               focusNodeLocalitate.requestFocus();
             },
             decoration: InputDecoration(
-                suffixIcon: Icon(Icons.edit),
+                border: InputBorder.none,
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () async {
+                    String idJudet = await Navigator.of(context).push(MaterialPageRoute(
+                      builder: (c) => const EditJudet(
+                        selectedIdJudet: '',
+                      ),
+                    ));
+              
+                    setState(() {
+                      if(idJudetRez != idJudet)
+                      {
+                        localitate = '';
+                        idLocalitateRez = '';
+                      }
+                      idJudetRez = idJudet;
+                      var judetDupaId = Shared.judete.where((e) => e.id == idJudetRez);
+                      if(judetDupaId.isNotEmpty)
+                      {
+                        judet = judetDupaId.elementAt(0).denumire;  
+                      }
+                      
+                      controllerJudet.text = judet;
+                      controllerLocalitate.text = '';
+                      hintJudet = judet;
+                      hintLocalitate = 'Introduceți o localitate';
+
+                    });
+
+                    List<Localitate> localitatiGetLista = await apiCallFunctions.getListaLocalitati(idJudet);
+
+                    if (!mounted) {
+                      return;
+                    }
+                    Shared.localitati.clear();
+                    Shared.localitati.addAll(localitatiGetLista);
+
+                  },  
+                ),
                 hintText: hintJudet,
                 enabledBorder:
                     const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
@@ -188,8 +238,38 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             focusNode: focusNodeLocalitate,
             controller: controllerLocalitate,
             autocorrect: false,
+            readOnly: true,
             decoration: InputDecoration(
-                suffixIcon: Icon(Icons.edit),
+                border: InputBorder.none,
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () async {
+                    String idLocalitate = await Navigator.of(context).push(MaterialPageRoute(
+                      builder: (c) => const EditLocalitate(
+                        selectedLocalitate: '',
+                        idSelectedLocalitate: '',
+                      ),
+                    ));
+
+                    if (!mounted) {
+                      return;
+                    }
+
+                    setState(() {
+
+                      idLocalitateRez = idLocalitate;
+
+                      var localitateDupaId = Shared.localitati.where((e) => e.id == idLocalitate);
+                      if(localitateDupaId.isNotEmpty)
+                      {
+                        localitate = localitateDupaId.elementAt(0).denumire;  
+                      }
+                      controllerLocalitate.text = localitate;
+
+                    });
+
+                  },  
+                ),
                 hintText: hintLocalitate,
                 enabledBorder:
                     const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
@@ -205,25 +285,28 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       key: registerKey,
       child: Column(children: [
         TextFormField(
-            readOnly: false,
-            focusNode: focusNodePrenume,
+            readOnly: true,
+            focusNode: focusNodeNume,
             controller: controllerNume,
             autocorrect: false,
             onFieldSubmitted: (String s) {
-              focusNodeNume.requestFocus();
+              focusNodePrenume.requestFocus();
             },
             decoration: InputDecoration(
+              border: InputBorder.none,
               hintText: hintPrenume,
               enabledBorder:
                   const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
               filled: true,
               fillColor: Colors.white),
-              validator: (value) {
+              /*validator: (value) {
                 if (value!.isEmpty) {
                   //return "Enter a valid Email Address or Password"; //old Andrei Bădescu
                   return "Introduceți un nume!"; //old Andrei Bădescu
                 }
                 return null;
+              },
+              */  
               /*if (value!.isEmpty || !RegExp(r'.+@.+\.+').hasMatch(value) && !RegExp(r'^-?[0-9]+$').hasMatch(value)) {
                 //return "Enter a valid Email Address or Password"; //old Andrei Bădescu
                 return "Introduceți o adresă de e-mail sau telefon valide"; //old Andrei Bădescu
@@ -242,23 +325,24 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   return null;
                 }
               }*/
-            },
         ),
         const SizedBox(height: 3),
         TextFormField(
-          readOnly: false,
-          focusNode: focusNodeNume,
+          readOnly: true,
+          focusNode: focusNodePrenume,
           controller: controllerPrenume,
           autocorrect: false,
           onFieldSubmitted: (String s) {
             focusNodeEmail.requestFocus();
           },
           decoration: InputDecoration(
+            border: InputBorder.none,
             hintText: hintNume,
             enabledBorder:
                 const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
             filled: true,
             fillColor: Colors.white),
+          /*
           validator: (value) {
             if (value!.isEmpty) {
               //return "Enter a valid Email Address or Password"; //old Andrei Bădescu
@@ -266,6 +350,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             }
             return null;
           }
+          */
         ),
         const SizedBox(height: 3),
         TextFormField(
@@ -278,30 +363,49 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               focusNodeTelefon.requestFocus();
             },
             decoration: InputDecoration(
-                suffixIcon: Icon(Icons.edit),
+                border: InputBorder.none,
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    setState(() {
+                      hintEmail = 'Introduceți adresa de e-mail';
+                      controllerEmail.text = '';
+                    });
+                    
+                  },
+                ),
                 hintText: hintEmail,
                 enabledBorder:
                     const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
                 filled: true,
                 fillColor: Colors.white),
-            /*validator: (value) {
+            validator: (value) {
               String emailPattern = r'.+@.+\.+';
               RegExp emailRegExp = RegExp(emailPattern);
-              if (value!.isEmpty || !emailRegExp.hasMatch(value)) {
+              if ((emailVechi.isEmpty) &&(value!.isEmpty || !emailRegExp.hasMatch(value))) {
                 return "Introduceți o adresă de Email corectă";
               } else {
                 return null;
               }
-            },*/
+            },
           ),
         const SizedBox(height: 3),
         TextFormField(
           focusNode: focusNodeTelefon,
-          keyboardType: TextInputType.number,
           controller: controllerTelefon,
+          keyboardType: TextInputType.number,
           autocorrect: false,
           decoration: InputDecoration(
-            suffixIcon: Icon(Icons.edit),
+            border: InputBorder.none,
+            suffixIcon: IconButton(
+              icon: Icon(Icons.edit),
+              onPressed: () {
+                setState(() {
+                  hintTelefon = 'Introduceți un telefon nou';
+                  controllerTelefon.text = '';
+                });  
+              },
+            ),
             hintText: hintTelefon,
             enabledBorder:
                 const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
@@ -311,10 +415,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           validator: (value) {
             String phonePattern = r'(^(?:[+0]4)?[0-9]{10}$)';
             RegExp phoneRegExp = RegExp(phonePattern);
-            if (value!.isEmpty || (!(value.length != 10) && !(value.length != 12))) {
+            if ((telefonVechi.isEmpty) && (value!.isEmpty || (!(value.length != 10) && !(value.length != 12)))) {
               return '"Introduceti un număr de telefon corect"';
             }
-            else if (!phoneRegExp.hasMatch(value)) {
+            else if ((telefonVechi.isEmpty) && !phoneRegExp.hasMatch(value!)) {
               return 'Introduceți un număr de mobil corect';
             }
             return null;
@@ -362,7 +466,45 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             autocorrect: false,
             readOnly: false,
             decoration: InputDecoration(
-              suffixIcon: Icon(Icons.edit),
+              border: InputBorder.none,
+              suffixIcon: IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: () async {
+
+                  DateTime? date = await showDatePicker(
+                    context: context, initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime(2024),
+                    builder: (context, child) {
+                    return Theme(
+
+                      data: Theme.of(context).copyWith(
+                        
+                        splashColor: Color.fromARGB(255,200,200,200), //Colors.red,
+                        colorScheme: ColorScheme.light(
+                          surface: Colors.white,
+                          primary: Colors.red, // // <-- SEE HERE
+                          //onSurface: Colors.white, // <-- SEE HERE
+                        ),
+                        textButtonTheme: TextButtonThemeData(
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.black, // button text color
+                          ),
+                        ),
+                      ),
+                      child: child!,
+                      );
+                    },
+                  );
+
+                  setState(() {
+                
+                    controllerBirthdate.text = DateFormat('dd/MM/yyyy').format(date!).toString();
+                    dataNasterii = date;
+                    dateChosen = true;
+                    hintDataNastere = controllerBirthdate.text;
+
+                  });  
+                },
+              ),
               hintText: formatDate(hintDataNastere),
               enabledBorder:
                   const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
@@ -371,7 +513,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
             validator: (value) {
               value = controllerBirthdate.text;
-              if (value.isEmpty) {
+              if ((dataDeNastereVeche.isEmpty) && value.isEmpty) {
                 //return "Enter a valid Email Address or Password"; //old Andrei Bădescu
                 return "Introduceți o dată de naștere!"; //old Andrei Bădescu
               }
@@ -406,16 +548,70 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
     List<Judet> z = await apiCallFunctions.getListaJudete();
 
+    Shared.judete.clear();
+    Shared.judete.addAll(z);
+    
+    idJudetRez = prefs.getString(pref_keys.judet) ?? "";
+
+    List<Localitate> l = await apiCallFunctions.getListaLocalitati(idJudetRez);
+
+    Shared.localitati.clear();
+    Shared.localitati.addAll(l);
+
+    print('My account screen: loadUserData judete = ${Shared.judete.length}');
+
     setState(() {
 
-      hintLocalitate = prefs.getString(pref_keys.localitate) ?? "Localitate";
-      hintJudet = prefs.getString(pref_keys.judet) ?? "1";
+      var judetDupaId = Shared.judete.where((e) => e.id == idJudetRez);
+      if(judetDupaId.isNotEmpty)
+      {
+        judet = judetDupaId.elementAt(0).denumire;  
+      }
+
+      hintJudet = judet;
+
+      idLocalitateRez = prefs.getString(pref_keys.localitate) ?? "";
+
+      var localitateDupaId = Shared.localitati.where((e) => e.id == idLocalitateRez);
+      if(localitateDupaId.isNotEmpty)
+      {
+        localitate = localitateDupaId.elementAt(0).denumire;  
+      }
+
+      hintLocalitate = localitate;
+
       hintNume = prefs.getString(pref_keys.userNume)!;
       hintPrenume = prefs.getString(pref_keys.userPrenume)!;
-      hintDataNastere = prefs.getString(pref_keys.userDDN)!;
+      hintDataNastere = prefs.getString(pref_keys.userDDN)?? DateTime.now().toString();
+      
+      dataDeNastereVeche = hintDataNastere;
+
       hintTelefon = prefs.getString(pref_keys.userTelefon)!;
+      telefonVechi = hintTelefon;
       hintEmail = prefs.getString(pref_keys.userEmail)!;
+      emailVechi = hintEmail;
+
+      
     });
+
+    focusNodeTelefon.addListener(() {
+      if (focusNodeTelefon.hasFocus) {
+        hintTelefon = 'Introduceți un telefon nou';
+      } else {
+        hintTelefon = prefs.getString(pref_keys.userTelefon)!;
+      }
+      setState(() {});
+    });
+
+    focusNodeEmail.addListener(() {
+      if (focusNodeEmail.hasFocus) {
+        hintEmail = 'Introduceți adresa de e-mail';
+      } else {
+        hintEmail = prefs.getString(pref_keys.userEmail)!;
+      }
+      setState(() {});
+    });
+
   }
 
   changeAddressDetails() async {
@@ -458,7 +654,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    print('changeUserData rezultat: pNouaAdresaDeEmail: ${controllerEmail.text.isEmpty ? hintEmail : controllerEmail.text} pNoulTelefon: ${controllerTelefon.text.isEmpty ? hintTelefon : controllerTelefon.text}, ${prefs.getString(pref_keys.userEmail)}, ${prefs.getString(pref_keys.userPassMD5)!}');
+    print('changeUserData rezultat: pNouaAdresaDeEmail: ${controllerEmail.text.isEmpty ? emailVechi : controllerEmail.text} pNoulTelefon: ${controllerTelefon.text.isEmpty ? telefonVechi : controllerTelefon.text}, ${prefs.getString(pref_keys.userEmail)}, ${prefs.getString(pref_keys.userPassMD5)!}');
 
     String? res = await apiCallFunctions.schimbaDateleDeContact(
       pNouaAdresaDeEmail: controllerEmail.text.isEmpty ? hintEmail : controllerEmail.text,

@@ -13,6 +13,7 @@ import './screens/login.dart';
 import "./screens/meniu.dart";
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
+import '../utils/shared_pref_keys.dart' as pref_keys;
 
 // void _handleMessage(RemoteMessage message) {
 //   if (message.data['tip'] == '0') {
@@ -126,6 +127,7 @@ class MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    login(context);
     loadDataCopii();
     // setupInteractedMessage();
     // FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
@@ -179,4 +181,51 @@ class MyAppState extends State<MyApp> {
     Shared.familie.addAll(f);
     print('Lista copii length este ${f.length}');
   }
+
+  login(BuildContext context) async {
+    
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // final token = await FirebaseMessaging.instance.getToken() ?? '';
+
+    /*
+    if (pref_keys.userPassMD5.compareTo('userPassMD5') == 0)
+    {
+      print('User Email: ${pref_keys.userEmail}');
+      /*Navigator.of(context)
+          .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (route) => false);
+      return;
+      */
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return const LoginScreen();
+      }));
+    }
+    else {
+    */
+    
+    //print('User Email- ${pref_keys.userEmail} user password - ${pref_keys.userPassMD5}');
+
+    String? res = await apiCallFunctions.login(
+        pAdresaEmail: prefs.getString(pref_keys.userEmail)!,
+        pParolaMD5: prefs.getString(pref_keys.userPassMD5)!,
+        pFirebaseGoogleDeviceID:
+            prefs.getString(pref_keys.fcmToken) ?? "FCM Token not available in Shared Preferences");
+
+    //print('Loading screen rezultat: $res');
+    
+    if (res == null) {
+      return;
+      // } else if (res.startsWith('161')) {
+      //   showsnackbar(
+      //     context,
+      //     "Date de login varule!",
+      //   );
+      // return;
+    } else if (res.startsWith('66')) {
+      Navigator.of(context)
+          .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+    } else if (res.startsWith('264')) {
+      return;
+    } else if (res.contains('\$#\$')) {}
+  }
+
 }

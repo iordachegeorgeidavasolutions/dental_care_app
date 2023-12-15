@@ -619,6 +619,8 @@ class ApiCallFunctions {
     String? data = await apiCall.apeleazaMetodaString(
         pNumeMetoda: 'GetListaJudete');
 
+    print('GetListaJudete data: $data');
+
     List<Judet> judete = <Judet>[];
 
     if (data == null) {
