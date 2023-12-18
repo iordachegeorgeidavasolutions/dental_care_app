@@ -18,10 +18,18 @@ class MeniuGridItem extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  //image != ''? 
                   Image.asset(
                     image,
                     height: 25,
+                  )
+                  /*
+                  :
+                  Icon(
+                    Icons.info,
+                    size: 31,
                   ),
+                  */
                 ],
               ),
               const SizedBox(height: 10),

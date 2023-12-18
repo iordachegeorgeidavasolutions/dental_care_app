@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 
 class PasswordResetPin extends StatefulWidget {
+  
   final bool resetEmailOrPhoneNumber;
   final String? telefon;
   final String email;
@@ -18,6 +19,7 @@ class PasswordResetPin extends StatefulWidget {
 
   @override
   State<PasswordResetPin> createState() => _PasswordResetPinState();
+
 }
 
 ApiCallFunctions apiCallFunctions = ApiCallFunctions();
@@ -227,9 +229,11 @@ class _PasswordResetPinState extends State<PasswordResetPin> {
   }
 
   verifyPinResetEmailOrPhone() async {
+    
     String? res = await apiCallFunctions.schimbaDateleDeContactValidarePin(
         pAdresaMail: widget.email, pParola: widget.password, pPINDinMail: controllerOTP);
     print(res);
+    
   }
 }
 

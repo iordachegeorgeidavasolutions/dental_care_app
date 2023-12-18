@@ -42,6 +42,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   final FocusNode focusNodePass = FocusNode();
   final FocusNode focusNodePassConfirm = FocusNode();
   final FocusNode focusNodeBirthdate = FocusNode();
+
   DateTime dataNasterii = DateTime.now();
   String hintLocalitate = '';
   String hintJudet = '';
@@ -125,8 +126,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         await changeAddressDetails();
                       } else if (controllerEmail.text.isNotEmpty && controllerTelefon.text.isNotEmpty && dateChosen) {
                         // Scenario 2: User selected date and wants to change the date and the contact details
-                        await changeUserData();
                         await changeAddressDetails();
+                        await changeUserData();
                       } else if (controllerEmail.text.isNotEmpty && controllerTelefon.text.isNotEmpty && !dateChosen) {
                         // Scenario 3: User wants to change only the contact details
                         await changeUserData();
@@ -433,7 +434,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 return Theme(
 
                   data: Theme.of(context).copyWith(
-                    
                     splashColor: Color.fromARGB(255,200,200,200), //Colors.red,
                     colorScheme: ColorScheme.light(
                       surface: Colors.white,
@@ -519,7 +519,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               }
               return null;
             }
-          ),  
+          ),
         const SizedBox(height: 3),
       ]),
     );
@@ -551,7 +551,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     Shared.judete.clear();
     Shared.judete.addAll(z);
     
-    idJudetRez = prefs.getString(pref_keys.judet) ?? "";
+    idJudetRez = prefs.getString(pref_keys.idJudet) ?? "1";
 
     List<Localitate> l = await apiCallFunctions.getListaLocalitati(idJudetRez);
 
@@ -570,7 +570,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
       hintJudet = judet;
 
-      idLocalitateRez = prefs.getString(pref_keys.localitate) ?? "";
+      print("my account screen hintJudet: $judet");
+
+      idLocalitateRez = prefs.getString(pref_keys.idLocalitate) ?? "";
 
       var localitateDupaId = Shared.localitati.where((e) => e.id == idLocalitateRez);
       if(localitateDupaId.isNotEmpty)
@@ -591,7 +593,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       hintEmail = prefs.getString(pref_keys.userEmail)!;
       emailVechi = hintEmail;
 
-      
     });
 
     focusNodeTelefon.addListener(() {
@@ -620,10 +621,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     String? res = await apiCallFunctions.schimbaDatelePersonale(
         //pDataDeNastereDDMMYYYY: controllerBirthdate.text.isEmpty ? hintDataNastere : controllerBirthdate.text, //old Andrei Bădescu
         pDataDeNastereDDMMYYYY: dataNastere,
-        judet: controllerJudet.text.isEmpty ? hintJudet : controllerJudet.text,
-        localitate: controllerLocalitate.text.isEmpty ? hintLocalitate : controllerLocalitate.text);
+        judet: controllerJudet.text.isEmpty ? hintJudet : idJudetRez, //controllerJudet.text, //old Andrei Bădescu
+        localitate: controllerLocalitate.text.isEmpty ? hintLocalitate : idLocalitateRez); //controllerLocalitate.text); //old Andrei Bădescu
 
-    print('changeAddressDetails rezultat: $res');
+    print('changeAddressDetails rezultat: $res judet: ${idJudetRez} localitate: ${idLocalitateRez}');
 
     if (res == null) {
       showSnackbar(
@@ -636,15 +637,20 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       return;
     } else if (res.startsWith('13')) {
       showSnackbar(context, "Date corecte - cerere trimisă!");
-      if (dateChosen) {
-        return;
-      } else if (controllerJudet.text.isNotEmpty && controllerLocalitate.text.isNotEmpty) {
+      //if (dateChosen && idJudetRez == '' && idLocalitateRez == '') {
+      //  return;
+      //} else 
+      if (controllerJudet.text.isNotEmpty && controllerLocalitate.text.isNotEmpty) {
         prefs.setString(pref_keys.judet, controllerJudet.text);
-        prefs.setString(pref_keys.judet, controllerLocalitate.text);
-      } else if (controllerJudet.text.isEmpty) {
+        prefs.setString(pref_keys.idJudet, idJudetRez);
         prefs.setString(pref_keys.localitate, controllerLocalitate.text);
-      } else {
+        prefs.setString(pref_keys.idLocalitate, idLocalitateRez);
+      } else if (controllerJudet.text.isEmpty) {
         prefs.setString(pref_keys.judet, controllerJudet.text);
+        prefs.setString(pref_keys.idJudet, idJudetRez);
+      } else {
+        prefs.setString(pref_keys.localitate, controllerLocalitate.text);
+        prefs.setString(pref_keys.idLocalitate, idLocalitateRez);
       }
     }
   }

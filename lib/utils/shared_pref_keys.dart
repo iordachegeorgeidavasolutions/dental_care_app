@@ -29,4 +29,6 @@ const String fcmToken = 'fcmToken';
 const String pPrimesteNotificari = 'pPrimesteNotificari';
 const String judet = 'judet';
 const String localitate = 'localitate';
+const String idJudet = 'idJudet';
+const String idLocalitate = 'idLocalitate';
 const String strada = 'strada';

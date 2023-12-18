@@ -45,7 +45,8 @@ class _MeniuScreenState extends State<MeniuScreen> {
     ["Listă prețuri", "./assets/images/meniu/listapreturi.png"],
     ["Locații", "./assets/images/meniu/locatii.png"],
     ["Educație", "./assets/images/meniu/educatie.png"],
-    ["Informatii", "./assets/images/meniu/contulmeu.png"],
+    ["Informații", "./assets/images/meniu/info.png"],
+    //["Informații", ''],
     ["Contul meu", "./assets/images/meniu/contulmeu.png"],
     
   ];
@@ -105,7 +106,7 @@ class _MeniuScreenState extends State<MeniuScreen> {
                                       context, MaterialPageRoute(builder: (context) => UserProfileScreen()));
                                   */    
                 },
-                child: MeniuGridItem(nume: items[index][0], image: items[index][1]),
+                child: MeniuGridItem(nume: items[index][0], image: items[index][1] ),
               );
             },
           )

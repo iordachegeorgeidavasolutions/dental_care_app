@@ -325,7 +325,7 @@ class SelectorJudete extends StatelessWidget {
 
                   if (judeteDupaId.isNotEmpty)
                   {
-                    return judeteDupaId.any((localitate) => localitate.id == item.value);
+                    return judeteDupaId.any((judet) => judet.id == item.value);
                   }
                   return item.value.toString().contains(searchValue);
                 },
