@@ -175,6 +175,7 @@ class ApiCallFunctions {
       'pParola': prefs.getString(pref_keys.userPassMD5)!,
       'pNume': prefs.getString(pref_keys.userNume)!,
       'pPrenume': prefs.getString(pref_keys.userPrenume)!,
+      //'pDataDeNastereDDMMYYYY': pDataDeNastereDDMMYYYY,
       'pDataDeNastereDDMMYYYY': pDataDeNastereDDMMYYYY,
       'pIdJudet': judet,
       'pIdLocalitate': localitate,

@@ -38,11 +38,16 @@ class _EditLocalitateState extends State<EditLocalitate> {
   void initState() {
     super.initState();
 
-    SharedPrefs.getSelectedIdLocalitate().then((judet) {
+    /*
+    SharedPrefs.getSelectedIdLocalitate().then((localitate) {
       setState(() {
-        selectedIdLocalitate = judet;
+        selectedIdLocalitate = localitate;
       });
     });
+    */
+
+    print('initState length : ${Shared.localitati.length}');
+
   }
 
   void onChanged(String? newValue) {

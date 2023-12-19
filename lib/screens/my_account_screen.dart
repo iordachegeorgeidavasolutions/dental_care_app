@@ -124,11 +124,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       if (controllerEmail.text.isEmpty && controllerTelefon.text.isEmpty && dateChosen) {
 
                         await changeAddressDetails();
-                      } else if (controllerEmail.text.isNotEmpty && controllerTelefon.text.isNotEmpty && dateChosen) {
+                      } else if ((controllerEmail.text.isNotEmpty || controllerTelefon.text.isNotEmpty) && dateChosen) {
                         // Scenario 2: User selected date and wants to change the date and the contact details
                         await changeAddressDetails();
                         await changeUserData();
-                      } else if (controllerEmail.text.isNotEmpty && controllerTelefon.text.isNotEmpty && !dateChosen) {
+                      } else if ((controllerEmail.text.isNotEmpty || controllerTelefon.text.isNotEmpty) && !dateChosen) {
                         // Scenario 3: User wants to change only the contact details
                         await changeUserData();
                       } else if (controllerEmail.text.isEmpty && controllerTelefon.text.isEmpty && !dateChosen) {
@@ -159,6 +159,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     onPressed: () {
                       if (controllerJudet.text.isNotEmpty || controllerLocalitate.text.isNotEmpty) {
                         changeAddressDetails();
+                      }
+                      else if (controllerJudet.text.isEmpty && controllerLocalitate.text.isEmpty) {
+                        // Scenario 4: User wants to change nothing
+                        showSnackbar(context, "Nu ai schimbat nimic!");
                       }
                     },
                     child: const Text(
@@ -245,6 +249,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 suffixIcon: IconButton(
                   icon: Icon(Icons.edit),
                   onPressed: () async {
+                    
+                    print('my_account_screen controllerLocalitate length lista localități: ${Shared.localitati.length}');
+
                     String idLocalitate = await Navigator.of(context).push(MaterialPageRoute(
                       builder: (c) => const EditLocalitate(
                         selectedLocalitate: '',
@@ -558,7 +565,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     Shared.localitati.clear();
     Shared.localitati.addAll(l);
 
-    print('My account screen: loadUserData judete = ${Shared.judete.length}');
+    //print('My account screen: loadUserData judete = ${Shared.judete.length}');
 
     setState(() {
 
@@ -570,7 +577,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
       hintJudet = judet;
 
-      print("my account screen hintJudet: $judet");
+      //print("my account screen hintJudet: $judet");
 
       idLocalitateRez = prefs.getString(pref_keys.idLocalitate) ?? "";
 
@@ -605,62 +612,91 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     });
 
     focusNodeEmail.addListener(() {
+
       if (focusNodeEmail.hasFocus) {
         hintEmail = 'Introduceți adresa de e-mail';
       } else {
         hintEmail = prefs.getString(pref_keys.userEmail)!;
       }
       setState(() {});
+
     });
 
   }
 
   changeAddressDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String dataNastere = DateFormat('ddMMyyyy').format(dataNasterii!).toString();
+    
+    String dataNastere = DateTime.now().toString();
+
+    String dNow = DateFormat('ddMMyyyy').format(DateTime.now());
+
+    //String dDN
+
+    if (dataNasterii.compareTo(DateTime.parse(dNow)) != 0)
+    {
+
+      dataNastere = DateFormat('dd.MM.yyyy').format(dataNasterii).toString(); 
+
+    }
     String? res = await apiCallFunctions.schimbaDatelePersonale(
         //pDataDeNastereDDMMYYYY: controllerBirthdate.text.isEmpty ? hintDataNastere : controllerBirthdate.text, //old Andrei Bădescu
-        pDataDeNastereDDMMYYYY: dataNastere,
+        pDataDeNastereDDMMYYYY: dataNasterii.compareTo(DateTime.parse(dNow)) != 0? dataNastere: DateFormat('dd.MM.yyyy').format(DateTime.parse(dataDeNastereVeche)).toString(),
+        //pDataDeNastereDDMMYYYY: DateFormat('dd.MM.yyyy').format(dataNasterii),
         judet: controllerJudet.text.isEmpty ? hintJudet : idJudetRez, //controllerJudet.text, //old Andrei Bădescu
         localitate: controllerLocalitate.text.isEmpty ? hintLocalitate : idLocalitateRez); //controllerLocalitate.text); //old Andrei Bădescu
 
-    print('changeAddressDetails rezultat: $res judet: ${idJudetRez} localitate: ${idLocalitateRez}');
+    print('changeAddressDetails rezultat: $res dataNastere: ${dataNastere} judet: ${idJudetRez} localitate: ${idLocalitateRez}');
 
     if (res == null) {
       showSnackbar(
         context,
-        "Eroare schimbare date contact!",
+        "Eroare schimbare date personale!",
       );
       return;
     } else if (res.startsWith('66')) {
       showSnackbar(context, "Date greșite");
       return;
     } else if (res.startsWith('13')) {
-      showSnackbar(context, "Date corecte - cerere trimisă!");
+      showSnackbar(context, "Date personale corecte - cerere trimisă!");
       //if (dateChosen && idJudetRez == '' && idLocalitateRez == '') {
       //  return;
-      //} else 
+      //} else
+      if(dataNasterii != DateTime.now())
+      {
+
+        prefs.setString(pref_keys.userDDN, DateFormat('ddMMyyyy').format(dataNasterii!).toString());
+
+      }
+
       if (controllerJudet.text.isNotEmpty && controllerLocalitate.text.isNotEmpty) {
+        
         prefs.setString(pref_keys.judet, controllerJudet.text);
         prefs.setString(pref_keys.idJudet, idJudetRez);
         prefs.setString(pref_keys.localitate, controllerLocalitate.text);
         prefs.setString(pref_keys.idLocalitate, idLocalitateRez);
+
       } else if (controllerJudet.text.isEmpty) {
+        
         prefs.setString(pref_keys.judet, controllerJudet.text);
         prefs.setString(pref_keys.idJudet, idJudetRez);
+
       } else {
+        
         prefs.setString(pref_keys.localitate, controllerLocalitate.text);
         prefs.setString(pref_keys.idLocalitate, idLocalitateRez);
+
       }
     }
   }
 
   changeUserData() async {
 
+    //print('changeUserData init: ');
     
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    print('changeUserData rezultat: pNouaAdresaDeEmail: ${controllerEmail.text.isEmpty ? emailVechi : controllerEmail.text} pNoulTelefon: ${controllerTelefon.text.isEmpty ? telefonVechi : controllerTelefon.text}, ${prefs.getString(pref_keys.userEmail)}, ${prefs.getString(pref_keys.userPassMD5)!}');
+    //print('changeUserData rezultat: pNouaAdresaDeEmail: ${controllerEmail.text.isEmpty ? emailVechi : controllerEmail.text} pNoulTelefon: ${controllerTelefon.text.isEmpty ? telefonVechi : controllerTelefon.text}, ${prefs.getString(pref_keys.userEmail)}, ${prefs.getString(pref_keys.userPassMD5)!}');
 
     String? res = await apiCallFunctions.schimbaDateleDeContact(
       pNouaAdresaDeEmail: controllerEmail.text.isEmpty ? hintEmail : controllerEmail.text,
@@ -670,7 +706,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     );
     //print(res);
 
-    print('changeUserData rezultat: $res');
+    //print('changeUserData rezultat: $res');
 
 
     if (res == null) {
@@ -683,7 +719,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       showSnackbar(context, "Date greșite");
       return;
     } else if (res.startsWith('13')) {
-      showSnackbar(context, "Date corecte - cerere trimisă!");
+      showSnackbar(context, "Date contact corecte - cerere trimisă!");
       setState(
         () {
 
