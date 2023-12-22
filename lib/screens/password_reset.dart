@@ -112,7 +112,7 @@ class _PasswordResetState extends State<PasswordReset> {
                   }
                 },
                 child: const Text(
-                  'Trimite cererea de resetare',
+                  'Trimite cererea',
                   style: TextStyle(fontSize: 24, color: Colors.white),
                 ),
               ),
@@ -218,6 +218,7 @@ class _PasswordResetState extends State<PasswordReset> {
         if (verificationOk) {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => PasswordResetPin(
+              resetDoarTelefon: false,
               resetEmailOrPhoneNumber: false,
               password: controllerPass.text,
               email: controllerEmail.text,

@@ -360,15 +360,35 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                       child: Column(
                         children: [
                           programareAnulata == false ? 
-                          ElevatedButton(
+                          ElevatedButton( //IGV confirmă programarea
                             style: !confirmabil
                                 ? ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.fromLTRB(40, 15, 40, 15), backgroundColor: Colors.grey)
-                                : ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.fromLTRB(40, 15, 40, 15), 
+                                    backgroundColor: Colors.grey,
+                                    foregroundColor: Colors.red,
+                                    minimumSize: const Size.fromHeight(40),
+                                    
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10), // <-- Radius
+                                    ),
+                                  )
+                                : 
+                                /*
+                                ElevatedButton.styleFrom(
                                     padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
                                     backgroundColor: Colors.red,
                                     // minimumSize: const Size.fromHeight(50), // NEW
                                   ),
+                                */
+                                ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
+                                  backgroundColor: Colors.red,
+                                  foregroundColor: Colors.white,
+                                  minimumSize: const Size.fromHeight(40),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10), // <-- Radius
+                                  ), // NEW
+                                ),
                             child: const Text(
                               'Confirmă programarea',
                               style: TextStyle(fontSize: 18),
@@ -412,20 +432,23 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                                 ]),
                                                 const SizedBox(height: 60),
                                                 ElevatedButton(
-                                                  child: const Text(
-                                                    'Cancel',
-                                                    style: TextStyle(fontSize: 20),
-                                                  ),
                                                   style: ElevatedButton.styleFrom(
-                                                    padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
-                                                    backgroundColor: Colors.red[400],
-                                                    // minimumSize: const Size.fromHeight(50), // NEW
+                                                    backgroundColor: Colors.red,
+                                                    foregroundColor: Colors.white,
+                                                    minimumSize: const Size.fromHeight(50),
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(10), // <-- Radius
+                                                    ), // NEW
                                                   ),
                                                   onPressed: () => {
                                                     print(widget.programare!.id),
                                                     //apiCallFunctions.confirmaProgramarea(widget.programare!.id),
                                                     Navigator.pop(context),
                                                   },
+                                                  child: const Text(
+                                                    'Am înțeles',
+                                                    style: TextStyle(fontSize: 20),
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -481,8 +504,12 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                                         ),
                                                         style: ElevatedButton.styleFrom(
                                                           padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
-                                                          backgroundColor: Colors.red[400],
-                                                          // minimumSize: const Size.fromHeight(50), // NEW
+                                                          backgroundColor: Colors.red,
+                                                          foregroundColor: Colors.white,
+                                                          minimumSize: const Size.fromHeight(50),
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(10), // <-- Radius
+                                                          ),
                                                         ),
                                                         onPressed: () => {
                                                           print(widget.programare!.id),
@@ -501,12 +528,16 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                                         },
                                                       ),
                                                       const SizedBox(height: 30),
-                                                      OutlinedButton(
-                                                        style: OutlinedButton.styleFrom(
-                                                          side: const BorderSide(color: Colors.red, width: 1),
+                                                      ElevatedButton(
+                                                        style:
+                                                        ElevatedButton.styleFrom(
                                                           padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                                                           backgroundColor: Colors.white,
-                                                          // minimumSize: const Size.fromHeight(50), // NEW
+                                                          foregroundColor: Colors.red,
+                                                          minimumSize: const Size.fromHeight(50),
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(10), // <-- Radius
+                                                          ),
                                                         ),
                                                         onPressed: () => Navigator.pop(context),
                                                         child: const Text(
@@ -530,9 +561,12 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                           programareAnulata == false ? 
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
-                              backgroundColor: const Color.fromARGB(255, 218, 215, 215),
-                              // minimumSize: const Size.fromHeight(50), // NEW
+                              backgroundColor: const Color.fromARGB(255, 236, 236, 236),
+                              foregroundColor: Colors.white,
+                              minimumSize: const Size.fromHeight(50),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10), // <-- Radius
+                              ), // NEW
                             ),
                             child: const Text(
                               'Anulează programarea',
@@ -568,22 +602,32 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                                 const Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                                                   Text(
                                                       "Doriți anularea programării. Trebuie avut în vedere faptul că timpul și locurile sunt limitate și astfel este posibil să nu gasiți un interval orar disponibil în perioada imediat următoare.",
-                                                      maxLines: 4,
+                                                      maxLines: 5,
                                                       overflow: TextOverflow.ellipsis,
                                                       textAlign: TextAlign.center,
-                                                      style: TextStyle(fontSize: 16))
+                                                      style: TextStyle(fontSize: 15))
                                                 ]),
                                                 const SizedBox(height: 60),
                                                 IntrinsicWidth(
                                                   child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                                    //crossAxisAlignment: CrossAxisAlignment.stretch,
                                                     children: [
                                                       ElevatedButton(
-                                                        style: ElevatedButton.styleFrom(
+                                                        style: 
+                                                        /*ElevatedButton.styleFrom(
                                                           padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                                                           backgroundColor: Colors.red,
                                                           // minimumSize: const Size.fromHeight(50), // NEW
-                                                        ),
+                                                        ),*/ //old Andrei Bădescu
+                                                        ElevatedButton.styleFrom(
+                                                          padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+                                                          backgroundColor: Colors.red,
+                                                          foregroundColor: Colors.white,
+                                                          minimumSize: const Size.fromHeight(50),
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(10), // <-- Radius
+                                                          ),
+                                                        ),  
                                                         onPressed: () => {
                                                           print(widget.programare!.id),
                                                           apiCallFunctions.anuleazaProgramarea(widget.programare!.id),
@@ -601,12 +645,23 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                                         ),
                                                       ),
                                                       const SizedBox(height: 30),
-                                                      OutlinedButton(
-                                                        style: OutlinedButton.styleFrom(
+                                                      ElevatedButton(
+                                                        style: 
+                                                        /*OutlinedButton.styleFrom(
                                                           side: const BorderSide(color: Colors.red, width: 1),
                                                           padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                                                           backgroundColor: Colors.white,
                                                           // minimumSize: const Size.fromHeight(50), // NEW
+                                                        ),
+                                                        */
+                                                        ElevatedButton.styleFrom(
+                                                          padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+                                                          backgroundColor: Colors.white,
+                                                          foregroundColor: Colors.red,
+                                                          minimumSize: const Size.fromHeight(50),
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(10), // <-- Radius
+                                                          ),
                                                         ),
                                                         onPressed: () => {
                                                           Navigator.pop(context),

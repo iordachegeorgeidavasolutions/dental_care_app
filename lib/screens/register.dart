@@ -285,7 +285,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             // onTap: () => chooseBirthdate(context),
             onTap: () async {
               DateTime? date = await showDatePicker(
-                context: context, initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime(2024),
+                context: context, 
+                locale : const Locale("ro","RO"),
+                initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime(2024),
                 builder: (context, child) {
                   return Theme(
                     data: Theme.of(context).copyWith(
@@ -381,7 +383,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 suffixIcon: IconButton(
                     onPressed: passVisibiltyToggle,
                     icon: isHidden ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off)),
-                hintText: 'Parola',
+                hintText: 'Confirmă parola',
                 border: InputBorder.none,
                 enabledBorder:
                     const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
@@ -531,7 +533,7 @@ showAlertDialog(BuildContext context) {
     },
   );
   Widget cancelButton = TextButton(
-    child: Text("Cancel"),
+    child: Text("Anulează"),
     onPressed:  () {
       Navigator.of(context).pop();
     },

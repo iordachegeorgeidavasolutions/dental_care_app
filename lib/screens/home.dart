@@ -91,7 +91,7 @@ class HomePageState extends State<HomePage> {
                   print('Nume Prenume $data');
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.red),),
                     );
                   } else if (snapshot.connectionState == ConnectionState.done) {
                     return Visibility(

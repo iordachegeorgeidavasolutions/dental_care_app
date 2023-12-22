@@ -21,7 +21,7 @@ class MeniuGridItem extends StatelessWidget {
                   //image != ''? 
                   Image.asset(
                     image,
-                    height: 25,
+                    height: 31,
                   )
                   /*
                   :

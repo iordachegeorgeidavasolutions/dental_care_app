@@ -436,7 +436,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         TextFormField(
             onTap: () async {
               DateTime? date = await showDatePicker(
-                context: context, initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime(2024),
+                context: context, 
+                locale : const Locale("ro","RO"),
+                initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime(2024),
                 builder: (context, child) {
                 return Theme(
 
@@ -479,7 +481,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 onPressed: () async {
 
                   DateTime? date = await showDatePicker(
-                    context: context, initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime(2024),
+                    context: context, 
+                    locale : const Locale("ro","RO"),
+                    initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime(2024),
                     builder: (context, child) {
                     return Theme(
 
@@ -706,7 +710,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     );
     //print(res);
 
-    //print('changeUserData rezultat: $res');
+    print('my_account_screen changeUserData rezultat: $res');
 
 
     if (res == null) {
@@ -731,9 +735,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => PasswordResetPin(
+              resetDoarTelefon: (controllerEmail.text.isEmpty && controllerTelefon.text.isNotEmpty)? true: false,
               resetEmailOrPhoneNumber: true,
-              email: hintEmail,
-              password: hintParola,
+              //email: hintEmail, //old Andrei Bădescu
+              email: prefs.getString(pref_keys.userEmail)!,
+              //password: hintParola, //old Andrei Bădescu
+              password: prefs.getString(pref_keys.userPassMD5)!,
+              telefon: controllerTelefon.text.isEmpty ? hintTelefon : controllerTelefon.text,
             ),
           ),
         );

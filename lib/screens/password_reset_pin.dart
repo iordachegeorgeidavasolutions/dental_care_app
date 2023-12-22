@@ -1,10 +1,14 @@
+import 'package:dental_care_app/screens/home.dart';
 import 'package:dental_care_app/screens/login.dart';
 import 'package:dental_care_app/utils/api_call_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../utils/shared_pref_keys.dart' as pref_keys;
 
 class PasswordResetPin extends StatefulWidget {
   
+  final bool resetDoarTelefon;
   final bool resetEmailOrPhoneNumber;
   final String? telefon;
   final String email;
@@ -15,6 +19,7 @@ class PasswordResetPin extends StatefulWidget {
     required this.password,
     this.telefon,
     required this.resetEmailOrPhoneNumber,
+    required this.resetDoarTelefon,
   });
 
   @override
@@ -188,11 +193,36 @@ class _PasswordResetPinState extends State<PasswordResetPin> {
                     style: TextStyle(fontSize: 22, color: Colors.white),
                   ),
                   onPressed: widget.resetEmailOrPhoneNumber
-                      ? () {
-                          verifyPinResetEmailOrPhone();
-                          print(controllerOTP);
-                          Navigator.of(context).pushAndRemoveUntil(
+                      ? () async {
+                          
+                          //print('password_reset_pin: ${widget.resetEmailOrPhoneNumber}');
+                          await verifyPinResetEmailOrPhone();
+
+                          //print('controllerOTP $controllerOTP widget.resetDoarTelefon ${widget.resetDoarTelefon} telefon vechi: ${prefs.getString(pref_keys.userTelefon)!} telefon nou: ${widget.telefon}');
+
+
+                          //print('Aici resetEmailOrPhoneNumber ${widget.telefon!}');
+
+                          /*
+                          if (widget.resetDoarTelefon)
+                          {
+
+                            if (context.mounted) {
+                              Future.delayed(const Duration(milliseconds: 100), () {
+                                Navigator.of(context)
+                                    .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const HomePage()), (route) => false);
+                              });
+                            }
+
+                            //Navigator.of(context).pushAndRemoveUntil(
+                            //  MaterialPageRoute(builder: (context) => HomePage()), (route) => false);
+
+                          }
+                          else {    
+                            Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+                          }
+                          */
                         }
                       : () async {
                           await verifyPinResetPassword();
@@ -230,11 +260,125 @@ class _PasswordResetPinState extends State<PasswordResetPin> {
 
   verifyPinResetEmailOrPhone() async {
     
+    
+    print('verifyPinResetEmailOrPhone params pAdresaMail: ${widget.email}, pParola: ${widget.password}, pPINDinMail: ${controllerOTP}');
+
     String? res = await apiCallFunctions.schimbaDateleDeContactValidarePin(
         pAdresaMail: widget.email, pParola: widget.password, pPINDinMail: controllerOTP);
-    print(res);
+    print('verifyPinResetEmailOrPhone $res');
+
+    if (res!.startsWith('13') && (widget.resetDoarTelefon == true)) {
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      //print('Aici resetEmailOrPhoneNumber ${widget.telefon!}');
+      prefs.setString(pref_keys.userTelefon, widget.resetDoarTelefon? widget.telefon?? prefs.getString(pref_keys.userTelefon)!: prefs.getString(pref_keys.userTelefon)!);
+      
+      print('Rezultat: $res');
+
+      showSuccesAlertModificareTelefonDialog(context);
+      
+      
+      /*if (context.mounted) {
+        Future.delayed(const Duration(milliseconds: 100), () {
+          Navigator.of(context)
+              .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const HomePage()), (route) => false);
+        });
+      }
+      */
+
+    }
+    else if (res.startsWith('13'))
+    {
+
+      showSuccesAlertModificareEmailTelefonDialog(context);
+
+    }
+
+    else {
+      
+      showErrorAlertDialog(context);
+      print('Rezultat: $res');
+
+    } 
     
   }
+}
+
+showSuccesAlertModificareTelefonDialog(BuildContext context) {
+
+  // set up the buttons
+  Widget logInButton = TextButton(
+    child: Text("Către pagina principală"),
+    onPressed:  () {
+      //Future.delayed(Duration(seconds: 1), () {
+      //    Navigator.of(context)
+      //        .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+        //});
+      if (context.mounted) {
+        Future.delayed(const Duration(milliseconds: 100), () {
+          Navigator.of(context)
+              .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const HomePage()), (route) => false);
+        });
+      }
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Succes"),
+    content: Text("Telefon modificat cu succes"),
+    actions: [
+      logInButton,
+      //cancelButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+
+showSuccesAlertModificareEmailTelefonDialog(BuildContext context) {
+
+  // set up the buttons
+  Widget logInButton = TextButton(
+    child: Text("Log in"),
+    onPressed:  () {
+      //Future.delayed(Duration(seconds: 1), () {
+      //    Navigator.of(context)
+      //        .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+        //});
+      if (context.mounted) {
+        Future.delayed(const Duration(milliseconds: 100), () {
+          Navigator.of(context)
+              .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+        });
+      }
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Succes"),
+    content: Text("Email și/sau telefon modificat cu succes"),
+    actions: [
+      logInButton,
+      //cancelButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
 
 showSuccesAlertDialog(BuildContext context) {
@@ -250,7 +394,7 @@ showSuccesAlertDialog(BuildContext context) {
     },
   );
   Widget cancelButton = TextButton(
-    child: Text("Cancel"),
+    child: Text("Anulează"),
     onPressed:  () {
       Navigator.of(context).pop();
     },
@@ -265,10 +409,10 @@ showSuccesAlertDialog(BuildContext context) {
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
     title: Text("Succes"),
-    content: Text("Parola modificată cu succes"),
+    content: Text("Parolă modificată cu succes"),
     actions: [
       logInButton,
-      cancelButton,
+      //cancelButton,
     ],
   );
 

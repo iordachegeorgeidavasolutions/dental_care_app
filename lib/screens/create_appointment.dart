@@ -54,9 +54,9 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return //SingleChildScrollView(
-      Container(
-      height: MediaQuery.of(context).size.height * 0.7,
+    return SingleChildScrollView(
+      child: Container(
+      height: MediaQuery.of(context).size.height * 0.8,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(35),
@@ -85,14 +85,14 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
               "Solicită o programare",
               style: TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.w500),
             )),
-            const SizedBox(height: 20),
+            const SizedBox(height: 15),
             Container(
-              height: MediaQuery.of(context).size.height*0.463,
+              height: MediaQuery.of(context).size.height*0.5,
+              width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: const Color.fromARGB(255, 236, 236, 236),
               ), 
-              width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.symmetric(horizontal: 15),
               // height: MediaQuery.of(context).size.height,
               /*decoration: const BoxDecoration(
@@ -100,208 +100,211 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                 color: Color.fromARGB(255, 236, 236, 236),
               ),
               */
-              child: Column(
-                children: [
-                  SizedBox(height: 20),
-                  const Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                          Text("Sediul dorit:", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
-                        ]),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          //padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                          decoration: BoxDecoration(
-                              color: Colors.white, borderRadius: BorderRadius.circular(10)),
-                          width: MediaQuery.of(context).size.width*0.77,
-                          child: DropdownButton<String>(
-                            isExpanded: true,
-                            value: selectedItem,
-                            style: const TextStyle(color: Colors.black, fontSize: 18),
-                            underline: SizedBox(),
-                            hint: const Align(
-                              alignment: Alignment.center,
-                              child:Text("Alegeți o locație"),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(height: 20),
+                    const Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                            Text("Sediul dorit:", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
+                          ]),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            //padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                            decoration: BoxDecoration(
+                                color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                            width: MediaQuery.of(context).size.width*0.77,
+                            child: DropdownButton<String>(
+                              isExpanded: true,
+                              value: selectedItem,
+                              style: const TextStyle(color: Colors.black, fontSize: 18),
+                              underline: SizedBox(),
+                              hint: const Align(
+                                alignment: Alignment.center,
+                                child:Text("Alegeți o locație"),
+                              ),
+                              items: listaNumeSedii == null
+                                  ? []
+                                  : listaNumeSedii!.map((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Center(
+                                          child: Text(value),
+                                        ),  
+                                      );
+                                    }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedItem = value;
+                                });
+                              },
                             ),
-                            items: listaNumeSedii == null
-                                ? []
-                                : listaNumeSedii!.map((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Center(
-                                        child: Text(value),
-                                      ),  
-                                    );
-                                  }).toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                selectedItem = value;
-                              });
-                            },
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  // DO NOT DELETE
-
-                  // Elements from the previous version of this screen, where you could select a Day and a time frame
-                  // const SizedBox(height: 40),
-                  // const Row(
-                  //   children: [Text("Alegeti o data", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 22))],
-                  // ),
-                  // const SizedBox(height: 10),
-                  // Container(
-                  //   decoration: BoxDecoration(
-                  //       border: Border.all(
-                  //         width: 2.0,
-                  //         color: Colors.white,
-                  //       ),
-                  //       borderRadius: BorderRadius.circular(12.0)),
-                  //   child: DatePicker(
-                  //     DateTime.now(),
-                  //     initialSelectedDate: DateTime.now(),
-                  //     selectionColor: Colors.red.shade500,
-                  //     controller: controllerDatePicker,
-                  //     locale: 'ro',
-                  //   ),
-                  // ),
-                  // const SizedBox(height: 20),
-                  // const Row(
-                  //   mainAxisAlignment: MainAxisAlignment.start,
-                  //   children: [
-                  //     Text("Selectati un interal orar", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 22))
-                  //   ],
-                  // ),
-                  // Row(
-                  //   // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //   children: [
-                  //     Expanded(
-                  //       child: InputField(
-                  //           controller: controllerStartDate,
-                  //           hint: _startTime,
-                  //           title: 'Pick a date',
-                  //           // width: MediaQuery.of(context).size.width * 0.5,
-                  //           widget: IconButton(
-                  //               icon: const Icon(Icons.alarm_add_outlined),
-                  //               onPressed: () {
-                  //                 _getTimeFromUser(isStartTime: true);
-                  //               })),
-                  //     ),
-                  //     const SizedBox(width: 10),
-                  //     Expanded(
-                  //       child: InputField(
-                  //           controller: controllerEndDate,
-                  //           hint: _endTime,
-                  //           title: 'Pick a date',
-                  //           // width: MediaQuery.of(context).size.width * 0.5,
-                  //           widget: IconButton(
-                  //               icon: const Icon(Icons.alarm_add_outlined),
-                  //               onPressed: () {
-                  //                 _getTimeFromUser(isStartTime: false);
-                  //               })),
-                  //     ),
-                  //   ],
-                  // ),
-                  const SizedBox(height: 20),
-                  const Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                    Text("Adăugați detalii:", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
-                  ]),
-                  const SizedBox(height: 10),
-                  TextField(
-                    controller: controllerDetails,
-                    keyboardType: TextInputType.multiline,
-                    maxLines: 4,
-                    decoration: const InputDecoration(
-                        hintText: " ",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                          borderSide: BorderSide.none,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                          borderSide: BorderSide.none,
-                        ),
-                        filled: true,
-                        fillColor: Colors.white),
-                  ),
-                  const SizedBox(height: 20),
-                  solicitareNetrimisa && butonTrimiteSolicitare?
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red[400],
-                      minimumSize: const Size.fromHeight(50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10), // <-- Radius
-                      ), // NEW
+                    // DO NOT DELETE
+                
+                    // Elements from the previous version of this screen, where you could select a Day and a time frame
+                    // const SizedBox(height: 40),
+                    // const Row(
+                    //   children: [Text("Alegeti o data", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 22))],
+                    // ),
+                    // const SizedBox(height: 10),
+                    // Container(
+                    //   decoration: BoxDecoration(
+                    //       border: Border.all(
+                    //         width: 2.0,
+                    //         color: Colors.white,
+                    //       ),
+                    //       borderRadius: BorderRadius.circular(12.0)),
+                    //   child: DatePicker(
+                    //     DateTime.now(),
+                    //     initialSelectedDate: DateTime.now(),
+                    //     selectionColor: Colors.red.shade500,
+                    //     controller: controllerDatePicker,
+                    //     locale: 'ro',
+                    //   ),
+                    // ),
+                    // const SizedBox(height: 20),
+                    // const Row(
+                    //   mainAxisAlignment: MainAxisAlignment.start,
+                    //   children: [
+                    //     Text("Selectati un interal orar", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 22))
+                    //   ],
+                    // ),
+                    // Row(
+                    //   // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //   children: [
+                    //     Expanded(
+                    //       child: InputField(
+                    //           controller: controllerStartDate,
+                    //           hint: _startTime,
+                    //           title: 'Pick a date',
+                    //           // width: MediaQuery.of(context).size.width * 0.5,
+                    //           widget: IconButton(
+                    //               icon: const Icon(Icons.alarm_add_outlined),
+                    //               onPressed: () {
+                    //                 _getTimeFromUser(isStartTime: true);
+                    //               })),
+                    //     ),
+                    //     const SizedBox(width: 10),
+                    //     Expanded(
+                    //       child: InputField(
+                    //           controller: controllerEndDate,
+                    //           hint: _endTime,
+                    //           title: 'Pick a date',
+                    //           // width: MediaQuery.of(context).size.width * 0.5,
+                    //           widget: IconButton(
+                    //               icon: const Icon(Icons.alarm_add_outlined),
+                    //               onPressed: () {
+                    //                 _getTimeFromUser(isStartTime: false);
+                    //               })),
+                    //     ),
+                    //   ],
+                    // ),
+                    const SizedBox(height: 20),
+                    const Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                      Text("Adăugați detalii:", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
+                    ]),
+                    const SizedBox(height: 10),
+                    TextField(
+                      controller: controllerDetails,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 3,
+                      decoration: const InputDecoration(
+                          hintText: "",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            borderSide: BorderSide.none,
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            borderSide: BorderSide.none,
+                          ),
+                          filled: true,
+                          fillColor: Colors.white),
                     ),
-                    onPressed: () {
-
-                      setState(() {
-                      
-                        butonTrimiteSolicitare = false;
-                        solicitareNetrimisa = true;  
-                      
-                      });
-                      
-                      sendAppointmentRequest().then((value) {
+                    const SizedBox(height: 20),
+                    solicitareNetrimisa && butonTrimiteSolicitare?
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red[400],
+                        minimumSize: const Size.fromHeight(50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10), // <-- Radius
+                        ), // NEW
+                      ),
+                      onPressed: () {
+                
+                        setState(() {
                         
-                        value == null
-                            ? null
-                            : value == "13" ? 
-                                solicitareNetrimisa = false
-                                : solicitareNetrimisa = true;
-                              if(solicitareNetrimisa == false)
-                              {
-                                showSuccesAlertDialog(context);
-                              }  
-                              else if (solicitareNetrimisa == true)
-                              {
-                                showErrorAlertDialog(context);
-                              }
-                              //Navigator.of(context).pop():
-                                
-                                /*Future.delayed(Duration(seconds: 3), () {
-                                    Navigator.of(context).pop();
-                                  });
-                                */  
+                          butonTrimiteSolicitare = false;
+                          solicitareNetrimisa = true;  
+                        
+                        });
+                        
+                        sendAppointmentRequest().then((value) {
+                          
+                          value == null
+                              ? null
+                              : value == "13" ? 
+                                  solicitareNetrimisa = false
+                                  : solicitareNetrimisa = true;
+                                if(solicitareNetrimisa == false)
+                                {
+                                  showSuccesAlertDialog(context);
+                                }  
+                                else if (solicitareNetrimisa == true)
+                                {
+                                  showErrorAlertDialog(context);
+                                }
+                                //Navigator.of(context).pop():
                                   
-                                //null;  
-                      });
-                    },
-                    child: const Text(
-                      'Trimite solicitarea',
-                      style: TextStyle(fontSize: 24, color: Colors.white),
-                    ),
-                  ):
-                  /*!butonTrimiteSolicitare && !solicitareNetrimisa? 
-                  SizedBox(
-                    child: const Text(
-                      'Solicitarea a fost trimisa cu succes',
-                      style: TextStyle(fontSize: 24),
-                    ),):
-                  !butonTrimiteSolicitare && solicitareNetrimisa? 
-                  */
-                  SizedBox(
-                    child: const Text(
-                      'Solicitarea se adaugă',
-                      style: TextStyle(fontSize: 24),
-                    ),),
-                  /*  :
-                  SizedBox(
-                    child: const Text(
-                      'A apărut o eroare la adăugarea solicitării',
-                      style: TextStyle(fontSize: 24),
-                    ),),
-                  */
-                ],
+                                  /*Future.delayed(Duration(seconds: 3), () {
+                                      Navigator.of(context).pop();
+                                    });
+                                  */  
+                                    
+                                  //null;  
+                        });
+                      },
+                      child: const Text(
+                        'Trimite solicitarea',
+                        style: TextStyle(fontSize: 24, color: Colors.white),
+                      ),
+                    ):
+                    /*!butonTrimiteSolicitare && !solicitareNetrimisa? 
+                    SizedBox(
+                      child: const Text(
+                        'Solicitarea a fost trimisa cu succes',
+                        style: TextStyle(fontSize: 24),
+                      ),):
+                    !butonTrimiteSolicitare && solicitareNetrimisa? 
+                    */
+                    SizedBox(
+                      child: const Text(
+                        'Solicitarea se adaugă',
+                        style: TextStyle(fontSize: 24),
+                      ),),
+                    /*  :
+                    SizedBox(
+                      child: const Text(
+                        'A apărut o eroare la adăugarea solicitării',
+                        style: TextStyle(fontSize: 24),
+                      ),),
+                    */
+                  ],
+                ),
               ),
             ),
           ],
         ),
       ),
+    ),
     );
   }
   // DO NOT DELETE
@@ -444,7 +447,7 @@ showSuccesAlertDialog(BuildContext context) {
     },
   );
   Widget cancelButton = TextButton(
-    child: Text("Cancel"),
+    child: Text("Anulează"),
     onPressed:  () {
       //Navigator.of(context).pop();
       Navigator.of(context)
