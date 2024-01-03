@@ -72,7 +72,7 @@ class _EditJudetState extends State<EditJudet> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: Color(0xffECF4F8),
+      backgroundColor: const Color.fromARGB(255, 236, 236, 236),
       body: ListView(children: [
 
         Column(

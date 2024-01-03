@@ -56,7 +56,7 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-      height: MediaQuery.of(context).size.height * 0.8,
+      height: MediaQuery.of(context).size.height * 0.95,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(35),
@@ -216,7 +216,8 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                       keyboardType: TextInputType.multiline,
                       maxLines: 3,
                       decoration: const InputDecoration(
-                          hintText: "",
+                          hintText: "Exemplu: Doresc programare pentru controlul periodic",
+                          hintStyle: TextStyle(fontSize: 10),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(8.0)),
                             borderSide: BorderSide.none,
@@ -248,28 +249,28 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                         });
                         
                         sendAppointmentRequest().then((value) {
-                          
                           value == null
-                              ? null
-                              : value == "13" ? 
-                                  solicitareNetrimisa = false
-                                  : solicitareNetrimisa = true;
-                                if(solicitareNetrimisa == false)
-                                {
-                                  showSuccesAlertDialog(context);
-                                }  
-                                else if (solicitareNetrimisa == true)
-                                {
-                                  showErrorAlertDialog(context);
-                                }
-                                //Navigator.of(context).pop():
-                                  
-                                  /*Future.delayed(Duration(seconds: 3), () {
-                                      Navigator.of(context).pop();
-                                    });
-                                  */  
-                                    
-                                  //null;  
+                            ? null
+                            : value == "13" ? 
+                                solicitareNetrimisa = false
+                                : solicitareNetrimisa = true;
+                              if(solicitareNetrimisa == false)
+                              {
+                                showSuccesAlertDialog(context);
+                              }  
+                              else if (solicitareNetrimisa == true)
+                              {
+                                showErrorAlertDialog(context);
+                              }
+                              //Navigator.of(context).pop():
+                                
+                              /*
+                              Future.delayed(Duration(seconds: 3), () {
+                                  Navigator.of(context).pop();
+                                });
+                              */
+                              //null;
+
                         });
                       },
                       child: const Text(
@@ -350,11 +351,16 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
   }
 
   Future<String?> sendAppointmentRequest() async {
-    if (controllerDetails.text.isEmpty) {
+    //old Andrei Bădescu
+
+    
+    if (selectedItem == null) {
+      
       solicitareNetrimisa = true;
       butonTrimiteSolicitare = true;
+      /*
       Flushbar(
-        message: "Adăugați câteva detalii!",
+        message: "Alegeți un sediu!",
         icon: Icon(
           Icons.info_outline,
           size: 28.0,
@@ -370,8 +376,11 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
         duration: const Duration(seconds: 3),
         leftBarIndicatorColor: Colors.red[400],
       ).show(context);
+      */
       return null;
+
     }
+
     // } else if (controllerDatePicker.toString().isEmpty) {
     //   print("error 2");
     //   return;
@@ -384,19 +393,21 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
     //   print("error 4");
     // }
     // TO-DO : implement snackbar message please fill all the fields
-    else {
+    
+    else { //old Andrei Bădescu
+      
       String? res = await apiCallFunctions.adaugaProgramare(
           pIdCategorie: '',
           pIdMedic: '',
           pDataProgramareDDMMYYYYHHmm: controllerDatePicker.toString(),
           pObservatiiProgramare: controllerDetails.text,
-          pIdSediu: '',
+          pIdSediu: selectedItem!,
           pIdMembruFamilie: '');
       // ignore: avoid_print
       print(res);
 
       if (res!.startsWith("13")) {
-        /*Flushbar(
+        Flushbar(
           message: "Cerere trimisă cu succes!",
           icon: const Icon(
             Icons.info_outline,
@@ -413,39 +424,47 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
           duration: const Duration(seconds: 3),
           leftBarIndicatorColor: Colors.green,
         ).show(context);
-        */
 
         setState(() {
+
           solicitareNetrimisa = false;
-          butonTrimiteSolicitare = false;  
+          butonTrimiteSolicitare = false;
+
         });
+
         return "13";
 
       }
 
-      setState(() {
-        solicitareNetrimisa = true;
-        butonTrimiteSolicitare = true;
-      });
+      else
+      { 
+        setState(() {
+          solicitareNetrimisa = true;
+          butonTrimiteSolicitare = true;
+        });
 
-      return "eroare";
+        return "eroare";
 
+      }
     }
-  } 
+  }
 }
 
 showSuccesAlertDialog(BuildContext context) {
 
   // set up the buttons
   Widget logInButton = TextButton(
-    child: Text("OK"),
+    child: Text("Închide", 
+      style: TextStyle(color: Colors.black),
+    ),
     onPressed:  () {
       //Future.delayed(Duration(seconds: 1), () {
           Navigator.of(context)
-              .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (route) => false);
+              .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp(fromPinPage: false,)), (route) => false);
         //});
     },
   );
+  /*
   Widget cancelButton = TextButton(
     child: Text("Anulează"),
     onPressed:  () {
@@ -454,6 +473,7 @@ showSuccesAlertDialog(BuildContext context) {
               .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (route) => false);
     },
   );
+  */
   /*
   Widget launchButton = TextButton(
     child: Text("Launch missile"),
@@ -463,28 +483,33 @@ showSuccesAlertDialog(BuildContext context) {
 
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
-    title: Text("Succes"),
-    content: Text("Solicitarea de programare a fost trimsă cu succes!"),
+    title: Center(child: Text("Succes")),
+    content: Text("Solicitarea de programare a fost trimsă cu succes. În cel mai scurt timp veți fi contactat de către un operator pentru a stabili data și ora programării. Vă mulțumim!",
+      textAlign: TextAlign.center,),
     actions: [
       logInButton,
-      cancelButton,
+      //cancelButton,
     ],
+    actionsAlignment: MainAxisAlignment.center,
   );
 
   // show the dialog
   showDialog(
+
     context: context,
     builder: (BuildContext context) {
       return alert;
     },
+
   );
 }
-
 
 showErrorAlertDialog(BuildContext context) {
 
   Widget okButton = TextButton(
-    child: Text("Ok"),
+    child: Text("Ok", 
+      style: TextStyle(color: Colors.black),
+    ),
     onPressed:  () {
       Navigator.of(context).pop();
     },
@@ -499,7 +524,7 @@ showErrorAlertDialog(BuildContext context) {
   // set up the AlertDialog
   AlertDialog alertError = AlertDialog(
     title: Text("Eroare"),
-    content: Text("A apărut o eroare la adăugarea programării"),
+    content: Text("Vă rugăm completați cererea cu un sediu și dacă este cazul cu câteva detalii despre programare!"),
     actions: [
       //logInButton,
       okButton,

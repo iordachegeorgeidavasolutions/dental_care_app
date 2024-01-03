@@ -1,4 +1,4 @@
-import 'package:dental_care_app/screens/home.dart';
+import 'package:dental_care_app/main.dart';
 import 'package:dental_care_app/screens/login.dart';
 import 'package:dental_care_app/utils/api_call_functions.dart';
 import 'package:flutter/material.dart';
@@ -308,16 +308,20 @@ showSuccesAlertModificareTelefonDialog(BuildContext context) {
 
   // set up the buttons
   Widget logInButton = TextButton(
-    child: Text("Către pagina principală"),
+    child: Text("Către pagina principală", 
+      style: TextStyle(color: Colors.red),
+    ),
     onPressed:  () {
       //Future.delayed(Duration(seconds: 1), () {
       //    Navigator.of(context)
       //        .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
-        //});
+      //});
       if (context.mounted) {
         Future.delayed(const Duration(milliseconds: 100), () {
           Navigator.of(context)
-              .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const HomePage()), (route) => false);
+          .push(
+            MaterialPageRoute(builder: (context) => const MyApp(fromPinPage: true,)));
+            //.pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const MyApp()), (route) => false);
         });
       }
     },

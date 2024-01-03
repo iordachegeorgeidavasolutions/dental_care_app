@@ -513,7 +513,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                                         ),
                                                         onPressed: () => {
                                                           print(widget.programare!.id),
-                                                          //apiCallFunctions.confirmaProgramarea(widget.programare!.id),
+                                                          apiCallFunctions.confirmaProgramarea(widget.programare!.id),
 
 
                                                           setState(() {
@@ -636,8 +636,11 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                                             widget.programare!.status = Programare.statusAnulat;
                                                             widget.callbackStatusProgramare(widget.programare!);
                                                           }),
+
+                                                  
+
                                                           // hideButtons(),
-                                                          Navigator.pop(context),
+                                                          //Navigator.pop(context),
                                                         },
                                                         child: const Text(
                                                           'Anulez',

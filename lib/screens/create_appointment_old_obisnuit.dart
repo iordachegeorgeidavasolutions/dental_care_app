@@ -421,7 +421,7 @@ showSuccesAlertDialog(BuildContext context) {
     onPressed:  () {
       //Future.delayed(Duration(seconds: 1), () {
           Navigator.of(context)
-              .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (route) => false);
+              .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp(fromPinPage: false,)), (route) => false);
         //});
     },
   );

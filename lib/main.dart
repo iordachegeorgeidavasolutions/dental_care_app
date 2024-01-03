@@ -37,7 +37,7 @@ void main() async {
     MaterialApp(
       localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
       supportedLocales: const [Locale('en'), Locale('ro')],
-      home: loggedIn == true ? const MyApp() : LoginPage(),
+      home: loggedIn == true ? const MyApp(fromPinPage: false,) : LoginPage(),
       theme: ThemeData(
         textTheme: GoogleFonts.openSansTextTheme(),
       ), // use MaterialApp
@@ -48,13 +48,17 @@ void main() async {
 PageController MyController = PageController();
 
 class MyApp extends StatefulWidget {
+
+  final bool fromPinPage;
   // final VoidCallback setPage;
   const MyApp({
     super.key,
+    required this.fromPinPage,
   });
 
   @override
   State<MyApp> createState() => MyAppState();
+
 }
 
 class MyAppState extends State<MyApp> {
@@ -121,7 +125,14 @@ class MyAppState extends State<MyApp> {
 
   void setPage(index) {
     final CurvedNavigationBarState? navBarState = _bottomNavigationKey.currentState;
-    navBarState?.setPage(index);
+    if (widget.fromPinPage == false)
+    {
+      navBarState?.setPage(index);
+    }
+    else 
+    {
+      navBarState?.setPage(0);
+    }
   }
 
   @override
@@ -144,7 +155,7 @@ class MyAppState extends State<MyApp> {
           controller: MyController,
           onPageChanged: (index) {
             setState(() {
-              pageIndex = index;
+              pageIndex = widget.fromPinPage? 4 : index; 
             });
           },
           children: <Widget>[
@@ -171,7 +182,7 @@ class MyAppState extends State<MyApp> {
       color: Colors.white,
       items: icons,
       height: 60,
-      index: pageIndex,
+      index: widget.fromPinPage? 4 : pageIndex,
     );
   }
 
@@ -213,13 +224,16 @@ class MyAppState extends State<MyApp> {
     //print('Loading screen rezultat: $res');
     
     if (res == null) {
+      
       return;
+      
       // } else if (res.startsWith('161')) {
       //   showsnackbar(
       //     context,
       //     "Date de login varule!",
       //   );
       // return;
+
     } else if (res.startsWith('66')) {
       Navigator.of(context)
           .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
@@ -227,5 +241,4 @@ class MyAppState extends State<MyApp> {
       return;
     } else if (res.contains('\$#\$')) {}
   }
-
 }

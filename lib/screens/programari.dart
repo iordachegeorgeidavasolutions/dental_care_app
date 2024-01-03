@@ -267,8 +267,8 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                                 child: Text("Nu aveți programări viitoare"),
                               )
                             : (areCopii && viitoareCopil.isNotEmpty)? ListTile(
-                              leading: Image.asset('./assets/images/programari.png', height: 25),
-                                /*leading: Icon(Icons.circle,
+                              //leading: Image.asset('./assets/images/programari.png', height: 25),
+                              leading: Icon(Icons.circle,
                                   color: viitoareCopil[index].status == "Programat" || viitoareCopil[index].status == "În curs"
                                       ? Colors.blue
                                       : viitoareCopil[index].status == "Confirmat" || viitoareCopil[index].status == "Sosit" || (anulatConfirmat != null && anulatConfirmat!.status == 'Confirmat' && viitoareCopil[index].id == anulatConfirmat!.id)
@@ -281,7 +281,6 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                                               || viitoareCopil[index].status == "Urgență" || (anulatConfirmat != null && anulatConfirmat!.status == 'Anulat' && viitoareCopil[index].id == anulatConfirmat!.id)
                                                   ? Colors.red
                                                   : Colors.grey),
-                                */
                                 title: Text(
                                   DateFormat('EEEE, d.M.yyyy', 'ro').format(viitoareCopil[index].inceput).capitalizeFirst(),
                                   style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.black87),
@@ -296,7 +295,6 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                               )
                               :
                               ListTile(
-                                /*
                                 leading: Icon(Icons.circle,
                                     color: viitoare[index].status == "Programat" || viitoare[index].status == "În curs"
                                       ? Colors.blue
@@ -310,8 +308,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                                               || viitoare[index].status == "Urgență" || (anulatConfirmat != null && anulatConfirmat!.status == 'Anulat' && viitoare[index].id == anulatConfirmat!.id)
                                                   ? Colors.red
                                                   : Colors.grey),
-                                */
-                                leading: Image.asset('./assets/images/programari.png', height: 25),
+                                //leading: Image.asset('./assets/images/programari.png', height: 25),
                                 title: Text(
                                   DateFormat('EEEE, d.M.yyyy', 'ro').format(viitoare[index].inceput).capitalizeFirst(),
                                   style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.black87),
@@ -931,7 +928,8 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
     Programari? pP = Programari(trecute: programariTrecute, viitoare: programariViitoare);
     //viitoare.addAll(pP.viitoare.reversed); //old Andrei Bădescu
     viitoare.addAll(pP.viitoare);
-    trecute.addAll(pP.trecute.reversed);
+    //trecute.addAll(pP.trecute.reversed); //old Andrei Bădescu
+    trecute.addAll(pP.trecute);
     return pP;
   }
 
@@ -1147,7 +1145,8 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
     // print(" Asta e ${programariViitoareCopil.length}");
     setState(() {
       viitoareCopil = programariViitoareCopil.toList();
-      trecuteCopil = programariTrecuteCopil.reversed.toList();
+      //trecuteCopil = programariTrecuteCopil.reversed.toList(); //old Andrei Bădescu
+      trecuteCopil = programariTrecuteCopil.toList();
     });
     //print(" Programări trecute: ${trecute.length} : ${trecuteCopil.length}");
     //print(" Programări viitoare: ${viitoare.length} : ${viitoareCopil.length}");

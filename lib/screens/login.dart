@@ -314,7 +314,7 @@ class _LoginPageState extends State<LoginPage> {
       if (context.mounted) {
         Future.delayed(const Duration(seconds: 1), () {
           Navigator.of(context)
-              .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const MyApp()), (route) => false);
+              .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const MyApp(fromPinPage: false,)), (route) => false);
         });
       }
       return;
@@ -416,7 +416,7 @@ class _LoginPageState extends State<LoginPage> {
       if (context.mounted) {
         Future.delayed(const Duration(seconds: 2), () {
           Navigator.of(context)
-              .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const MyApp()), (route) => false);
+              .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const MyApp(fromPinPage: false)), (route) => false);
         });
       }
       return;

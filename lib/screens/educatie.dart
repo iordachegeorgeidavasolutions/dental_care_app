@@ -72,7 +72,9 @@ class _EducatieScreenState extends State<EducatieScreen> {
       //     webViewController?.loadUrl(urlRequest: URLRequest(url: url));
       //   },
       // ),
-      navigationButtons(),
+
+      //navigationButtons(), // old Andrei Bădescu
+
       Expanded(
         child: Stack(
           children: [
@@ -170,6 +172,7 @@ class _EducatieScreenState extends State<EducatieScreen> {
     ])));
   }
 
+  /* //old Andrei Bădescu
   Container navigationButtons() {
     return Container(
       width: double.infinity,
@@ -180,13 +183,17 @@ class _EducatieScreenState extends State<EducatieScreen> {
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
           )),
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+      child: 
+      //Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [ //old Andrei Bădescu
+      Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+        //old Andrei Bădescu
+        /*
         IconButton(
             onPressed: () {
               webViewController?.goBack();
             },
             icon: Icon(
-              Icons.arrow_back_ios,
+              Icons.arrow_back,
               color: Colors.black,
             )),
         IconButton(
@@ -207,7 +214,9 @@ class _EducatieScreenState extends State<EducatieScreen> {
             color: Colors.black,
           ),
         ),
+        */
       ]),
     );
   }
+  */
 }
