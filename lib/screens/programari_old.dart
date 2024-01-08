@@ -161,7 +161,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                                             ? Colors.red
                                             : Colors.grey),
                         title: Text(
-                          DateFormat('EEEE, d.M.yyyy', 'ro').format(viitoare[index].inceput).capitalizeFirst(),
+                          DateFormat('EEEE, dd.MM.yyyy', 'ro').format(viitoare[index].inceput).capitalizeFirst(),
                           style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.black87),
                         ),
                         trailing: const Icon(
@@ -245,7 +245,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                       child: ListTile(
                         leading: Image.asset('./assets/images/programari.png', height: 25),
                         title: Text(
-                          DateFormat('EEEE, d.M.yyyy', 'ro').format(trecute[index].inceput).capitalizeFirst(),
+                          DateFormat('EEEE, dd.MM.yyyy', 'ro').format(trecute[index].inceput).capitalizeFirst(),
                           style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.black87),
                         ),
                         trailing: const Icon(

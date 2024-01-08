@@ -425,7 +425,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       if (context.mounted) {
 
-        
+        /*
         Flushbar(
           message: "Register încheiat cu succes!", //old Andrei Bădescu
           //message: Shared.limba.textMesajSuccessfullRegister, //cu dictionar
@@ -444,6 +444,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           duration: const Duration(seconds: 3),
           leftBarIndicatorColor: Colors.green,
         ).show(context);
+        */
+
       }
 
       Future.delayed(Duration(seconds: 5), () {

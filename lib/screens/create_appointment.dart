@@ -87,7 +87,7 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
             )),
             const SizedBox(height: 15),
             Container(
-              height: MediaQuery.of(context).size.height*0.5,
+              height: MediaQuery.of(context).size.height*0.55,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
@@ -105,8 +105,8 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                   children: [
                     SizedBox(height: 20),
                     const Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                            Text("Sediul dorit:", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
-                          ]),
+                      Text("Sediul dorit:", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
+                    ]),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                       child: Row(
@@ -407,6 +407,8 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
       print(res);
 
       if (res!.startsWith("13")) {
+        
+        /*
         Flushbar(
           message: "Cerere trimisă cu succes!",
           icon: const Icon(
@@ -424,6 +426,7 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
           duration: const Duration(seconds: 3),
           leftBarIndicatorColor: Colors.green,
         ).show(context);
+        */
 
         setState(() {
 

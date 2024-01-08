@@ -640,7 +640,7 @@ class _ProgramModalItemState extends State<ProgramModalItem> {
                                                   
 
                                                           // hideButtons(),
-                                                          //Navigator.pop(context),
+                                                          Navigator.pop(context),
                                                         },
                                                         child: const Text(
                                                           'Anulez',
