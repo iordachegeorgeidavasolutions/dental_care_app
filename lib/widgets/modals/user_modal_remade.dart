@@ -79,12 +79,13 @@ class _UserModalRemadeState extends State<UserModalRemade> {
                 Expanded(
                     flex: 3,
                     child: getNumePrenumeFuture == null
-                        //? const Text("Unable to retrieve text") //old Andrei Bădescu
-                        ? const Text("Nu s-a putut găsi utilizatorul")
-                        : Text(
-                            '${getNumePrenumeFuture![0]} ${getNumePrenumeFuture![1]}',
-                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                          ))
+                      //? const Text("Unable to retrieve text") //old Andrei Bădescu
+                      ? const Text("Nu s-a putut găsi utilizatorul")
+                      : Text(
+                          '${getNumePrenumeFuture![0]} ${getNumePrenumeFuture![1]}',
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                      ),
               ],
             ),
           ),

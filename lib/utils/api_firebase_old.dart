@@ -53,29 +53,46 @@ class FirebaseApi {
     NotificationSettings settings = await firebaseMessaging.requestPermission();
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      
       prefs.setString(pref_keys.pPrimesteNotificari, '1');
       print('User granted permission');
-    } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+
+    } 
+    else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+      
       prefs.setString(pref_keys.pPrimesteNotificari, '0');
 
       print('User granted provisional permission');
-    } else {
+
+    } 
+    else {
+
       print('User declined or has not accepted permission');
       prefs.setString(pref_keys.pPrimesteNotificari, '0');
+
     }
+
     final fcmToken = await firebaseMessaging.getToken() ?? "Error: Could not retrieve token!";
+
     saveTokenToDB(fcmToken);
+    
     _tokenStream = FirebaseMessaging.instance.onTokenRefresh;
+    
     _tokenStream.listen(saveTokenToDB);
+    
     print('Token: $fcmToken');
+    
     initPushNotifications();
+    
   }
+
 
   Future initPushNotifications() async {
     FirebaseMessaging.instance.getInitialMessage().then(handleBackgroundMessage);
     FirebaseMessaging.onMessageOpenedApp.listen(handleBackgroundMessage);
     FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
   }
+
 }
 
 // void _handleMessage(NotificationData notificationData) {
