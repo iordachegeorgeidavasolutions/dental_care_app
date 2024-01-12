@@ -49,11 +49,14 @@ class _MeniuScreenState extends State<MeniuScreen> {
 
   final List<Widget> _screens = [
     const Placeholder(),
-    const HomePage(),
-    const ProgramariScreen(),
+    HomePage(myController: MyController,),
+    //const ProgramariScreen(), old Andrei Bădescu
+    
+    //const ProgramariScreen(fromOtherPage: true, currentIndex: 0, isSelectedTrecute: true, isSelectedViitoare: false,),
+
     //const ProgramariScreen(idCopil:'1'), //old George Valentin Iordache
-    const LocatiiScreen(),
-    const LocatiiScreen(),
+    LocatiiScreen(),
+    LocatiiScreen(),
   ];
 
   @override

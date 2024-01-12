@@ -9,20 +9,47 @@ import '../utils/api_call.dart';
 import '../utils/classes.dart';
 import '../widgets/modals/programari_modal.dart';
 import '../widgets/modals/user_modal.dart';
+
+//import '../main.dart';
+
+import "../screens/meniu.dart";
 import '../utils/api_call_functions.dart';
 import '../utils/shared_pref_keys.dart' as pref_keys;
-import 'package:flutter/cupertino.dart';
+//import 'package:flutter/cupertino.dart';
+
+import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
+import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
+import 'package:dental_care_app/screens/educatie.dart';
+import 'package:dental_care_app/screens/home.dart';
+import 'package:dental_care_app/screens/locatii.dart';
+
+
+final navigatorKeyProgramari = GlobalKey<NavigatorState>(); //IGV
+
+PageController myControllerProgramari = PageController(); //IGV
 
 class ProgramariScreen extends StatefulWidget {
 
-  const ProgramariScreen({super.key,});
+  final bool fromOtherPage;
+  final bool fromLocatiiPage;
+
+  final int currentIndex;
+
+
+  final bool isSelectedTrecute;
+  final bool isSelectedViitoare;
+
+  const ProgramariScreen({super.key, required this.fromOtherPage, required this.fromLocatiiPage, required this.currentIndex, required this.isSelectedTrecute, required this.isSelectedViitoare});
 
   @override
   State<ProgramariScreen> createState() => _ProgramariScreenState();
 }
 
 class _ProgramariScreenState extends State<ProgramariScreen> {
-  
+
+  final GlobalKey<CurvedNavigationBarState> _bottomNavigationKeyProgramari = GlobalKey();
+  int pageIndex = 0;
+
   ApiCallFunctions apiCallFunctions = ApiCallFunctions();
   Future<Programari?>? programari;
   Future<Programari?>? programariCopil;
@@ -53,6 +80,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
   
 
 /*
+  
   int currentIndexprogramariToggle = 0;
   int currentIndexprogramariCopilToggle = 0;
   int currentIndexprogramarileTaleToggle = 0;
@@ -63,6 +91,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
   bool programariUserViitoareToggle = false;
   bool programariCopilCompleteToggle = false;
   bool programariCopilViitoareToggle = false;
+
 */
 
   bool areCopii = false;
@@ -76,23 +105,34 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
   void loadUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
+    
       userNume = prefs.getString(pref_keys.userNume);
       userPrenume = prefs.getString(pref_keys.userPrenume);
       userIdPacientAsociat = prefs.getString(pref_keys.userIdPacientAsociat);
+    
     });
   }
 
   Future refresh() async {
+
     setState(() {
+
       if (idCopil == '-1')
       {
+        
         programari = getListaProgramari();
+        
       }
-      else {
+      else 
+      {
+
         areCopii = true; 
         programariCopil = getListaProgramariCopil();
+
       }
+    
     });
+
   }
 
   @override
@@ -109,6 +149,8 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
       listaInitialaMembri.addAll(Shared.familie);
 
     });
+
+    myControllerProgramari = PageController(initialPage: 1);
 
     print('Lista initială membri: ${listaInitialaMembri.length} ');
 
@@ -129,17 +171,136 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
 
   }
 
+  //IGV
+
+/*  
+  final List<Widget> pages = [
+    const HomePage(),
+    //const ProgramariScreen(), //old Andrei Bădescu
+    const ProgramariScreen(fromOtherPage: false, currentIndex: 0, isSelectedTrecute: true, isSelectedViitoare: false,),
+    //const ListaProgramariEuCopii(), //old IGV
+    const LocatiiScreen(),
+    EducatieScreen(),
+    MeniuScreen(),
+  ];
+*/
+
+  List<CurvedNavigationBarItem> icons = const [
+    CurvedNavigationBarItem(
+      child: ImageIcon(AssetImage("./assets/images/navbar/home.png")),
+      label: 'Acasă',
+    ),
+    CurvedNavigationBarItem(
+      child: ImageIcon(AssetImage("./assets/images/navbar/programari.png")),
+      label: 'Programări',
+      labelStyle: TextStyle(fontSize: 13),
+    ),
+    CurvedNavigationBarItem(
+      child: ImageIcon(AssetImage("./assets/images/navbar/contact.png")),
+      label: 'Contact',
+    ),
+    CurvedNavigationBarItem(
+      child: ImageIcon(AssetImage("./assets/images/navbar/educatie.png")),
+      label: 'Educație',
+    ),
+    CurvedNavigationBarItem(
+      child: ImageIcon(AssetImage("./assets/images/navbar/menu.png")),
+      label: 'Meniu',
+    ),
+  ];
+
+  void setPage(index) {
+    final CurvedNavigationBarState? navBarState = _bottomNavigationKeyProgramari.currentState;
+
+    //final CurvedNavigationBarState? navBarState = _bottomNavigationKey.currentState;
+    if (widget.fromOtherPage == false)
+    {
+      navBarState?.setPage(1);
+    }
+    else if (widget.fromLocatiiPage == true)
+    {
+      navBarState?.setPage(2);
+    }
+    else 
+    {
+      navBarState?.setPage(index);
+    }
+    //navBarState?.setPage(index); //old IGV
+    /*
+    else 
+    {
+      navBarState?.setPage(0);
+    }
+    */
+  }
+
+  
+  CurvedNavigationBar curvedNavigation() {
+    return CurvedNavigationBar(
+      onTap: (index) {
+        myControllerProgramari.jumpToPage(index);
+      },
+      key: _bottomNavigationKeyProgramari,
+      animationDuration: const Duration(milliseconds: 400),
+      backgroundColor: const Color.fromARGB(255, 236, 236, 236),
+      buttonBackgroundColor: Colors.white,
+      color: Colors.white,
+      items: icons,
+      height: 60,
+      //index: pageIndex, old IGV
+      index: !widget.fromOtherPage? 1 : widget.fromLocatiiPage? 2 : pageIndex,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    print('programari build index:');
     
     return Scaffold(
+      // appBar: AppBar(leading: Icon(icon)),
+      
+      key: navigatorKeyProgramari,
+      bottomNavigationBar: !widget.fromOtherPage? curvedNavigation(): null,
+      body: PageView(
+        physics: const NeverScrollableScrollPhysics(),
+        controller: myControllerProgramari,
+        onPageChanged: (index) {
+          
+          print('programari build index: $index');
+          setState(() {
+            pageIndex = !widget.fromOtherPage? 1 : widget.fromLocatiiPage? 2 : index; 
+            //pageIndex = index;
+          });
+        },
+        children: <Widget>[
+          HomePage(myController: myControllerProgramari,),
+          //ListaProgramariEuCopii(), //old IGV
+          //ProgramariScreen(idCopil:'-1'), //old IGV
+          //ProgramariScreen(), //old Andrei Bădescu
+          //ProgramariScreen(fromOtherPage: true, currentIndex: 0, isSelectedTrecute: true, isSelectedViitoare: false,),
+          programariScreenBuild(context),
+          LocatiiScreen(),
+          EducatieScreen(),
+          MeniuScreen(myController: myControllerProgramari,),
+        ],
+      ),
+    );  
+  }
+
+  
+  //@override
+  Scaffold programariScreenBuild(BuildContext context) {
+    return 
+    Scaffold(
       // appBar: AppBar(leading: Icon(icon)),
       backgroundColor: const Color.fromARGB(255, 236, 236, 236),
       body: RefreshIndicator(
         onRefresh: () async {
           await refresh();
         },
-        child: SafeArea(
+        child:
+        SafeArea(
           child: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
             child: Column(
@@ -148,7 +309,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    switchWidget(),
+                    switchWidget(widget.currentIndex),
                   ],
                 ),
                 afiseazaDropDownFamilie?
@@ -170,7 +331,9 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                         idCopil = '-1';
                         programari = getListaProgramari();
                       }
+
                     });
+
                   },
                   items: 
                   //Shared.familie.map((membru) {
@@ -188,9 +351,9 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
                       if (snapshot.hasData) {
-                        return isSelectedViitoare ? 
+                        return widget.isSelectedViitoare ? 
                           viitoareList()
-                        : isSelectedTrecute ? istoricList() : (!isSelectedTrecute && !isSelectedViitoare)? istoricList(): viitoareList();
+                        : widget.isSelectedTrecute ? istoricList() : (!widget.isSelectedTrecute && !widget.isSelectedViitoare)? istoricList(): viitoareList();
                       } else if (snapshot.hasError) {
                         return const Center(
                           child: Text("Error"),
@@ -198,7 +361,10 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                       }
                     }
                     return const Center(
-                      child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.red),),
+                      child: 
+                      SizedBox(width: 50, height: 50, 
+                        child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.red),),
+                      ),
                     );
                   }
                 ),
@@ -243,6 +409,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                       ),
                       child: InkWell(
                         onTap: () {
+
                           setState(() {
               
                             _selectedIndex = index;
@@ -263,6 +430,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                               });
                           });
                         },
+
                         child: (areCopii && viitoareCopil.isEmpty)? const Center(
                                 child: Text("Nu aveți programări viitoare"),
                               )
@@ -688,11 +856,12 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
       );
   }
 
-  Row switchWidget() {
+  Row switchWidget(int initialIndex) {
     return Row(
       children: [
         ToggleSwitch(
-          initialLabelIndex: initialLabelIndex,
+          //initialLabelIndex: initialLabelIndex,
+          initialLabelIndex: initialIndex,
           minWidth: 110,
           activeBgColor: [Colors.red[400]!],
           inactiveBgColor: Colors.white,
@@ -700,7 +869,10 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
           labels: const ['Trecute', 'Viitoare'],
           dividerColor: Colors.black,
           onToggle: (index) {
+            //print('programari: switchWidget index: $index');
+
             setState(() {
+
               initialLabelIndex = index!;
               if (index == 0)
               {
@@ -717,7 +889,13 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                 isSelectedTrecute = true;
                 isSelectedViitoare = false;
               }
+
             });
+
+            //Navigator.push( context, MaterialPageRoute( builder: (context) => ProgramariScreen(currentIndex: index?? 0, isSelectedTrecute:isSelectedTrecute, isSelectedViitoare: isSelectedViitoare,)), ).then((value) => setState(() {}));
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+              ProgramariScreen(fromLocatiiPage: false, fromOtherPage: false, currentIndex: index?? 0, isSelectedTrecute:isSelectedTrecute, isSelectedViitoare: isSelectedViitoare,)), (Route<dynamic> route) => false);
+
           },
         ),
       ],
@@ -733,10 +911,10 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
             height: 20,
           ),
           InkWell(
-              onTap: () {
-                userModal(context);
-              },
-              child: Image.asset('./assets/images/person-icon.jpg', height: 40)),
+            onTap: () {
+              userModal(context);
+            },
+            child: Image.asset('./assets/images/person-icon.jpg', height: 40)),
           const SizedBox(
             height: 20,
           ),
@@ -768,22 +946,30 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
       // infoWidget = InfoWidget.error;
       print("Eroare null");
       return null;
+
     }
     if (res.startsWith('13\$#\$')) {
+
       print("success");
       print(res);
+
     }
     if (res.startsWith('66\$#\$')) {
+
       print("dategresite");
       print(res);
+
     }
 
     if (res.startsWith('132\$#\$')) {
+
       print("register error");
       print(res);
+
     }
 
     if (res.contains('%\$%')) {
+
       print(res);
       List<String> list = res.split('%\$%');
       List<String> viitoare = list[0].split('*\$*');
@@ -900,7 +1086,8 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
               locatie: l[9]);
             programariTrecute.add(p);
           }
-          else {
+          else 
+          {
 
             Programare p = Programare(
               nume: '',
@@ -919,7 +1106,6 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
             programariViitoare.add(p);
 
           }
-
         }
       }
     }
@@ -1076,7 +1262,6 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
               idMedic: l[8],
               locatie: l[9]);
 
-          
           programariTrecuteCopil.add(p);
         }
       } 

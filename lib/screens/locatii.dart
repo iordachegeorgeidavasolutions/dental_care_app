@@ -3,6 +3,7 @@ import '../data/locatii_data.dart';
 import '../widgets/modals/locatii_modal.dart';
 
 class LocatiiScreen extends StatefulWidget {
+
   const LocatiiScreen({super.key});
 
   @override

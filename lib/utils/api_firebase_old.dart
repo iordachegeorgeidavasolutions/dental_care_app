@@ -37,7 +37,7 @@ Future<void> handleBackgroundMessage(RemoteMessage? message) async {
   if (message.data['tip'] == '0') {
     navigatorKey.currentState?.push(MaterialPageRoute(builder: (context) {
       //return ProgramariScreen(); //old Andrei Bădescu
-      return ProgramariScreen();
+      return ProgramariScreen(fromLocatiiPage: false, fromOtherPage: true, currentIndex: 0, isSelectedTrecute: true, isSelectedViitoare: false,);
     }));
   } else {
     print('alo?');

@@ -42,7 +42,8 @@ class _ListaProgramariEuCopiiState extends State<ListaProgramariEuCopii> {
                   Column(
                     children:[
                       ElevatedButton(onPressed: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProgramariScreen()));
+                        //Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProgramariScreen())); //old Andrei Bădescu
+                        //Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProgramariScreen(fromOtherPage: true, currentIndex: 0, isSelectedTrecute: true, isSelectedViitoare: false,))); //old IGV
                       }, child: Text('Programarile mele')),
                       for(int i = 0; i < Shared.familie.length; i++)
                         Row(
@@ -50,7 +51,8 @@ class _ListaProgramariEuCopiiState extends State<ListaProgramariEuCopii> {
                           children: [
                             ElevatedButton(
                               onPressed: (){
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProgramariScreen()));
+                                //Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProgramariScreen())); //old Andrei Bădescu
+                                //Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProgramariScreen(fromOtherPage: true, currentIndex: 0, isSelectedTrecute: true, isSelectedViitoare: false,))); //old IGV
                             }, 
                               child: Text('Programarile lui ${Shared.familie[i].nume.capitalizeFirst()} ${Shared.familie[i].prenume.capitalizeFirst()}')),
                           ],

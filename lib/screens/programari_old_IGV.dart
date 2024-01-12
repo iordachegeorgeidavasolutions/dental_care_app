@@ -541,7 +541,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
           ),
           InkWell(
               onTap: () {
-                userModal(context);
+                //userModal(context); //old IGV
               },
               child: Image.asset('./assets/images/person-icon.jpg', height: 40)),
           const SizedBox(

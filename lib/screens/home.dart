@@ -15,7 +15,9 @@ import '../utils/functions.dart';
 
 //asd
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+
+  final PageController myController;
+  const HomePage({super.key, required this.myController});
 
   @override
   State<HomePage> createState() => HomePageState();
@@ -157,7 +159,14 @@ class HomePageState extends State<HomePage> {
                                 // onTap: () => MyController.jumpToPage(1),
                                 onTap: () {
                                   if (index == 0) {
-                                    MyController.jumpToPage(1);
+                                    print('Home dosarul meu istoric programari: ${dosarulMeuList[index].widgetRoute}');
+                                    widget.myController.jumpToPage(1); //old Andrei Bădescu
+                                    //Navigator.of(context).pushAndRemoveUntil(
+                                    //    MaterialPageRoute(builder: (context) => dosarulMeuList[index].widgetRoute));
+
+                                    //Navigator.of(context).push(
+                                    //  MaterialPageRoute(builder: (context) => ProgramariScreen(fromOtherPage: false, currentIndex: 0, isSelectedTrecute: true, isSelectedViitoare: false,)));
+
                                   } else {
                                     print('Home dosarul meu list: ${dosarulMeuList[index].widgetRoute}');
                                     Navigator.of(context).push(
@@ -251,7 +260,11 @@ class HomePageState extends State<HomePage> {
                             // onTap: () => MyController.jumpToPage(1),
                             onTap: () {
                               if (index == 0) {
-                                MyController.jumpToPage(1);
+                                //MyController.jumpToPage(1); //old Andrei Bădescu
+                                //Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                                //  ProgramariScreen(fromOtherPage: false, currentIndex: 0, isSelectedTrecute: true, isSelectedViitoare: false,)), (Route<dynamic> route) => true);
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) => ProgramariScreen(fromLocatiiPage: false, fromOtherPage: false, currentIndex: 0, isSelectedTrecute: true, isSelectedViitoare: false,)));
                               } else {
                                 Navigator.of(context)
                                     .push(MaterialPageRoute(builder: (context) => dosarulMeuList[index].widgetRoute));
@@ -295,7 +308,6 @@ class HomePageState extends State<HomePage> {
       builder: (context, snapshot) {
         var data = snapshot.data;
         // ignore: avoid_print
-        
         
         print('Nume Prenume $data');
         //print(data);

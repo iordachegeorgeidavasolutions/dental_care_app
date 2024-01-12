@@ -43,7 +43,7 @@ class _ButonUrmatoareaProgramareState extends State<ButonUrmatoareaProgramare> {
                             children: [
                               const Icon(Icons.calendar_month_outlined, color: Colors.white, size: 30),
                               const SizedBox(width: 8),
-                              Text(DateFormat('EEEE, d.M.yyyy', 'ro').format(widget.numeZiUltimaProg).capitalizeFirst(),
+                              Text(DateFormat('EEEE, dd.MM.yyyy', 'ro').format(widget.numeZiUltimaProg).capitalizeFirst(),
                                 style:
                                   const TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold)),
                             ],

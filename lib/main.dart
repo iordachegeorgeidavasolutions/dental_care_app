@@ -91,12 +91,13 @@ class MyAppState extends State<MyApp> {
   // }
 
   final List<Widget> pages = [
-    const HomePage(),
-    const ProgramariScreen(),
+    HomePage(myController: MyController,),
+    //const ProgramariScreen(), //old Andrei Bădescu
+    ProgramariScreen(fromLocatiiPage: false, fromOtherPage: true, currentIndex: 0, isSelectedTrecute: true, isSelectedViitoare: false,),
     //const ListaProgramariEuCopii(), //old IGV
-    const LocatiiScreen(),
+    LocatiiScreen(),
     EducatieScreen(),
-    MeniuScreen(),
+    MeniuScreen(myController: MyController,),
   ];
 
   List<CurvedNavigationBarItem> icons = const [
@@ -133,6 +134,9 @@ class MyAppState extends State<MyApp> {
     {
       navBarState?.setPage(0);
     }
+
+    print('main setPage index: $index');
+
   }
 
   @override
@@ -147,6 +151,7 @@ class MyAppState extends State<MyApp> {
   // This widget is the root of your application
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         key: navigatorKey,
         bottomNavigationBar: curvedNavigation(),
@@ -159,13 +164,14 @@ class MyAppState extends State<MyApp> {
             });
           },
           children: <Widget>[
-            HomePage(),
+            HomePage(myController: MyController,),
             //ListaProgramariEuCopii(), //old IGV
             //ProgramariScreen(idCopil:'-1'), //old IGV
-            ProgramariScreen(),
+            //ProgramariScreen(), //old Andrei Bădescu
+            ProgramariScreen(fromLocatiiPage: false, fromOtherPage: true, currentIndex: 0, isSelectedTrecute: true, isSelectedViitoare: false,),
             LocatiiScreen(),
             EducatieScreen(),
-            MeniuScreen(),
+            MeniuScreen(myController: MyController,),
           ],
         ));
   }
@@ -234,11 +240,22 @@ class MyAppState extends State<MyApp> {
       //   );
       // return;
 
-    } else if (res.startsWith('66')) {
+    }
+    else if (res.startsWith('66')) 
+    {
+      
       Navigator.of(context)
           .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
-    } else if (res.startsWith('264')) {
+
+    }
+    else if (res.startsWith('264')) {
+
       return;
-    } else if (res.contains('\$#\$')) {}
+
+    }
+    else if (res.contains('\$#\$')) 
+    {
+
+    }
   }
 }

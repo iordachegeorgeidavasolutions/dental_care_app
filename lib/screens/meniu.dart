@@ -12,7 +12,10 @@ import '../widgets/items/meniu_grid_item.dart';
 import '../widgets/modals/user_modal.dart';
 
 class MeniuScreen extends StatefulWidget {
-  MeniuScreen({super.key});
+
+  final PageController myController;
+
+  MeniuScreen({super.key, required this.myController});
 
   @override
   State<MeniuScreen> createState() => _MeniuScreenState();
@@ -48,15 +51,14 @@ class _MeniuScreenState extends State<MeniuScreen> {
     ["Informații", "./assets/images/meniu/info.png"],
     //["Informații", ''],
     ["Contul meu", "./assets/images/meniu/contulmeu.png"],
-    
   ];
 
   final List<Widget> _screens = [
     const Placeholder(),
-    const HomePage(),
-    const ListaProgramariEuCopii(),
-    const LocatiiScreen(),
-    const LocatiiScreen(),
+    HomePage(myController: MyController,),
+    //const ListaProgramariEuCopii(),
+    LocatiiScreen(),
+    LocatiiScreen(),
   ];
 
   @override
@@ -82,7 +84,8 @@ class _MeniuScreenState extends State<MeniuScreen> {
                           ? Navigator.push(
                               context, MaterialPageRoute(builder: (context) => WebScreen(url: links[index])))
                           : index == 2
-                              ? MyController.jumpToPage(2)
+                              //? MyController.jumpToPage(2) //old Andrei Bădescu
+                              ? widget.myController.jumpToPage(2)
                               : index == 3
                                   ? Navigator.push(
                                       context,
@@ -92,7 +95,7 @@ class _MeniuScreenState extends State<MeniuScreen> {
                                   ? Navigator.push(
                                       context,
                                       MaterialPageRoute(builder: (context) => WebScreen(url: links[index])),
-                                    )      
+                                    )
                                   : 
                                   showModalBottomSheet(
                                     isScrollControlled: true,

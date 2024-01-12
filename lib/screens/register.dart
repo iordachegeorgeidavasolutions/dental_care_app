@@ -425,9 +425,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       if (context.mounted) {
 
-        /*
         Flushbar(
-          message: "Register încheiat cu succes!", //old Andrei Bădescu
+          message: "Înregistrare încheiată cu succes!", //old Andrei Bădescu
           //message: Shared.limba.textMesajSuccessfullRegister, //cu dictionar
           icon: const Icon(
             Icons.info_outline,
@@ -444,7 +443,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           duration: const Duration(seconds: 3),
           leftBarIndicatorColor: Colors.green,
         ).show(context);
-        */
 
       }
 

@@ -85,11 +85,11 @@ class MyAppState extends State<MyApp> {
   // }
 
   final List<Widget> pages = [
-    const HomePage(),
+    HomePage(myController: MyController,),
     //const ProgramariScreen(), //old Andrei Bădescu
     const LocatiiScreen(),
     EducatieScreen(),
-    MeniuScreen(),
+    MeniuScreen(myController: MyController,),
   ];
 
   List<CurvedNavigationBarItem> icons = const [
@@ -142,11 +142,11 @@ class MyAppState extends State<MyApp> {
             });
           },
           children: <Widget>[
-            HomePage(),
+            HomePage(myController: MyController,),
             //ProgramariScreen(),
             LocatiiScreen(),
             EducatieScreen(),
-            MeniuScreen(),
+            MeniuScreen(myController: MyController,),
           ],
         ));
   }

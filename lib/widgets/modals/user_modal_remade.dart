@@ -23,7 +23,8 @@ class _UserModalRemadeState extends State<UserModalRemade> {
 
   final List profileItemsList = [
     ["Profilul meu", "./assets/images/profile_modal_images/person-icon.jpg", UserProfileScreen()],
-    ["Programări", "./assets/images/profile_modal_images/programari.png", const ProgramariScreen()], 
+    //["Programări", "./assets/images/profile_modal_images/programari.png", const ProgramariScreen()],  //old Andrei Bădescu
+    ["Programari", "./assets/images/profile_modal_images/programari.png", ProgramariScreen(fromLocatiiPage: false, fromOtherPage: true, currentIndex: 0, isSelectedTrecute: true, isSelectedViitoare: false,)],
     //["Programări", "./assets/images/profile_modal_images/programari.png", const ProgramariScreen(idCopil:'-1')], //old George Valentin Iordache
     //["Tratamente", "./assets/images/profile_modal_images/syringe.png", const TratamenteScreen()], //old Andrei Bădescu
     ["Tratamente", "./assets/images/profile_modal_images/syringe.png", const TratamenteScreen()],

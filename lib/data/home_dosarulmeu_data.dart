@@ -6,7 +6,8 @@ import '../utils/classes.dart';
 
 List<DosarulMeu> dosarulMeuList = [
   //DosarulMeu(titlu: "Istoric Programări", widgetRoute: ListaProgramariEuCopii()), //old IGV
-  DosarulMeu(titlu: "Istoric Programări", widgetRoute: ProgramariScreen()),
+  //DosarulMeu(titlu: "Istoric Programări", widgetRoute: ProgramariScreen()), //old Andrei Bădescu
+  DosarulMeu(titlu: "Istoric Programări", widgetRoute: ProgramariScreen(fromLocatiiPage: false, fromOtherPage: false, currentIndex: 0, isSelectedTrecute: true, isSelectedViitoare: false,)),
   //DosarulMeu(titlu: "Istoric Tratamente", widgetRoute: TratamenteScreen()),
   //DosarulMeu(titlu: "Istoric Tratamente", widgetRoute: ListaTratamenteEuCopii()), //old IGV
   DosarulMeu(titlu: "Istoric Tratamente", widgetRoute: TratamenteScreen()),
