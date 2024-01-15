@@ -49,7 +49,7 @@ class _MeniuScreenState extends State<MeniuScreen> {
 
   final List<Widget> _screens = [
     const Placeholder(),
-    HomePage(myController: MyController,),
+    HomePage(myController: MyController, myBottomNavigationKey: myBottomNavigationKeyMain,),
     //const ProgramariScreen(), old Andrei Bădescu
     
     //const ProgramariScreen(fromOtherPage: true, currentIndex: 0, isSelectedTrecute: true, isSelectedViitoare: false,),

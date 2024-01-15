@@ -287,11 +287,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
               DateTime? date = await showDatePicker(
                 context: context, 
                 locale : const Locale("ro","RO"),
-                initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime(2024),
+                initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime(2040),
                 builder: (context, child) {
                   return Theme(
                     data: Theme.of(context).copyWith(
-                      
                       splashColor: Color.fromARGB(255,200,200,200), //Colors.red,
                       colorScheme: ColorScheme.light(
                         surface: Colors.white,

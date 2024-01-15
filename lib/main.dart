@@ -24,6 +24,8 @@ import '../utils/shared_pref_keys.dart' as pref_keys;
 //     print('sui');
 // }
 
+int myIndexLocatii = 0;
+
 // import "./utils/shared_pref_keys.dart" as pref_keys;
 final navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
@@ -47,6 +49,10 @@ void main() async {
 
 PageController MyController = PageController();
 
+GlobalKey<CurvedNavigationBarState> myBottomNavigationKeyMain = GlobalKey();
+
+CurvedNavigationBar curvedNavigationBar = CurvedNavigationBar(items: [],);
+
 class MyApp extends StatefulWidget {
 
   final bool fromPinPage;
@@ -62,7 +68,9 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
-  final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
+  
+  //final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey(); //old IGV
+
   int pageIndex = 0;
 
   // void _handleMessage(RemoteMessage message) {
@@ -90,14 +98,14 @@ class MyAppState extends State<MyApp> {
   //   // Stream listener
   // }
 
-  final List<Widget> pages = [
-    HomePage(myController: MyController,),
+  late List<Widget> pages = [
+    HomePage(myController: MyController, myBottomNavigationKey: myBottomNavigationKeyMain,),
     //const ProgramariScreen(), //old Andrei Bădescu
     ProgramariScreen(fromLocatiiPage: false, fromOtherPage: true, currentIndex: 0, isSelectedTrecute: true, isSelectedViitoare: false,),
     //const ListaProgramariEuCopii(), //old IGV
     LocatiiScreen(),
     EducatieScreen(),
-    MeniuScreen(myController: MyController,),
+    MeniuScreen(myController: MyController, myBottomNavigationKey: myBottomNavigationKeyMain, myLocatiiCallback: onLocatiiChanged),
   ];
 
   List<CurvedNavigationBarItem> icons = const [
@@ -125,7 +133,8 @@ class MyAppState extends State<MyApp> {
   ];
 
   void setPage(index) {
-    final CurvedNavigationBarState? navBarState = _bottomNavigationKey.currentState;
+    //final CurvedNavigationBarState? navBarState = _bottomNavigationKey.currentState; //old IGV
+    final CurvedNavigationBarState? navBarState = myBottomNavigationKeyMain.currentState;
     if (widget.fromPinPage == false)
     {
       navBarState?.setPage(index);
@@ -144,8 +153,19 @@ class MyAppState extends State<MyApp> {
     super.initState();
     login(context);
     loadDataCopii();
+
+    curvedNavigationBar = curvedNavigation();
+    
     // setupInteractedMessage();
     // FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+
+  }
+
+  //IGV
+  void onLocatiiChanged(int? newValue) {
+    setState(() {
+      indexMyCurvedNavigationBar = newValue?? 0;
+    });
   }
 
   // This widget is the root of your application
@@ -153,35 +173,74 @@ class MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-        key: navigatorKey,
-        bottomNavigationBar: curvedNavigation(),
-        body: PageView(
-          physics: const NeverScrollableScrollPhysics(),
-          controller: MyController,
-          onPageChanged: (index) {
-            setState(() {
-              pageIndex = widget.fromPinPage? 4 : index; 
-            });
-          },
-          children: <Widget>[
-            HomePage(myController: MyController,),
-            //ListaProgramariEuCopii(), //old IGV
-            //ProgramariScreen(idCopil:'-1'), //old IGV
-            //ProgramariScreen(), //old Andrei Bădescu
-            ProgramariScreen(fromLocatiiPage: false, fromOtherPage: true, currentIndex: 0, isSelectedTrecute: true, isSelectedViitoare: false,),
-            LocatiiScreen(),
-            EducatieScreen(),
-            MeniuScreen(myController: MyController,),
-          ],
-        ));
+      key: navigatorKey,
+      bottomNavigationBar: curvedNavigation(),
+      body: PageView(
+        physics: const NeverScrollableScrollPhysics(),
+        controller: MyController,
+        onPageChanged: (index) {
+          setState(() {
+            pageIndex = widget.fromPinPage? 4 : indexMyCurvedNavigationBar == 2? 2 : pageIndex; 
+          });
+        },
+        children: <Widget>[
+          HomePage(myController: MyController, myBottomNavigationKey: myBottomNavigationKeyMain,),
+          //ListaProgramariEuCopii(), //old IGV
+          //ProgramariScreen(idCopil:'-1'), //old IGV
+          //ProgramariScreen(), //old Andrei Bădescu
+          ProgramariScreen(fromLocatiiPage: false, fromOtherPage: true, currentIndex: 0, isSelectedTrecute: true, isSelectedViitoare: false,),
+          LocatiiScreen(),
+          EducatieScreen(),
+          MeniuScreen(myController: MyController, myBottomNavigationKey: myBottomNavigationKeyMain, myLocatiiCallback: onLocatiiChanged),
+        ],
+      ),
+    );
   }
 
   CurvedNavigationBar curvedNavigation() {
+
+    print('main curvedNavigation indexCurvedNavigationBar: $indexMyCurvedNavigationBar');
     return CurvedNavigationBar(
       onTap: (index) {
+
+        /*if (index == 1){
+          pages[1].getState().refresh();
+        }
+        */
+        //setState(() {
+        //  pageIndex = index;
+        //});
+        print('main curvedNavigation Aici index: $index pageIndex: $pageIndex');
+
+        /* //old IGV
+        if(index == 2)
+        {
+
+          myIndexLocatii = 2;
+
+        }
+        else 
+        {
+
+          myIndexLocatii = 0;
+
+        }
+        */
+
+        /*if (index == 1)
+        {
+
+          //MyController.jumpToPage(1);
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+              ProgramariScreen(fromLocatiiPage: false, fromOtherPage: false, currentIndex: 0, isSelectedTrecute:true, isSelectedViitoare: false,)), (Route<dynamic> route) => false);
+
+        }
+        */
+
         MyController.jumpToPage(index);
       },
-      key: _bottomNavigationKey,
+      //key: _bottomNavigationKey, //old IGV
+      key: myBottomNavigationKeyMain,
       animationDuration: const Duration(milliseconds: 400),
       backgroundColor: const Color.fromARGB(255, 236, 236, 236),
       buttonBackgroundColor: Colors.white,
@@ -192,11 +251,14 @@ class MyAppState extends State<MyApp> {
     );
   }
 
-  void loadDataCopii() async {
+  void loadDataCopii() async 
+  {
+
     Shared.familie.clear();
     List<MembruFamilie> f = await apiCallFunctions.getListaFamilie();
     Shared.familie.addAll(f);
     print('Lista copii length este ${f.length}');
+
   }
 
   login(BuildContext context) async {

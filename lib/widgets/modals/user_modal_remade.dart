@@ -10,6 +10,7 @@ import '../../screens/programari.dart';
 import '../../screens/tratamente.dart';
 import '../../utils/functions.dart';
 import '../items/profile_modal_item.dart';
+import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 
 class UserModalRemade extends StatefulWidget {
   const UserModalRemade({super.key});
@@ -100,6 +101,21 @@ class _UserModalRemadeState extends State<UserModalRemade> {
                   GestureDetector(
                     child: ProfileModalItem(icon: profileItemsList[index][1], text: profileItemsList[index][0]),
                     onTap: () {
+                      if (index == 1)
+                        {
+
+                          final CurvedNavigationBarState? navBarStateProgramari = myBottomNavigationKeyProgramari.currentState;
+                          navBarStateProgramari?.setPage(1);
+                          final CurvedNavigationBarState? navBarStateMain = myBottomNavigationKeyMain.currentState;
+                          navBarStateMain?.setPage(1);
+                          //print('user modal curvedNavigationIndex $indexMyCurvedNavigationBar');
+                          //Navigator.of(context).pushAndRemoveUntil(
+                          //    MaterialPageRoute(builder: (context) => dosarulMeuList[index].widgetRoute));
+
+                          //Navigator.of(context).push(
+                          //  MaterialPageRoute(builder: (context) => ProgramariScreen(fromOtherPage: false, currentIndex: 0, isSelectedTrecute: true, isSelectedViitoare: false,)));
+
+                        }
                       index == 3
                           ? {
                               logout(),
@@ -108,8 +124,9 @@ class _UserModalRemadeState extends State<UserModalRemade> {
                             }
                           : index == 1
                               ? {
-                                  MyController.jumpToPage(1),
+                                  
                                   Navigator.pop(context),
+                                  MyController.jumpToPage(1),
                                 }
                               : Navigator.of(context)
                                   .push(MaterialPageRoute(builder: (context) => profileItemsList[index][2]));

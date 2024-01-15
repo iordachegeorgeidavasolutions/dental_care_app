@@ -9,7 +9,7 @@ import '../items/profile_modal_item.dart';
 
 Future<dynamic> userModal(BuildContext context) {
   final List profileItemsList = [
-    ["Profilul meu", "./assets/images/profile_modal_images/person-icon.jpg", HomePage(myController: MyController,)],
+    ["Profilul meu", "./assets/images/profile_modal_images/person-icon.jpg", HomePage(myController: MyController, myBottomNavigationKey: myBottomNavigationKeyMain,)],
     //["Programari", "./assets/images/profile_modal_images/programari.png", const ProgramariScreen()], //old Andrei Bădescu
     //["Programari", "./assets/images/profile_modal_images/programari.png", const ProgramariScreen(fromOtherPage: true, currentIndex: 0, isSelectedTrecute: true, isSelectedViitoare: false,)], //old IGV
     //["Programari", "./assets/images/profile_modal_images/programari.png", const ProgramariScreen(idCopil:'-1')], old George Valentin Iordache

@@ -12,12 +12,16 @@ import '../utils/api_call_functions.dart';
 import '../utils/classes.dart';
 import '../widgets/items/home_butonUrmatoareProgramare.dart';
 import '../utils/functions.dart';
+import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 
 //asd
 class HomePage extends StatefulWidget {
 
   final PageController myController;
-  const HomePage({super.key, required this.myController});
+  final GlobalKey myBottomNavigationKey;
+
+  const HomePage({super.key, required this.myController
+  , required this.myBottomNavigationKey});
 
   @override
   State<HomePage> createState() => HomePageState();
@@ -158,8 +162,33 @@ class HomePageState extends State<HomePage> {
                               return GestureDetector(
                                 // onTap: () => MyController.jumpToPage(1),
                                 onTap: () {
+
+/*
+                                  if (index == 0)
+                                  {
+
+
+                                  }
+*/                                  
+                                  /*
+                                  else
+                                  {
+                                    final CurvedNavigationBarState? navBarStateProgramari = myBottomNavigationKeyProgramari.currentState;
+                                    navBarStateProgramari?.setPage(index);
+                                    final CurvedNavigationBarState? navBarStateMain = myBottomNavigationKeyMain.currentState;
+                                    navBarStateMain?.setPage(index);
+                                    print('meniu curvedNavigationIndex $indexMyCurvedNavigationBar');
+
+                                  } 
+                                  */
                                   if (index == 0) {
                                     print('Home dosarul meu istoric programari: ${dosarulMeuList[index].widgetRoute}');
+                                    
+                                    final CurvedNavigationBarState? navBarStateProgramari = myBottomNavigationKeyProgramari.currentState;
+                                    navBarStateProgramari?.setPage(1);
+                                    final CurvedNavigationBarState? navBarStateMain = myBottomNavigationKeyMain.currentState;
+                                    navBarStateMain?.setPage(1);
+                                    print('home curvedNavigationIndex $indexMyCurvedNavigationBar');
                                     widget.myController.jumpToPage(1); //old Andrei Bădescu
                                     //Navigator.of(context).pushAndRemoveUntil(
                                     //    MaterialPageRoute(builder: (context) => dosarulMeuList[index].widgetRoute));

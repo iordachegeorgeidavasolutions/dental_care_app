@@ -45,6 +45,9 @@ void main() async {
 
 PageController MyController = PageController();
 
+
+final GlobalKey<CurvedNavigationBarState> myBottomNavigationKeyMain = GlobalKey();
+
 class MyApp extends StatefulWidget {
   // final VoidCallback setPage;
   const MyApp({
@@ -84,12 +87,12 @@ class MyAppState extends State<MyApp> {
   //   // Stream listener
   // }
 
-  final List<Widget> pages = [
-    HomePage(myController: MyController,),
+  late List<Widget> pages = [
+    HomePage(myController: MyController, myBottomNavigationKey: myBottomNavigationKeyMain,),
     //const ProgramariScreen(), //old Andrei Bădescu
     const LocatiiScreen(),
     EducatieScreen(),
-    MeniuScreen(myController: MyController,),
+    MeniuScreen(myController: MyController, myBottomNavigationKey: myBottomNavigationKeyMain, myLocatiiCallback: onLocatiiChanged,),
   ];
 
   List<CurvedNavigationBarItem> icons = const [
@@ -127,6 +130,13 @@ class MyAppState extends State<MyApp> {
     // FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
   }
 
+  //IGV
+  void onLocatiiChanged(int? newValue) {
+    setState(() {
+      indexMyCurvedNavigationBar = newValue?? 0;
+    });
+  }
+
   // This widget is the root of your application
   @override
   Widget build(BuildContext context) {
@@ -142,18 +152,30 @@ class MyAppState extends State<MyApp> {
             });
           },
           children: <Widget>[
-            HomePage(myController: MyController,),
+            HomePage(myController: MyController, myBottomNavigationKey: myBottomNavigationKeyMain,),
             //ProgramariScreen(),
             LocatiiScreen(),
             EducatieScreen(),
-            MeniuScreen(myController: MyController,),
+            MeniuScreen(myController: MyController, myBottomNavigationKey: myBottomNavigationKeyMain, myLocatiiCallback: onLocatiiChanged,),
           ],
         ));
   }
 
   CurvedNavigationBar curvedNavigation() {
+    
     return CurvedNavigationBar(
       onTap: (index) {
+
+        setState(() {
+          if (indexMyCurvedNavigationBar == 2)
+          {
+            pageIndex = 2;
+          }
+          else
+          { 
+            pageIndex = index;
+          }
+        });
         MyController.jumpToPage(index);
       },
       key: _bottomNavigationKey,

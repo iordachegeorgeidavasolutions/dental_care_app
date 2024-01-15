@@ -1,3 +1,4 @@
+import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 import 'package:dental_care_app/screens/home.dart';
 import 'package:dental_care_app/screens/locatii.dart';
 import 'package:dental_care_app/screens/lista_programari_eu_copii.dart';
@@ -15,7 +16,19 @@ class MeniuScreen extends StatefulWidget {
 
   final PageController myController;
 
-  MeniuScreen({super.key, required this.myController});
+  
+  final GlobalKey myBottomNavigationKey;
+
+  late Function(int num) myLocatiiCallback;
+
+  //CurvedNavigationBar myCurvedNavigationBar;
+
+  //int indexMyCurvedNavigationBar;
+
+  //MeniuScreen({super.key, required this.myController, required this.indexMyCurvedNavigationBar});
+
+  
+  MeniuScreen({super.key, required this.myController, required this.myBottomNavigationKey, required this.myLocatiiCallback});
 
   @override
   State<MeniuScreen> createState() => _MeniuScreenState();
@@ -55,7 +68,7 @@ class _MeniuScreenState extends State<MeniuScreen> {
 
   final List<Widget> _screens = [
     const Placeholder(),
-    HomePage(myController: MyController,),
+    HomePage(myController: MyController, myBottomNavigationKey: myBottomNavigationKeyMain,),
     //const ListaProgramariEuCopii(),
     LocatiiScreen(),
     LocatiiScreen(),
@@ -78,6 +91,18 @@ class _MeniuScreenState extends State<MeniuScreen> {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
+                  if (index == 2)
+                  {
+
+                    indexMyCurvedNavigationBar = 2;
+                    widget.myLocatiiCallback(2);
+                    final CurvedNavigationBarState? navBarStateProgramari = myBottomNavigationKeyProgramari.currentState;
+                    navBarStateProgramari?.setPage(2);
+                    final CurvedNavigationBarState? navBarStateMain = myBottomNavigationKeyMain.currentState;
+                    navBarStateMain?.setPage(2);
+                    print('meniu curvedNavigationIndex $indexMyCurvedNavigationBar');
+
+                  }
                   index == 0
                       ? Navigator.push(context, MaterialPageRoute(builder: (context) => WebScreen(url: links[index])))
                       : index == 1

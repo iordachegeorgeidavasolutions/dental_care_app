@@ -7,10 +7,11 @@ import '../../main.dart';
 import '../../screens/home.dart';
 import '../../screens/programari.dart';
 import '../items/profile_modal_item.dart';
+import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 
 Future<dynamic> userModal(BuildContext context) {
   final List profileItemsList = [
-    ["Profilul meu", "./assets/images/profile_modal_images/person-icon.jpg", HomePage(myController: MyController,)],
+    ["Profilul meu", "./assets/images/profile_modal_images/person-icon.jpg", HomePage(myController: MyController, myBottomNavigationKey: myBottomNavigationKeyMain,)],
     //["Programari", "./assets/images/profile_modal_images/programari.png", const ProgramariScreen()], //old Andrei Bădescu
     ["Programari", "./assets/images/profile_modal_images/programari.png", ProgramariScreen(fromLocatiiPage: false, fromOtherPage: true, currentIndex: 0, isSelectedTrecute: true, isSelectedViitoare: false,)],
     //["Programari", "./assets/images/profile_modal_images/programari.png", const ListaProgramariEuCopii()],
@@ -70,11 +71,27 @@ Future<dynamic> userModal(BuildContext context) {
                     GestureDetector(
                       child: ProfileModalItem(icon: profileItemsList[index][1], text: profileItemsList[index][0]),
                       onTap: () {
+                        if (index == 1)
+                        {
+
+                          final CurvedNavigationBarState? navBarStateProgramari = myBottomNavigationKeyProgramari.currentState;
+                          navBarStateProgramari?.setPage(1);
+                          final CurvedNavigationBarState? navBarStateMain = myBottomNavigationKeyMain.currentState;
+                          navBarStateMain?.setPage(1);
+                          print('user modal curvedNavigationIndex $indexMyCurvedNavigationBar');
+                          //Navigator.of(context).pushAndRemoveUntil(
+                          //    MaterialPageRoute(builder: (context) => dosarulMeuList[index].widgetRoute));
+
+                          //Navigator.of(context).push(
+                          //  MaterialPageRoute(builder: (context) => ProgramariScreen(fromOtherPage: false, currentIndex: 0, isSelectedTrecute: true, isSelectedViitoare: false,)));
+
+                        }
                         index == 3
                             ? Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(builder: (context) => LoginPage()), (route) => false)
                             : index == 1
                                 ? {
+                                  
                                     MyController.jumpToPage(1),
                                     Navigator.pop(context),
                                   }

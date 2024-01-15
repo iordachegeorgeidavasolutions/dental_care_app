@@ -13,6 +13,15 @@ class LocatiiScreen extends StatefulWidget {
 class _LocatiiScreenState extends State<LocatiiScreen> {
   var _selectedIndex = 0;
 
+
+  @override
+  void initState() {
+    super.initState();
+
+    //myControllerProgramari = PageController(initialPage: 1);
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -69,16 +69,18 @@ class _PasswordResetPinState extends State<PasswordResetPin> {
                     style: TextStyle(color: Colors.black, fontSize: 35, fontWeight: FontWeight.bold))),
             const SizedBox(height: 25),
             RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                    text: 'Introduceți codul de 4 cifre trimis la:\n',
-                    style: const TextStyle(color: Colors.black, fontSize: 18),
-                    children: [
-                      TextSpan(
-                        text: widget.email,
-                        style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                    ])),
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                text: 'Introduceți codul de 4 cifre trimis la:\n',
+                style: const TextStyle(color: Colors.black, fontSize: 18),
+                children: [
+                  TextSpan(
+                    text: widget.email,
+                    style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
             const SizedBox(height: 40),
             // Padding(
             //   padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -181,56 +183,57 @@ class _PasswordResetPinState extends State<PasswordResetPin> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 52),
               child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    minimumSize: const Size.fromHeight(50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10), // <-- Radius
-                    ), // NEW
-                  ),
-                  child: const Text(
-                    'Verifică codul',
-                    style: TextStyle(fontSize: 22, color: Colors.white),
-                  ),
-                  onPressed: widget.resetEmailOrPhoneNumber
-                      ? () async {
-                          
-                          //print('password_reset_pin: ${widget.resetEmailOrPhoneNumber}');
-                          await verifyPinResetEmailOrPhone();
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  minimumSize: const Size.fromHeight(50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10), // <-- Radius
+                  ), // NEW
+                ),
+                child: const Text(
+                  'Verifică codul',
+                  style: TextStyle(fontSize: 22, color: Colors.white),
+                ),
+                onPressed: widget.resetEmailOrPhoneNumber
+                ? () async {
+                    
+                  //print('password_reset_pin: ${widget.resetEmailOrPhoneNumber}');
+                  await verifyPinResetEmailOrPhone();
 
-                          //print('controllerOTP $controllerOTP widget.resetDoarTelefon ${widget.resetDoarTelefon} telefon vechi: ${prefs.getString(pref_keys.userTelefon)!} telefon nou: ${widget.telefon}');
+                  //print('controllerOTP $controllerOTP widget.resetDoarTelefon ${widget.resetDoarTelefon} telefon vechi: ${prefs.getString(pref_keys.userTelefon)!} telefon nou: ${widget.telefon}');
 
 
-                          //print('Aici resetEmailOrPhoneNumber ${widget.telefon!}');
+                  //print('Aici resetEmailOrPhoneNumber ${widget.telefon!}');
 
-                          /*
-                          if (widget.resetDoarTelefon)
-                          {
+                  /*
+                  if (widget.resetDoarTelefon)
+                  {
 
-                            if (context.mounted) {
-                              Future.delayed(const Duration(milliseconds: 100), () {
-                                Navigator.of(context)
-                                    .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const HomePage()), (route) => false);
-                              });
-                            }
+                    if (context.mounted) {
+                      Future.delayed(const Duration(milliseconds: 100), () {
+                        Navigator.of(context)
+                            .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const HomePage()), (route) => false);
+                      });
+                    }
 
-                            //Navigator.of(context).pushAndRemoveUntil(
-                            //  MaterialPageRoute(builder: (context) => HomePage()), (route) => false);
+                    //Navigator.of(context).pushAndRemoveUntil(
+                    //  MaterialPageRoute(builder: (context) => HomePage()), (route) => false);
 
-                          }
-                          else {    
-                            Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
-                          }
-                          */
-                        }
-                      : () async {
-                          await verifyPinResetPassword();
-                          print(controllerOTP);
-                          /*Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
-                          */    
-                        }),
+                  }
+                  else {    
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+                  }
+                  */
+                }
+                : () async {
+                  await verifyPinResetPassword();
+                  print(controllerOTP);
+                  /*Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+                  */    
+                }
+              ),
             ),
             SizedBox(height:30),
           ],
@@ -255,7 +258,7 @@ class _PasswordResetPinState extends State<PasswordResetPin> {
       showErrorAlertDialog(context);
       print('Rezultat: $res');
 
-    }  
+    }
   }
 
   verifyPinResetEmailOrPhone() async {
@@ -272,12 +275,11 @@ class _PasswordResetPinState extends State<PasswordResetPin> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       //print('Aici resetEmailOrPhoneNumber ${widget.telefon!}');
       prefs.setString(pref_keys.userTelefon, widget.resetDoarTelefon? widget.telefon?? prefs.getString(pref_keys.userTelefon)!: prefs.getString(pref_keys.userTelefon)!);
-      
+
       print('Rezultat: $res');
 
       showSuccesAlertModificareTelefonDialog(context);
-      
-      
+
       /*if (context.mounted) {
         Future.delayed(const Duration(milliseconds: 100), () {
           Navigator.of(context)
@@ -345,7 +347,6 @@ showSuccesAlertModificareTelefonDialog(BuildContext context) {
     },
   );
 }
-
 
 showSuccesAlertModificareEmailTelefonDialog(BuildContext context) {
 

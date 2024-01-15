@@ -438,7 +438,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               DateTime? date = await showDatePicker(
                 context: context, 
                 locale : const Locale("ro","RO"),
-                initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime(2030),
+                initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime(2040),
                 builder: (context, child) {
                 return Theme(
 
@@ -483,7 +483,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   DateTime? date = await showDatePicker(
                     context: context, 
                     locale : const Locale("ro","RO"),
-                    initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime(2030),
+                    initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime(2040),
                     builder: (context, child) {
                     return Theme(
 

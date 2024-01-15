@@ -28,13 +28,17 @@ final navigatorKeyProgramari = GlobalKey<NavigatorState>(); //IGV
 
 PageController myControllerProgramari = PageController(); //IGV
 
+final GlobalKey<CurvedNavigationBarState> myBottomNavigationKeyProgramari = GlobalKey();
+
+//CurvedNavigationBar curvedNavigationBar = CurvedNavigationBar(items: [],); //IGV
+int indexMyCurvedNavigationBar = 0;
+
 class ProgramariScreen extends StatefulWidget {
 
   final bool fromOtherPage;
   final bool fromLocatiiPage;
 
   final int currentIndex;
-
 
   final bool isSelectedTrecute;
   final bool isSelectedViitoare;
@@ -47,7 +51,7 @@ class ProgramariScreen extends StatefulWidget {
 
 class _ProgramariScreenState extends State<ProgramariScreen> {
 
-  final GlobalKey<CurvedNavigationBarState> _bottomNavigationKeyProgramari = GlobalKey();
+  //final GlobalKey<CurvedNavigationBarState> _bottomNavigationKeyProgramari = GlobalKey();
   int pageIndex = 0;
 
   ApiCallFunctions apiCallFunctions = ApiCallFunctions();
@@ -152,6 +156,8 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
 
     myControllerProgramari = PageController(initialPage: 1);
 
+    //curvedNavigationBar = curvedNavigation(false);
+
     print('Lista initială membri: ${listaInitialaMembri.length} ');
 
     //programari = getListaProgramari();
@@ -168,6 +174,17 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
       programariCopil = getListaProgramariCopil();
 
     }
+
+  }
+
+  //IGV
+  void onLocatiiChanged(int? newValue) {
+    
+    setState(() {
+      indexMyCurvedNavigationBar = newValue?? 0;
+    });
+
+    print('programari onLocatiiChanged $indexMyCurvedNavigationBar');
 
   }
 
@@ -210,7 +227,9 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
   ];
 
   void setPage(index) {
-    final CurvedNavigationBarState? navBarState = _bottomNavigationKeyProgramari.currentState;
+    //final CurvedNavigationBarState? navBarState = _bottomNavigationKeyProgramari.currentState;
+
+    final CurvedNavigationBarState? navBarState = myBottomNavigationKeyProgramari.currentState;
 
     //final CurvedNavigationBarState? navBarState = _bottomNavigationKey.currentState;
     if (widget.fromOtherPage == false)
@@ -236,11 +255,45 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
 
   
   CurvedNavigationBar curvedNavigation() {
+
+    print('programari curvedNavigation indexCurvedNavigationBar: $indexMyCurvedNavigationBar');
+
     return CurvedNavigationBar(
       onTap: (index) {
+  
+         if (index == 1)
+        {
+
+          myControllerProgramari.jumpToPage(1);
+
+        }
         myControllerProgramari.jumpToPage(index);
+        setState(() {
+          if (indexMyCurvedNavigationBar == 2)
+          {
+            pageIndex = 2;
+          }
+          else
+          { 
+            pageIndex = index;
+          }
+        });
+        /*
+        if (index == 2)
+        {
+          indexMyCurvedNavigationBar = 2;
+        }
+        else 
+        {
+
+          indexMyCurvedNavigationBar = 0;
+
+        }
+        */
+
       },
-      key: _bottomNavigationKeyProgramari,
+      //key: _bottomNavigationKeyProgramari, //old IGV
+      key: myBottomNavigationKeyProgramari,
       animationDuration: const Duration(milliseconds: 400),
       backgroundColor: const Color.fromARGB(255, 236, 236, 236),
       buttonBackgroundColor: Colors.white,
@@ -248,7 +301,10 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
       items: icons,
       height: 60,
       //index: pageIndex, old IGV
-      index: !widget.fromOtherPage? 1 : widget.fromLocatiiPage? 2 : pageIndex,
+      //index: !widget.fromOtherPage? 1 : widget.fromLocatiiPage? 2 : pageIndex, //old IGV
+      index: (!widget.fromOtherPage)? 1 : indexMyCurvedNavigationBar == 2? 2 : pageIndex,
+      //index: indexMyCurvedNavigationBar == 2? 2 : pageIndex,
+      //index: pageIndex,
     );
   }
 
@@ -265,16 +321,18 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: myControllerProgramari,
-        onPageChanged: (index) {
+        onPageChanged: (index) 
+        {
           
-          print('programari build index: $index');
           setState(() {
-            pageIndex = !widget.fromOtherPage? 1 : widget.fromLocatiiPage? 2 : index; 
+            pageIndex = (!widget.fromOtherPage)? 1 : indexMyCurvedNavigationBar == 2? 2 : index; 
             //pageIndex = index;
           });
+          print('programari build index: $pageIndex');
+
         },
         children: <Widget>[
-          HomePage(myController: myControllerProgramari,),
+          HomePage(myController: myControllerProgramari, myBottomNavigationKey: myBottomNavigationKeyProgramari,),
           //ListaProgramariEuCopii(), //old IGV
           //ProgramariScreen(idCopil:'-1'), //old IGV
           //ProgramariScreen(), //old Andrei Bădescu
@@ -282,12 +340,11 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
           programariScreenBuild(context),
           LocatiiScreen(),
           EducatieScreen(),
-          MeniuScreen(myController: myControllerProgramari,),
+          MeniuScreen(myController: myControllerProgramari, myBottomNavigationKey: myBottomNavigationKeyProgramari, myLocatiiCallback: onLocatiiChanged),
         ],
       ),
     );  
   }
-
   
   //@override
   Scaffold programariScreenBuild(BuildContext context) {
