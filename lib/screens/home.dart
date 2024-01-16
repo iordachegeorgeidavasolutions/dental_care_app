@@ -118,6 +118,7 @@ class HomePageState extends State<HomePage> {
                                               programare: snapshot.data!,
                                               total: value!,
                                               callbackStatusProgramare: _changeAnulatConfirmat,
+                                              fromHome: true,
                                             );
                                     },
                                   );

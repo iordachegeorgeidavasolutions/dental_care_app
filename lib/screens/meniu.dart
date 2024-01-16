@@ -17,6 +17,7 @@ class MeniuScreen extends StatefulWidget {
   final PageController myController;
 
   
+  
   final GlobalKey myBottomNavigationKey;
 
   late Function(int num) myLocatiiCallback;
@@ -27,11 +28,11 @@ class MeniuScreen extends StatefulWidget {
 
   //MeniuScreen({super.key, required this.myController, required this.indexMyCurvedNavigationBar});
 
-  
   MeniuScreen({super.key, required this.myController, required this.myBottomNavigationKey, required this.myLocatiiCallback});
 
   @override
   State<MeniuScreen> createState() => _MeniuScreenState();
+
 }
 
 List<Function> meniuGridItemFunctions = [

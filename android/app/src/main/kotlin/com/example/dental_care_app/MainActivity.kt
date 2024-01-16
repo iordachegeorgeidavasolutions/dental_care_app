@@ -1,4 +1,4 @@
-package com.example.dental_care_app
+package com.idava.dentocare_app
 
 import io.flutter.embedding.android.FlutterActivity
 

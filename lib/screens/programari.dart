@@ -260,11 +260,17 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
 
     return CurvedNavigationBar(
       onTap: (index) {
+
+
   
          if (index == 1)
         {
 
           myControllerProgramari.jumpToPage(1);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => super.widget));
 
         }
         myControllerProgramari.jumpToPage(index);
@@ -278,6 +284,22 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
             pageIndex = index;
           }
         });
+
+        /*
+        if (myControllerProgramari.page == 0) {
+            myControllerProgramari
+                .nextPage(
+                    duration: const Duration(milliseconds: 40), curve: Curves.easeIn)
+                .whenComplete(() => myControllerProgramari.previousPage(
+                    duration: const Duration(milliseconds: 1), curve: Curves.easeIn));
+          } else {
+            myControllerProgramari
+                .previousPage(
+                    duration: const Duration(milliseconds: 40), curve: Curves.easeIn)
+                .whenComplete(() => myControllerProgramari.nextPage(
+                    duration: const Duration(milliseconds: 1), curve: Curves.easeIn));
+          }
+        */
         /*
         if (index == 2)
         {
@@ -483,6 +505,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                                   total: value!,
                                   programare: areCopii? viitoareCopil[index] : viitoare[index],
                                   callbackStatusProgramare: _changeAnulatConfirmat,//viitoare[_selectedIndex],
+                                  fromHome: false,
                                 );
                               });
                           });
@@ -751,6 +774,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                                     total: value!,
                                     programare: trecuteCopil[_selectedIndex],
                                     callbackStatusProgramare: _changeAnulatConfirmat,
+                                    fromHome: false,
                                   );
                                 });
                           });
@@ -868,6 +892,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                                     total: value!,
                                     programare: trecute[_selectedIndex],
                                     callbackStatusProgramare: _changeAnulatConfirmat,
+                                    fromHome: false,
                                   );
                                 });
                           });

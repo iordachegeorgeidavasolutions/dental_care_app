@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import '../../utils/classes.dart';
 import '../items/program_modal_item.dart';
 import '../../screens/programari.dart';
+import '../../main.dart';
+import 'package:dental_care_app/screens/home.dart';
 
 class ProgramariModal extends StatelessWidget {
   final String total;
   final Programare? programare;
+  final bool fromHome;
 
   final Function(Programare) callbackStatusProgramare;
 
-  const ProgramariModal({super.key, required this.programare, required this.total, required this.callbackStatusProgramare});
+  const ProgramariModal({super.key, required this.programare, required this.total, required this.callbackStatusProgramare, required this.fromHome});
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -32,7 +35,32 @@ class ProgramariModal extends StatelessWidget {
                     color: Colors.red,
                     onPressed: () => 
                     {
-                      Navigator.pop(context), //old Andrei Bădescu
+                      if (fromHome)
+                      {
+                        
+                        //MyController.jumpToPage(0),
+                        Navigator.of(context)
+                          .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp(fromPinPage: false,)), (route) => false),
+                          if (MyController.page == 0) {
+                            MyController
+                                .nextPage(
+                                    duration: const Duration(milliseconds: 40), curve: Curves.easeIn)
+                                .whenComplete(() => MyController.previousPage(
+                                    duration: const Duration(milliseconds: 1), curve: Curves.easeIn)),
+                          } else {
+                            MyController
+                                .previousPage(
+                                    duration: const Duration(milliseconds: 40), curve: Curves.easeIn)
+                                .whenComplete(() => MyController.nextPage(
+                                    duration: const Duration(milliseconds: 1), curve: Curves.easeIn)),
+                          }
+                      }
+                      else 
+                      {
+
+                        Navigator.pop(context), //old Andrei Bădescu
+
+                      }
                     }  
                     //onPressed: () => Navigator.of(context)
                     //  .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const ProgramariScreen()), (route) => false)

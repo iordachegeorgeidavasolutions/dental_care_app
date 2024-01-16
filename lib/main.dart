@@ -51,6 +51,7 @@ PageController MyController = PageController();
 
 GlobalKey<CurvedNavigationBarState> myBottomNavigationKeyMain = GlobalKey();
 
+
 CurvedNavigationBar curvedNavigationBar = CurvedNavigationBar(items: [],);
 
 class MyApp extends StatefulWidget {
@@ -237,7 +238,31 @@ class MyAppState extends State<MyApp> {
         }
         */
 
+        /*
+        if (MyController.page == 0) {
+            MyController
+                .nextPage(
+                    duration: const Duration(milliseconds: 40), curve: Curves.easeIn)
+                .whenComplete(() => MyController.previousPage(
+                    duration: const Duration(milliseconds: 1), curve: Curves.easeIn));
+          } else {
+            MyController
+                .previousPage(
+                    duration: const Duration(milliseconds: 40), curve: Curves.easeIn)
+                .whenComplete(() => MyController.nextPage(
+                    duration: const Duration(milliseconds: 1), curve: Curves.easeIn));
+          }
+        */
+          
         MyController.jumpToPage(index);
+        
+        /*
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) => super.widget));
+        */
+
       },
       //key: _bottomNavigationKey, //old IGV
       key: myBottomNavigationKeyMain,

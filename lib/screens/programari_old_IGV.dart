@@ -178,6 +178,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                               total: value!,
                               programare: areCopii? viitoareCopil[index] : viitoare[index],//viitoare[_selectedIndex],
                               callbackStatusProgramare: _changeAnulatConfirmat,
+                              fromHome: false,
                             );
                           });
                       });
@@ -345,6 +346,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                                     total: value!,
                                     programare: trecuteCopil[_selectedIndex],
                                     callbackStatusProgramare: _changeAnulatConfirmat,
+                                    fromHome: false,
                                   );
                                 });
                           });
@@ -450,6 +452,7 @@ class _ProgramariScreenState extends State<ProgramariScreen> {
                                     total: value!,
                                     programare: trecute[_selectedIndex],
                                     callbackStatusProgramare: _changeAnulatConfirmat,
+                                    fromHome: false,
                                   );
                                 });
                           });

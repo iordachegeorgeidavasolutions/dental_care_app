@@ -12,7 +12,10 @@ import '../../utils/functions.dart';
 import '../items/profile_modal_item.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 
+bool isFirstUserModel = true;
+
 class UserModalRemade extends StatefulWidget {
+
   const UserModalRemade({super.key});
 
   @override
@@ -25,7 +28,7 @@ class _UserModalRemadeState extends State<UserModalRemade> {
   final List profileItemsList = [
     ["Profilul meu", "./assets/images/profile_modal_images/person-icon.jpg", UserProfileScreen()],
     //["Programări", "./assets/images/profile_modal_images/programari.png", const ProgramariScreen()],  //old Andrei Bădescu
-    ["Programari", "./assets/images/profile_modal_images/programari.png", ProgramariScreen(fromLocatiiPage: false, fromOtherPage: true, currentIndex: 0, isSelectedTrecute: true, isSelectedViitoare: false,)],
+    ["Programări", "./assets/images/profile_modal_images/programari.png", ProgramariScreen(fromLocatiiPage: false, fromOtherPage: true, currentIndex: 0, isSelectedTrecute: true, isSelectedViitoare: false,)],
     //["Programări", "./assets/images/profile_modal_images/programari.png", const ProgramariScreen(idCopil:'-1')], //old George Valentin Iordache
     //["Tratamente", "./assets/images/profile_modal_images/syringe.png", const TratamenteScreen()], //old Andrei Bădescu
     ["Tratamente", "./assets/images/profile_modal_images/syringe.png", const TratamenteScreen()],
@@ -125,11 +128,16 @@ class _UserModalRemadeState extends State<UserModalRemade> {
                           : index == 1
                               ? {
                                   
-                                  Navigator.pop(context),
+                                  isFirstUserModel? Navigator.pop(context): null,
                                   MyController.jumpToPage(1),
+                                  myControllerProgramari.jumpToPage(1),
+                                  !isFirstUserModel? Navigator.pop(context): null,
                                 }
                               : Navigator.of(context)
                                   .push(MaterialPageRoute(builder: (context) => profileItemsList[index][2]));
+                          setState(() {
+                            isFirstUserModel = false;
+                          });
                     },
                   ),
                 ],

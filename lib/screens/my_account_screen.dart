@@ -554,6 +554,25 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     return formattedDate;
   }
 
+  
+  DateTime formatHintDate(String dateString) {
+    // Check if the input string has the correct length
+    if (dateString.length != 8) {
+      //return 'Invalid date format'; //old Andrei Bădescu
+      return DateTime.now();
+    }
+
+    // Parse the received date string
+    String year = dateString.substring(4, 8);
+    String month = dateString.substring(2, 4);
+    String day = dateString.substring(0, 2);
+
+    // Format the date into "dd-MM-yyyy" format
+    //String formattedDate = '$day-$month-$year';
+    DateTime formattedDate = DateTime(int.parse(year), int.parse(month), int.parse(day),);
+    return formattedDate;
+  }
+
   void loadUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -631,21 +650,32 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   changeAddressDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     
-    String dataNastere = DateTime.now().toString();
+    String dataNastere = DateFormat('dd.MM.yyyy').format(DateTime.now()).toString();
 
-    String dNow = DateFormat('ddMMyyyy').format(DateTime.now());
+    //String dNow = DateFormat('ddMMyyyy').format(DateTime.now()); //old IGV
+
+    //String dNow = DateFormat('dd.MM.yyyy').format(DateTime.now()).toString();
 
     //String dDN
 
-    if (dataNasterii.compareTo(DateTime.parse(dNow)) != 0)
+    /*if (dataNasterii.compareTo(DateTime.parse(dNow)) != 0)
     {
 
       dataNastere = DateFormat('dd.MM.yyyy').format(dataNasterii).toString(); 
 
     }
+    */
+
+
+    DateTime dateHintDataNastere = formatHintDate(hintDataNastere);
+
+    print('my_account_screen changeAddressDetails controllerBirthdate.text.isEmpty: ${controllerBirthdate.text.isEmpty} dateHintDataNastere ${dateHintDataNastere} hintDataNastere: ${hintDataNastere} dataNastere: ${controllerBirthdate.text.isEmpty ? DateFormat('dd.MM.yyyy').format(dateHintDataNastere).toString() : DateFormat('dd.MM.yyyy').format(dataNasterii).toString()} judet: ${idJudetRez} localitate: ${idLocalitateRez}');
+
+
     String? res = await apiCallFunctions.schimbaDatelePersonale(
-        //pDataDeNastereDDMMYYYY: controllerBirthdate.text.isEmpty ? hintDataNastere : controllerBirthdate.text, //old Andrei Bădescu
-        pDataDeNastereDDMMYYYY: dataNasterii.compareTo(DateTime.parse(dNow)) != 0? dataNastere: DateFormat('dd.MM.yyyy').format(DateTime.parse(dataDeNastereVeche)).toString(),
+        //pDataDeNastereDDMMYYYY: controllerBirthdate.text.isEmpty ? DateFormat('dd.MM.yyyy').format(dateHintDataNastere).toString() : DateFormat('dd.MM.yyyy').format(dataNasterii).toString(), //old IGV
+        pDataDeNastereDDMMYYYY:controllerBirthdate.text.isEmpty ? DateFormat('dd.MM.yyyy').format(dateHintDataNastere).toString() : DateFormat('dd.MM.yyyy').format(dataNasterii).toString(), //old Andrei Bădescu
+        //pDataDeNastereDDMMYYYY: dataNasterii.compareTo(DateTime.parse(dNow)) != 0? dataNastere: DateFormat('dd.MM.yyyy').format(DateTime.parse(dataDeNastereVeche)).toString(),
         //pDataDeNastereDDMMYYYY: DateFormat('dd.MM.yyyy').format(dataNasterii),
         judet: controllerJudet.text.isEmpty ? hintJudet : idJudetRez, //controllerJudet.text, //old Andrei Bădescu
         localitate: controllerLocalitate.text.isEmpty ? hintLocalitate : idLocalitateRez); //controllerLocalitate.text); //old Andrei Bădescu

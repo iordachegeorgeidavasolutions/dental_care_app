@@ -72,112 +72,123 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 236, 236, 236),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 20),
-              Image.asset(
-                './assets/images/logo_dtc.png',
-                height: 130,
-              ),
-              const SizedBox(height: 15),
-              const Row(
-                children: [
-                  Text(
-                    "Înregistrare",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-                  )
-                ],
-              ),
-              const SizedBox(height: 15),
-              registrationFields(),
-              const SizedBox(height: 20),
-              if (afiseazaButonCreazaCont) ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red[400],
-                  minimumSize: const Size.fromHeight(50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10), // <-- Radius
-                  ),
+      body: 
+      GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
+        },
+        child:
+        SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 20),
+                Image.asset(
+                  './assets/images/logo_dtc.png',
+                  height: 130,
                 ),
-                onPressed: () {
-                  final isValidForm = registerKey.currentState!.validate();
-                  if (isValidForm) {
-                    // requestPermission();
-                    // getToken();
-                    
-                    setState(() {
-                      afiseazaButonCreazaCont = false;
-                    });
-                    register(context);
-                  }
-                },
-                child: const Text(
-                  'Creează cont',
-                  style: TextStyle(fontSize: 24, color: Colors.white),
-                ),
-              ),
-              const SizedBox(height: 15),
-              RichText(
-                text: TextSpan(
-                  text: 'Ai deja un cont? ',
-                  style: const TextStyle(fontSize: 16, color: Colors.black),
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () {
-                      Navigator.pop(context);
-                    },
+                const SizedBox(height: 15),
+                const Row(
                   children: [
-                    TextSpan(
-                        text: 'Conectează-te aici!',
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Navigator.pop(context);
-                          },
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      "Înregistrare",
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                    )
                   ],
                 ),
-              ),
-              const SizedBox(height: 15),
-              RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                    text: 'Prin crearea unui cont, sunteți de acord cu \n',
-                    style: const TextStyle(fontSize: 15, color: Colors.black),
+                const SizedBox(height: 15),
+                registrationFields(),
+                const SizedBox(height: 20),
+                if (afiseazaButonCreazaCont) ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red[400],
+                    minimumSize: const Size.fromHeight(50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10), // <-- Radius
+                    ),
+                  ),
+                  onPressed: () {
+                    final isValidForm = registerKey.currentState!.validate();
+                    if (isValidForm) {
+                      // requestPermission();
+                      // getToken();
+                      
+                      setState(() {
+                        afiseazaButonCreazaCont = false;
+                      });
+                      register(context);
+                    }
+                  },
+                  child: const Text(
+                    'Creează cont',
+                    style: TextStyle(fontSize: 24, color: Colors.white),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                RichText(
+                  text: TextSpan(
+                    text: 'Ai deja un cont? ',
+                    style: const TextStyle(fontSize: 16, color: Colors.black),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        Navigator.pop(context);
+                      },
                     children: [
                       TextSpan(
-                          text: "Termenii & Condițiile",
-                          style: const TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.bold),
+                          text: 'Conectează-te aici!',
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return const PrivacyDialog(mdFileName: 'terms_and_conditions.md', radius: 5);
-                                },
-                              );
-                            }),
-                      const TextSpan(
-                        text: " si ",
-                      ),
-                      TextSpan(
-                          text: "Politica de confidențialitate!",
-                          style: const TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.bold),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return const PrivacyDialog(mdFileName: 'privacy.md', radius: 5);
-                                },
-                              );
-                            }),
-                    ]),
-              ),
-              const SizedBox(height: 15),
-            ],
+                              Navigator.pop(context);
+                            },
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 15),
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                      text: 'Prin crearea unui cont, sunteți de acord cu \n',
+                      style: const TextStyle(fontSize: 15, color: Colors.black),
+                      children: [
+                        TextSpan(
+                            text: "Termenii & Condițiile",
+                            style: const TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.bold),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return const PrivacyDialog(mdFileName: 'terms_and_conditions.md', radius: 5);
+                                  },
+                                );
+                              }),
+                        const TextSpan(
+                          text: " si ",
+                        ),
+                        TextSpan(
+                            text: "Politica de confidențialitate!",
+                            style: const TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.bold),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return const PrivacyDialog(mdFileName: 'privacy.md', radius: 5);
+                                  },
+                                );
+                              }),
+                      ]),
+                ),
+                const SizedBox(height: 15),
+              ],
+            ),
           ),
         ),
       ),
