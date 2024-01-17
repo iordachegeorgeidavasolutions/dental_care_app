@@ -696,12 +696,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       //if (dateChosen && idJudetRez == '' && idLocalitateRez == '') {
       //  return;
       //} else
-      if(dataNasterii != DateTime.now())
-      {
+      //if(dataNasterii != DateTime.now())
+      //{
 
-        prefs.setString(pref_keys.userDDN, DateFormat('ddMMyyyy').format(dataNasterii!).toString());
+        prefs.setString(pref_keys.userDDN, controllerBirthdate.text.isEmpty ? DateFormat('ddMMyyyy').format(dateHintDataNastere).toString(): DateFormat('ddMMyyyy').format(dataNasterii).toString());
 
-      }
+      //}
 
       if (controllerJudet.text.isNotEmpty && controllerLocalitate.text.isNotEmpty) {
         
