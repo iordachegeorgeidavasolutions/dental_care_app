@@ -184,6 +184,25 @@ class ApiCallFunctions {
     return res;
   }
 
+  
+
+  Future<String?> adaugaTaskActualizareDataNastere({
+    required String pDataNastereNouaDDMMYYYY,
+  }) async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final Map<String, String> param = {
+      'pAdresaMail': prefs.getString(pref_keys.userEmail)!,
+      'pParolaMD5': prefs.getString(pref_keys.userPassMD5)!,
+      //'pDataDeNastereDDMMYYYY': pDataDeNastereDDMMYYYY,
+      'pDataNastereNouaDDMMYYYY': pDataNastereNouaDDMMYYYY,
+    };
+
+    String? res = await apiCall.apeleazaMetodaString(pNumeMetoda: 'AdaugaTaskActualizareDataNastere', pParametrii: param);
+    return res;
+
+  }
+
   Future<String?> updateDeviceID({
     required String pAdresaEmail,
     required String pPrimesteNotificari,

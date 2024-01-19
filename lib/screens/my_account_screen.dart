@@ -648,6 +648,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   }
 
   changeAddressDetails() async {
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     
     String dataNastere = DateFormat('dd.MM.yyyy').format(DateTime.now()).toString();
@@ -666,62 +667,140 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     }
     */
 
-
     DateTime dateHintDataNastere = formatHintDate(hintDataNastere);
 
     print('my_account_screen changeAddressDetails controllerBirthdate.text.isEmpty: ${controllerBirthdate.text.isEmpty} dateHintDataNastere ${dateHintDataNastere} hintDataNastere: ${hintDataNastere} dataNastere: ${controllerBirthdate.text.isEmpty ? DateFormat('dd.MM.yyyy').format(dateHintDataNastere).toString() : DateFormat('dd.MM.yyyy').format(dataNasterii).toString()} judet: ${idJudetRez} localitate: ${idLocalitateRez}');
 
+    bool execTaskDataNastere = true;
+    String mesajFinal = '';
 
-    String? res = await apiCallFunctions.schimbaDatelePersonale(
+    if (controllerJudet.text.isNotEmpty && controllerLocalitate.text.isNotEmpty) {
+
+      String? res = await apiCallFunctions.schimbaDatelePersonale(
         //pDataDeNastereDDMMYYYY: controllerBirthdate.text.isEmpty ? DateFormat('dd.MM.yyyy').format(dateHintDataNastere).toString() : DateFormat('dd.MM.yyyy').format(dataNasterii).toString(), //old IGV
-        pDataDeNastereDDMMYYYY:controllerBirthdate.text.isEmpty ? DateFormat('dd.MM.yyyy').format(dateHintDataNastere).toString() : DateFormat('dd.MM.yyyy').format(dataNasterii).toString(), //old Andrei Bădescu
+        //pDataDeNastereDDMMYYYY:controllerBirthdate.text.isEmpty ? DateFormat('dd.MM.yyyy').format(dateHintDataNastere).toString() : DateFormat('dd.MM.yyyy').format(dataNasterii).toString(), //old IGV implementare 18.01.2024
+        pDataDeNastereDDMMYYYY: DateFormat('dd.MM.yyyy').format(dateHintDataNastere).toString(),
         //pDataDeNastereDDMMYYYY: dataNasterii.compareTo(DateTime.parse(dNow)) != 0? dataNastere: DateFormat('dd.MM.yyyy').format(DateTime.parse(dataDeNastereVeche)).toString(),
         //pDataDeNastereDDMMYYYY: DateFormat('dd.MM.yyyy').format(dataNasterii),
         judet: controllerJudet.text.isEmpty ? hintJudet : idJudetRez, //controllerJudet.text, //old Andrei Bădescu
         localitate: controllerLocalitate.text.isEmpty ? hintLocalitate : idLocalitateRez); //controllerLocalitate.text); //old Andrei Bădescu
 
-    print('changeAddressDetails rezultat: $res dataNastere: ${dataNastere} judet: ${idJudetRez} localitate: ${idLocalitateRez}');
+      print('changeAddressDetails rezultat: $res dataNastere: ${dataNastere} judet: ${idJudetRez} localitate: ${idLocalitateRez}');
 
-    if (res == null) {
-      showSnackbar(
-        context,
-        "Eroare schimbare date personale!",
-      );
-      return;
-    } else if (res.startsWith('66')) {
-      showSnackbar(context, "Date greșite");
-      return;
-    } else if (res.startsWith('13')) {
-      showSnackbar(context, "Date personale corecte - cerere trimisă!");
-      //if (dateChosen && idJudetRez == '' && idLocalitateRez == '') {
-      //  return;
-      //} else
-      //if(dataNasterii != DateTime.now())
-      //{
+      if (res == null) 
+      {
+        
+        mesajFinal = "Eroare schimbare date personale!";
+        /*
+        showSnackbar(
+          context,
+          "Eroare schimbare date personale!",
+        );
+        */
+        execTaskDataNastere = false;
+        return;
 
-        prefs.setString(pref_keys.userDDN, controllerBirthdate.text.isEmpty ? DateFormat('ddMMyyyy').format(dateHintDataNastere).toString(): DateFormat('ddMMyyyy').format(dataNasterii).toString());
+      } 
+      else if (res.startsWith('66')) 
+      {
+        
+        mesajFinal = "Date greșite";
+        //showSnackbar(context, "Date greșite");
+        execTaskDataNastere = false;
+        return;
+
+      } 
+      else if (res.startsWith('13')) 
+      {
+
+        if (controllerJudet.text.isNotEmpty && controllerLocalitate.text.isNotEmpty) {
+      
+          prefs.setString(pref_keys.judet, controllerJudet.text);
+          prefs.setString(pref_keys.idJudet, idJudetRez);
+          prefs.setString(pref_keys.localitate, controllerLocalitate.text);
+          prefs.setString(pref_keys.idLocalitate, idLocalitateRez);
+
+        }
+
+        if (controllerBirthdate.text.isEmpty)
+        { 
+          
+          mesajFinal = 'Date personale corecte - cerere trimisă!';
+          execTaskDataNastere = false;
+          //showSnackbar(context, "Date personale corecte - cerere trimisă!");
+
+        }
+        else 
+        {
+          
+          execTaskDataNastere = true;
+          
+        }
+
+        //controllerBirthdate.text.isEmpty ?
+      
+      }
+    }
+    if (controllerBirthdate.text.isNotEmpty && execTaskDataNastere)
+    {
+
+      //print('my_account_screen dataNasterii : $dataNasterii');
+
+      String? res = await apiCallFunctions.adaugaTaskActualizareDataNastere(
+        //pDataDeNastereDDMMYYYY: controllerBirthdate.text.isEmpty ? DateFormat('dd.MM.yyyy').format(dateHintDataNastere).toString() : DateFormat('dd.MM.yyyy').format(dataNasterii).toString(), //old IGV
+        //pDataDeNastereDDMMYYYY:controllerBirthdate.text.isEmpty ? DateFormat('dd.MM.yyyy').format(dateHintDataNastere).toString() : DateFormat('dd.MM.yyyy').format(dataNasterii).toString(), //old IGV implementare 18.01.2024
+        pDataNastereNouaDDMMYYYY: DateFormat('dd.MM.yyyy').format(dataNasterii).toString(),);
+
+      if (res == null) {
+        mesajFinal = "Eroare adăugare task actualizare data naștere!";
+        
+        //execTaskDataNastere = false;
+        /*
+        showSnackbar(
+          context,
+          "Eroare adăugare task actualizare data naștere!",
+        );
+        */
+        return;
+      } 
+      else if (res.startsWith('66')) 
+      {
+        mesajFinal = "Date greșite";
+        //execTaskDataNastere = false;
+
+        //showSnackbar(context, "Date greșite");
+        return;
+      } 
+      else if (res.startsWith('13')) 
+      {
+        mesajFinal = "Dată de naștere corectă și date personale corecte - cerere trimisă!";
+      }
+
+      showSnackbar(context, mesajFinal);
+
+    }
+
+    //else if (controllerJudet.text.isEmpty && controllerLocalitate.text.isEmpty)
+      //prefs.setString(pref_keys.userDDN, controllerBirthdate.text.isEmpty ? DateFormat('ddMMyyyy').format(dateHintDataNastere).toString(): DateFormat('ddMMyyyy').format(dataNasterii).toString());
 
       //}
 
-      if (controllerJudet.text.isNotEmpty && controllerLocalitate.text.isNotEmpty) {
-        
-        prefs.setString(pref_keys.judet, controllerJudet.text);
-        prefs.setString(pref_keys.idJudet, idJudetRez);
-        prefs.setString(pref_keys.localitate, controllerLocalitate.text);
-        prefs.setString(pref_keys.idLocalitate, idLocalitateRez);
+    /*
+    else if (controllerJudet.text.isEmpty) 
+    {
+      
+      prefs.setString(pref_keys.judet, controllerJudet.text);
+      prefs.setString(pref_keys.idJudet, idJudetRez);
 
-      } else if (controllerJudet.text.isEmpty) {
-        
-        prefs.setString(pref_keys.judet, controllerJudet.text);
-        prefs.setString(pref_keys.idJudet, idJudetRez);
+    } 
+    else 
+    {
+      
+      prefs.setString(pref_keys.localitate, controllerLocalitate.text);
+      prefs.setString(pref_keys.idLocalitate, idLocalitateRez);
 
-      } else {
-        
-        prefs.setString(pref_keys.localitate, controllerLocalitate.text);
-        prefs.setString(pref_keys.idLocalitate, idLocalitateRez);
-
-      }
     }
+    */
   }
 
   changeUserData() async {
