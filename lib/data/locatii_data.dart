@@ -15,13 +15,13 @@ List<Locatie> locatiiList = [
   ),
   Locatie(
     nume: "DentoCare Virtuții",
-    adresa: "Șoseaua Virtuții 46A, sector 4, București",
+    adresa: "Șoseaua Virtuții 46A, sector 6, București",
     maps: "Șos. Virtuții nr. 46A, București",
     telefon: "0770 152 117",
   ),
   Locatie(
     nume: "DentoCare Lujerului",
-    adresa: "Șos. Virtuții 2C, sector 4, București",
+    adresa: "Șos. Virtuții 2C, sector 6, București",
     maps: "Șos. Virtuții nr. 2C, București",
     telefon: "0758 052 040",
   ),

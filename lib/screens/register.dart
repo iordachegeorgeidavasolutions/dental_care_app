@@ -219,7 +219,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 hintText: 'Prenume',
                 border: InputBorder.none,
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))
+                  //borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231)), //old Andrei Bădescu
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  borderSide: BorderSide.none,
                   ),
                 filled: true,
                 fillColor: Colors.white)),
@@ -242,7 +244,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
             decoration: const InputDecoration(
                 hintText: 'Nume',
                 border: InputBorder.none,
-                enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  borderSide: BorderSide.none
+                ),
+                //borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))), //old Andrei Bădescu
                 filled: true,
                 fillColor: Colors.white)),
         const SizedBox(height: 3),
@@ -266,7 +272,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
             decoration: const InputDecoration(
                 hintText: 'E-mail',
                 border: InputBorder.none,
-                enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  borderSide: BorderSide.none
+                  //borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231)) old Andrei Bădescu
+                ),
                 filled: true,
                 fillColor: Colors.white)),
         const SizedBox(height: 3),
@@ -285,7 +295,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
             decoration: const InputDecoration(
                 hintText: 'Telefon mobil',
                 border: InputBorder.none,
-                enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
+                enabledBorder: OutlineInputBorder(
+                  //borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))), //old Andrei Bădescu
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  borderSide: BorderSide.none
+                ),
                 filled: true,
                 fillColor: Colors.white)),
         const SizedBox(height: 3),
@@ -335,7 +349,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
             decoration: const InputDecoration(
                 hintText: 'Data de naștere',
                 border: InputBorder.none,
-                enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
+                enabledBorder: OutlineInputBorder(
+                  //borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))), //old Andrei Bădescu
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  borderSide: BorderSide.none
+                ),
                 filled: true,
                 fillColor: Colors.white)),
         const SizedBox(height: 3),
@@ -366,7 +384,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 hintText: 'Parola',
                 border: InputBorder.none,
                 enabledBorder:
-                    const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
+                  const OutlineInputBorder(
+                    //borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))), //old IGV
+                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    borderSide: BorderSide.none
+                  ),
                 filled: true,
                 fillColor: Colors.white)),
         const SizedBox(height: 3),
@@ -396,7 +418,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 hintText: 'Confirmă parola',
                 border: InputBorder.none,
                 enabledBorder:
-                    const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))),
+                  const OutlineInputBorder(
+                    //borderSide: BorderSide(color: Color.fromARGB(255, 236, 231, 231))
+                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    borderSide: BorderSide.none
+                  ),
                 filled: true,
                 fillColor: Colors.white)),
       ]),

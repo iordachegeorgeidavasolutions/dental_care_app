@@ -390,7 +390,8 @@ showSuccesAlertDialog(BuildContext context) {
 
   // set up the buttons
   Widget logInButton = TextButton(
-    child: Text("Intră în cont"),
+    child: Text("Intră în cont", 
+      style: TextStyle(color: Colors.black)),
     onPressed:  () {
       //Future.delayed(Duration(seconds: 1), () {
           Navigator.of(context)
