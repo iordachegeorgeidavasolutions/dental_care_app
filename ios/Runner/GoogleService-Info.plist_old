@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyAzMytZ4O1Le9iZsF_wOhAeV_xIqko4cjI</string>
+	<string>AIzaSyByfTaDsmA9Tbns06zaXlmCrRlm-UYSt5o</string>
 	<key>GCM_SENDER_ID</key>
-	<string>496054067495</string>
+	<string>187094853486</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.dentocare.pacienti</string>
+	<string>com.example.dentalCareApp</string>
 	<key>PROJECT_ID</key>
-	<string>dentocare-79f31</string>
+	<string>dentocare-958c5</string>
 	<key>STORAGE_BUCKET</key>
-	<string>dentocare-79f31.appspot.com</string>
+	<string>dentocare-958c5.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:496054067495:ios:776666bb92eb6a73720902</string>
+	<string>1:187094853486:ios:4af4d7023d85376224837f</string>
 </dict>
 </plist>

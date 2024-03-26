@@ -1,36 +1,26 @@
 {
   "project_info": {
-    "project_number": "187094853486",
-    "project_id": "dentocare-958c5",
-    "storage_bucket": "dentocare-958c5.appspot.com"
+    "project_number": "496054067495",
+    "project_id": "dentocare-79f31",
+    "storage_bucket": "dentocare-79f31.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:187094853486:android:78a65d646011ce9a24837f",
+        "mobilesdk_app_id": "1:496054067495:android:3aa94bf0c494fd58720902",
         "android_client_info": {
-          "package_name": "com.idava.dentocare_app"
+          "package_name": "com.dentocare.pacienti"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "187094853486-3nti150eb11rpj3hrav0djlnu4c11op1.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBDs9SwJIuyltoMjrvjeLE81WzxrrzcXC0"
+          "current_key": "AIzaSyD0Ev0Jdvo8cYYZCABl7BR8HcVaNu4JGww"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "187094853486-3nti150eb11rpj3hrav0djlnu4c11op1.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

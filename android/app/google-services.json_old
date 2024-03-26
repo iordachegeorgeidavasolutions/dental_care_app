@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "187094853486",
+    "project_id": "dentocare-958c5",
+    "storage_bucket": "dentocare-958c5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187094853486:android:78a65d646011ce9a24837f",
+        "android_client_info": {
+          "package_name": "com.idava.dentocare_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "187094853486-3nti150eb11rpj3hrav0djlnu4c11op1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDs9SwJIuyltoMjrvjeLE81WzxrrzcXC0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "187094853486-3nti150eb11rpj3hrav0djlnu4c11op1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
