@@ -713,6 +713,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       else if (res.startsWith('13')) 
       {
 
+        
+
         if (controllerJudet.text.isNotEmpty && controllerLocalitate.text.isNotEmpty) {
       
           prefs.setString(pref_keys.judet, controllerJudet.text);
@@ -725,7 +727,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         if (controllerBirthdate.text.isEmpty)
         { 
           
-          mesajFinal = 'Date personale corecte - cerere trimisă!';
+          mesajFinal = 'Adresa a fost actualizată!';
           execTaskDataNastere = false;
           //showSnackbar(context, "Date personale corecte - cerere trimisă!");
 
@@ -733,6 +735,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         else 
         {
           
+          mesajFinal = 'Date personale corecte - cerere trimisă!';
           execTaskDataNastere = true;
           
         }
